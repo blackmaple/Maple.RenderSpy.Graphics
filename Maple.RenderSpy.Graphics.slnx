@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Maple.RenderSpy.Graphics.D3D/Maple.RenderSpy.Graphics.D3D.csproj" Id="add2d63c-af6d-4ab2-90ab-8ca406baf9f6" />
+  <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj" />
+  <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj" />
+</Solution>
