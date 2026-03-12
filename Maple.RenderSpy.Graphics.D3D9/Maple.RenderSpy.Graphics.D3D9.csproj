@@ -7,8 +7,4 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D\Maple.RenderSpy.Graphics.D3D.csproj" />
-  </ItemGroup>
-
 </Project>
