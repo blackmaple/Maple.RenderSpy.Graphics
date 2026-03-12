@@ -1,5 +1,15 @@
 <Solution>
-  <Project Path="Maple.RenderSpy.Graphics.D3D/Maple.RenderSpy.Graphics.D3D.csproj" Id="add2d63c-af6d-4ab2-90ab-8ca406baf9f6" />
-  <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj" />
-  <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Maple.RenderSpy.Graphics.D3D/Maple.RenderSpy.Graphics.D3D.csproj" Id="add2d63c-af6d-4ab2-90ab-8ca406baf9f6">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>
