@@ -3,17 +3,23 @@ using System.Runtime.InteropServices;
 namespace Maple.RenderSpy.Graphics.D3D
 {
 
-    [DebuggerDisplay("{Ptr}")]
     [StructLayout(LayoutKind.Sequential)]
-    public readonly unsafe struct Ptr_Func_AddRef(nint ptr)
+    public readonly unsafe struct Ptr_Func_AddRef(nint ptr) 
     {
-        public readonly delegate* unmanaged[Stdcall]<UnsafePtr<COM_IUNKNOWN>, COM_HRESULT> Ptr
-            = (delegate* unmanaged[Stdcall]<UnsafePtr<COM_IUNKNOWN>, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, COM_HRESULT> _proc
+            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, COM_HRESULT>)ptr;
 
-        public readonly COM_HRESULT Invoke(UnsafePtr<COM_IUNKNOWN> @this)
+ 
+        public readonly COM_HRESULT Invoke(COM_PTR_IUNKNOWN @this)
         {
-            return Ptr(@this);
+            return _proc(@this);
+        }
+
+        public readonly nint Pointer => new(_proc);
+
+        public readonly override string ToString()
+        {
+            return Pointer.ToString("X8");
         }
     }
-
 }

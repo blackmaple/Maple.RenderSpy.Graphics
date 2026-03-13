@@ -4,16 +4,22 @@ using System.Runtime.InteropServices;
 namespace Maple.RenderSpy.Graphics.D3D
 {
 
-    [DebuggerDisplay("{Ptr}")]
     [StructLayout(LayoutKind.Sequential)]
     public readonly unsafe struct Ptr_Func_QueryInterface(nint ptr)
     {
-        public readonly delegate* unmanaged[Stdcall]<UnsafePtr<COM_IUNKNOWN>, UnsafeIn<Guid>, UnsafeOut<UnsafePtr<COM_INTERFACE>>, COM_HRESULT> Ptr
-            = (delegate* unmanaged[Stdcall]<UnsafePtr<COM_IUNKNOWN>, UnsafeIn<Guid>, UnsafeOut<UnsafePtr<COM_INTERFACE>>, COM_HRESULT>)ptr;
+        public readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, UnsafeIn<Guid>, UnsafeOut<COM_PTR_IUNKNOWN<COM_INTERFACE>>, COM_HRESULT> _proc
+            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, UnsafeIn<Guid>, UnsafeOut<COM_PTR_IUNKNOWN<COM_INTERFACE>>, COM_HRESULT>)ptr;
 
-        public readonly COM_HRESULT Invoke(UnsafePtr<COM_IUNKNOWN> @this, in Guid riid, out UnsafePtr<COM_INTERFACE> ppvObject)
+        public readonly COM_HRESULT Invoke(COM_PTR_IUNKNOWN @this, in Guid riid, out COM_PTR_IUNKNOWN<COM_INTERFACE> ppvObject)
         {
-            return Ptr(@this, UnsafeIn<Guid>.FromIn(in riid), UnsafeOut<UnsafePtr<COM_INTERFACE>>.FromOut(out ppvObject));
+            return _proc(@this, UnsafeIn<Guid>.FromIn(in riid), UnsafeOut<COM_PTR_IUNKNOWN<COM_INTERFACE>>.FromOut(out ppvObject));
+        }
+
+        public readonly nint Pointer => new(_proc);
+
+        public readonly override string ToString()
+        {
+            return Pointer.ToString("X8");
         }
     }
 

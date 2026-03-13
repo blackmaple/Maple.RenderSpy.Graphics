@@ -8,6 +8,7 @@
   </Project>
   <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj">
     <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="Debug|Any CPU" Project="x64" />
   </Project>
   <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj">
     <Platform Solution="*|x64" Project="x64" />

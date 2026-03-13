@@ -1,0 +1,7 @@
+{
+  "code-runner.executorMap": {
+    "csharp": "dotnet run --project Maple.RenderSpy.Graphics.D3D9 -p:Platform=x64"
+  },
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.runInTerminal": true
+}

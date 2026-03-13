@@ -20,7 +20,12 @@ namespace Maple.RenderSpy.Graphics.D3D
         public static implicit operator UnsafePtr<T>(void* v) => new(v);
         public static implicit operator bool(UnsafePtr<T> v) => v.Ptr != nint.Zero;
 
-        public readonly ref T RefRaw => ref Unsafe.AsRef<T>(Ptr.ToPointer());
+        public readonly ref T Raw => ref Unsafe.AsRef<T>(Ptr.ToPointer());
+
+        public readonly override string ToString()
+        {
+            return Ptr.ToString("X8");
+        }
     }
 
     [DebuggerDisplay("{Ptr}")]
@@ -40,7 +45,11 @@ namespace Maple.RenderSpy.Graphics.D3D
         public static implicit operator UnsafePtr(void* v) => new(v);
         public static implicit operator bool(UnsafePtr v) => v.Ptr != nint.Zero;
 
-        public readonly ref T GetRefRaw<T>() where T : unmanaged => ref Unsafe.AsRef<T>(Ptr.ToPointer());
+        public readonly ref T GetRaw<T>() where T : unmanaged => ref Unsafe.AsRef<T>(Ptr.ToPointer());
+        public readonly override string ToString()
+        {
+            return Ptr.ToString("X8");
+        }
     }
 
 }
