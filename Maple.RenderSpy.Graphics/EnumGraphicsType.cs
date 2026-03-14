@@ -1,4 +1,6 @@
-﻿namespace Maple.RenderSpy.Graphics
+﻿using System.Collections.Concurrent;
+
+namespace Maple.RenderSpy.Graphics
 {
     public enum EnumGraphicsType
     { 
@@ -11,7 +13,10 @@
     }
 
 
-
+    public class VTableCacheService
+    { 
+       // public ConcurrentDictionary<Type,>
+    }
 
 
     public interface IHookGraphics

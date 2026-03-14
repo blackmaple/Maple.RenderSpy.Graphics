@@ -9,7 +9,8 @@ namespace Maple.RenderSpy.Graphics.D3D
     [StructLayout(LayoutKind.Sequential)]
     public unsafe readonly struct COM_HRESULT(uint v)
     {
-        const uint S_OK = 0U;
+        public const uint S_OK = 0U;
+       
 
         [MarshalAs(UnmanagedType.U4)]
         public readonly uint Value = v;

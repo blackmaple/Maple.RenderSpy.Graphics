@@ -1,3 +1,4 @@
+using Maple.Hook.Abstractions;
 using Maple.RenderSpy.Graphics.D3D;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Direct3D9;
@@ -8,15 +9,17 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     /// 封装 IDirect3DDevice9::EndScene 函数指针 (VTable 索引 42)
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_EndScene_42(nint ptr)
+    internal readonly unsafe struct Ptr_Func_EndScene_42(nint ptr): IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, int>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, COM_HRESULT>)ptr;
 
-        public int Invoke(COM_PTR_IUNKNOWN pThis) => _proc(pThis);
 
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis) => _proc(pThis);
+
+        public nint PtrMethod => new(_proc);
         public override string ToString()
         {
-            return (new nint(_proc)).ToString("X8");
+            return PtrMethod.ToString("X8");
         }
     }
 }
