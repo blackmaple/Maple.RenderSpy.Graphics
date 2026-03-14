@@ -17,5 +17,10 @@ namespace Maple.RenderSpy.Graphics.D3D
         public static implicit operator uint(COM_HRESULT v) => v.Value;
         public static implicit operator COM_HRESULT(uint v) => new(v);
         public static implicit operator bool(COM_HRESULT v) => v.Value == S_OK;
+
+        public override string ToString()
+        {
+            return Value.ToString("X8");
+        }
     }
 }

@@ -22,4 +22,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D\Maple.RenderSpy.Graphics.D3D.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Hook_Direct3DDevice9\" />
+	</ItemGroup>
 </Project>
