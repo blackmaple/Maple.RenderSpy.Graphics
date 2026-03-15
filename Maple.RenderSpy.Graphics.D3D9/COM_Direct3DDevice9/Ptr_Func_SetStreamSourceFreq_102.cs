@@ -6,13 +6,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     /// 设置流源频率
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_SetStreamSourceFreq_102(nint ptr)
+    internal readonly unsafe struct Ptr_Func_SetStreamSourceFreq_102(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
         private readonly delegate* unmanaged[Stdcall]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, uint, uint, int> _proc = (delegate* unmanaged[Stdcall]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, uint, uint, int>)ptr;
 
-        public override string ToString()
-        {
-            return (new nint(_proc)).ToString("X8");
-        }
+        public const string Name = "SetStreamSourceFreq";
+
+        public nint PtrMethod => new(_proc);
+        public override string ToString() => PtrMethod.ToString("X8");
     }
 }

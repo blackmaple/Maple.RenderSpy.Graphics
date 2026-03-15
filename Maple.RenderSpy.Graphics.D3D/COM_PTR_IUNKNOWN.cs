@@ -24,7 +24,7 @@ namespace Maple.RenderSpy.Graphics.D3D
 
 
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct COM_PTR_IUNKNOWN<T>(nint ptr) where T : unmanaged
+    public unsafe struct COM_PTR_IUNKNOWN<T>(nint ptr):IDisposable where T : unmanaged
     {
         public UnsafePtr<COM_IUNKNOWN<T>> PTR_IUNKNOWN = new(ptr);
 
@@ -43,6 +43,11 @@ namespace Maple.RenderSpy.Graphics.D3D
         public readonly override string ToString()
         {
             return PTR_IUNKNOWN.ToString();
+        }
+
+        public readonly void Dispose()
+        {
+            this.IUnknown_VTable.Release_2.Invoke(this);
         }
     }
 

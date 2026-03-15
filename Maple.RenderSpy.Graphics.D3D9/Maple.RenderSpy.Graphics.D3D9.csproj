@@ -22,5 +22,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D\Maple.RenderSpy.Graphics.D3D.csproj" />
+	  <ProjectReference Include="..\Maple.RenderSpy.Graphics\Maple.RenderSpy.Graphics.csproj" />
 	</ItemGroup>
 </Project>

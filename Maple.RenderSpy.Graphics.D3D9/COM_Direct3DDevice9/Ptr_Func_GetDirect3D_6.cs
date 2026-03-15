@@ -8,15 +8,15 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     /// 封装 IDirect3DDevice9::GetDirect3D 函数指针 (VTable 索引 6)
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_GetDirect3D_6(nint ptr)
+    internal readonly unsafe struct Ptr_Func_GetDirect3D_6(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
         private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, void**, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, void**, int>)ptr;
 
+        public const string Name = "GetDirect3D";
+
         public int Invoke(COM_PTR_IUNKNOWN pThis, void** ppDirect3D) => _proc(pThis, ppDirect3D);
 
-        public override string ToString()
-        {
-            return (new nint(_proc)).ToString("X8");
-        }
+        public nint PtrMethod => new(_proc);
+        public override string ToString() => PtrMethod.ToString("X8");
     }
 }
