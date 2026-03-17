@@ -6,16 +6,17 @@ using Windows.Win32.Foundation;
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {
     /// <summary>
-    /// 封装 IDirect3DDevice9::CreateVolumeTexture 函数指针 (VTable 索引 24)
+    /// 创建体积纹理
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_CreateVolumeTexture_24(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, uint, uint, uint, D3DFORMAT, D3DPOOL, void**, HANDLE*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, uint, uint, uint, D3DFORMAT, D3DPOOL, void**, HANDLE*, int>)ptr;
+        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, uint, uint, uint, D3DFORMAT, D3DPOOL, nint*, HANDLE*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, uint, uint, uint, D3DFORMAT, D3DPOOL, nint*, HANDLE*, int>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, uint, uint, D3DFORMAT, D3DPOOL, nint, nint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, uint, uint, D3DFORMAT, D3DPOOL, nint, nint, COM_HRESULT>)ptr;
 
         public const string Name = "CreateVolumeTexture";
 
-        public int Invoke(COM_PTR_IUNKNOWN pThis, uint Width, uint Height, uint Depth, uint Levels, uint Usage, D3DFORMAT Format, D3DPOOL Pool, void** ppVolumeTexture, HANDLE* pSharedHandle) => _proc(pThis, Width, Height, Depth, Levels, Usage, Format, Pool, ppVolumeTexture, pSharedHandle);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, uint Width, uint Height, uint Depth, uint Levels, uint Usage, D3DFORMAT Format, D3DPOOL Pool, nint ppVolumeTexture, nint pSharedHandle) => _proc(pThis, Width, Height, Depth, Levels, Usage, Format, Pool, ppVolumeTexture, pSharedHandle);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

@@ -6,16 +6,17 @@ using Windows.Win32.Foundation;
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {
     /// <summary>
-    /// 封装 IDirect3DDevice9::CreateDepthStencilSurface 函数指针 (VTable 索引 29)
+    /// 创建深度模板表面
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_CreateDepthStencilSurface_29(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, void**, HANDLE*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, void**, HANDLE*, int>)ptr;
+        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, nint*, HANDLE*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, nint*, HANDLE*, int>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, nint, nint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, nint, nint, COM_HRESULT>)ptr;
 
         public const string Name = "CreateDepthStencilSurface";
 
-        public int Invoke(COM_PTR_IUNKNOWN pThis, uint Width, uint Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, uint MultisampleQuality, int Discard, void** ppSurface, HANDLE* pSharedHandle) => _proc(pThis, Width, Height, Format, MultiSample, MultisampleQuality, Discard, ppSurface, pSharedHandle);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, uint Width, uint Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, uint MultisampleQuality, int Discard, nint ppSurface, nint pSharedHandle) => _proc(pThis, Width, Height, Format, MultiSample, MultisampleQuality, Discard, ppSurface, pSharedHandle);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

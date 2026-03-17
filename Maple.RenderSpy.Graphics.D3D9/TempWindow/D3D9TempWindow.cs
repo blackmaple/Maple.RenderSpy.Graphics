@@ -28,7 +28,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.TempWindow
         }
 
         public static implicit operator nint(D3D9TempWindow x) => new  (x._WindowHandle.Value);
-        public static implicit operator void*(D3D9TempWindow x) => x._WindowHandle;
+        public static implicit operator nint(D3D9TempWindow x) => x._WindowHandle;
         public static implicit operator bool(D3D9TempWindow x) => !x._WindowHandle.IsNull;
         public static implicit operator HWND(D3D9TempWindow x) => x._WindowHandle;
 

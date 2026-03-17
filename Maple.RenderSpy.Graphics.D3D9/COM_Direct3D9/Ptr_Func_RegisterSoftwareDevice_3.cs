@@ -9,9 +9,9 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_RegisterSoftwareDevice_3(nint ptr)
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, void*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, void*, int>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, nint, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, nint, int>)ptr;
 
-        public int Invoke(COM_PTR_IUNKNOWN pThis, void* pInitializeFunction) => _proc(pThis, pInitializeFunction);
+        public int Invoke(COM_PTR_IUNKNOWN pThis, nint pInitializeFunction) => _proc(pThis, pInitializeFunction);
 
 
         public override string ToString()

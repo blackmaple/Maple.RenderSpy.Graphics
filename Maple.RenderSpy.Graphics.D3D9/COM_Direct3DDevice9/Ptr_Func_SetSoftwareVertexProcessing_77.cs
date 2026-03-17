@@ -1,3 +1,4 @@
+using Maple.RenderSpy.Graphics.D3D;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
@@ -8,9 +9,12 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_SetSoftwareVertexProcessing_77(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, int, int> _proc = (delegate* unmanaged[Stdcall]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, int, int>)ptr;
+        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, int, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, int, int>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, COM_HRESULT>)ptr;
 
         public const string Name = "SetSoftwareVertexProcessing";
+
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, int bFlag) => _proc(pThis, bFlag);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

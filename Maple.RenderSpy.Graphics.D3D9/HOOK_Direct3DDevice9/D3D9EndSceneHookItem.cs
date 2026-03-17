@@ -1,0 +1,58 @@
+﻿using Maple.Hook.Abstractions;
+using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
+{
+
+
+    internal class D3D9EndSceneHookItem : HookItem<D3D9EndSceneHookItem, Ptr_Func_EndScene_42, Ptr_Func_EndScene_42>, IHookItemFactory<D3D9EndSceneHookItem>
+    {
+        public const string MethodName = Ptr_Func_EndScene_42.Name;
+
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3D9EndSceneHookItem, COM_HRESULT>? SyncCallback { get; set; }
+
+        public static D3D9EndSceneHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        {
+            if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
+            {
+                return RenderSpyGraphicsException.Throw<D3D9EndSceneHookItem>($"NOT FOUND {MethodName}");
+            }
+            var hookItemImp = hookFactory.Create<D3D9EndSceneHookItem>(
+                functionPtr,
+                GetHookMethodPointer());
+            return hookItemImp;
+        }
+
+        private static unsafe nint GetHookMethodPointer()
+        {
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, COM_HRESULT>
+                _proc = &Hook_EndScene;
+            return new(_proc);
+        }
+
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+        private static COM_HRESULT Hook_EndScene(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this)
+        {
+
+            if (D3D9EndSceneHookItem.TryGet(out var hookItem))
+            {
+                if (hookItem.SyncCallback is not null)
+                {
+                    return hookItem.SyncCallback.Invoke(@this, hookItem);
+                }
+                return hookItem.OriginalMethod.Invoke(@this);
+            }
+            return COM_HRESULT.S_FALSE;
+        }
+
+
+    }
+}

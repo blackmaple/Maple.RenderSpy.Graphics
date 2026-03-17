@@ -1,0 +1,48 @@
+﻿using Maple.Hook.Abstractions;
+using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
+{
+    internal class D3D9GetLightEnableHookItem : HookItem<Ptr_Func_GetLightEnable_54, Ptr_Func_GetLightEnable_54>, IHookItemFactory<D3D9GetLightEnableHookItem>
+    {
+        public const string MethodName = Ptr_Func_GetLightEnable_54.Name;
+
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, D3D9GetLightEnableHookItem, COM_HRESULT>? SyncCallback { get; set; }
+
+        public static D3D9GetLightEnableHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        {
+            if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
+            {
+                return RenderSpyGraphicsException.Throw<D3D9GetLightEnableHookItem>($"NOT FOUND {MethodName}");
+            }
+            var hookItemImp = hookFactory.Create<D3D9GetLightEnableHookItem>(
+                functionPtr,
+                GetHookMethodPointer());
+            return hookItemImp;
+        }
+
+        private static unsafe nint GetHookMethodPointer()
+        {
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, COM_HRESULT>
+                _proc = &Hook_GetLightEnable;
+            return new(_proc);
+        }
+
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+        private static COM_HRESULT Hook_GetLightEnable(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Index, nint pEnable)
+        {
+            if (D3D9GetLightEnableHookItem.TryGet(out var hookItem))
+            {
+                if (hookItem.SyncCallback is not null)
+                {
+                    return hookItem.SyncCallback.Invoke(@this, Index, pEnable, hookItem);
+                }
+                return hookItem.OriginalMethod.Invoke(@this, Index, pEnable);
+            }
+            return 0;
+        }
+    }
+}

@@ -5,16 +5,17 @@ using Windows.Win32.Graphics.Direct3D9;
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {
     /// <summary>
-    /// 封装 IDirect3DDevice9::GetRenderTargetData 函数指针 (VTable 索引 32)
+    /// 获取渲染目标数据
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_GetRenderTargetData_32(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, void*, void*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, void*, void*, int>)ptr;
+        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, nint, nint, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, nint, nint, int>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, COM_HRESULT>)ptr;
 
         public const string Name = "GetRenderTargetData";
 
-        public int Invoke(COM_PTR_IUNKNOWN pThis, void* pRenderTarget, void* pDestSurface) => _proc(pThis, pRenderTarget, pDestSurface);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, nint pRenderTarget, nint pDestSurface) => _proc(pThis, pRenderTarget, pDestSurface);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

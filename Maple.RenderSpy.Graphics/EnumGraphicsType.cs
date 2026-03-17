@@ -3,7 +3,7 @@
 namespace Maple.RenderSpy.Graphics
 {
     public enum EnumGraphicsType
-    { 
+    {
         D3D9,
         D3D10,
         D3D11,
@@ -13,14 +13,8 @@ namespace Maple.RenderSpy.Graphics
     }
 
 
-    public class VTableCacheService
-    { 
-       // public ConcurrentDictionary<Type,>
-    }
-
-
     public interface IHookGraphics
     {
-        EnumGraphicsType GraphicsType { get;  }
+        EnumGraphicsType GraphicsType { get; }
     }
 }
