@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetDialogBoxModeHookItem : HookItem<Ptr_Func_SetDialogBoxMode_20, Ptr_Func_SetDialogBoxMode_20>, IHookItemFactory<D3D9SetDialogBoxModeHookItem>
+    internal class D3D9SetDialogBoxModeHookItem : HookItem<D3D9SetDialogBoxModeHookItem, Ptr_Func_SetDialogBoxMode_20, Ptr_Func_SetDialogBoxMode_20>, IHookItemFactory<D3D9SetDialogBoxModeHookItem>
     {
         public const string MethodName = Ptr_Func_SetDialogBoxMode_20.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, D3D9SetDialogBoxModeHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int>? SyncCallback { get; set; }
 
         public static D3D9SetDialogBoxModeHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, bEnableDialogs, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, bEnableDialogs);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, bEnableDialogs);
             }

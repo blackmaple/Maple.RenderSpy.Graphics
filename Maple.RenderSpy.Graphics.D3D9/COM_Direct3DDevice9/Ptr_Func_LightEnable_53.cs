@@ -10,7 +10,6 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_LightEnable_53(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, int, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, int, int>)ptr;
         private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, int, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, int, COM_HRESULT>)ptr;
 
         public const string Name = "LightEnable";

@@ -9,12 +9,11 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_GetStreamSource_101(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, nint*, uint*, uint*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, nint*, uint*, uint*, int>)ptr;
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, nint, nint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, nint, nint, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<int>, Maple.UnmanagedExtensions.UnsafeRef<int>, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<int>, Maple.UnmanagedExtensions.UnsafeRef<int>, COM_HRESULT>)ptr;
 
         public const string Name = "GetStreamSource";
 
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, uint StreamNumber, nint ppStreamData, nint pOffsetInBytes, nint pStride) => _proc(pThis, StreamNumber, ppStreamData, pOffsetInBytes, pStride);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, uint StreamNumber, Maple.UnmanagedExtensions.UnsafeOut<nint> ppStreamData, Maple.UnmanagedExtensions.UnsafeRef<int> pOffsetInBytes, Maple.UnmanagedExtensions.UnsafeRef<int> pStride) => _proc(pThis, StreamNumber, ppStreamData, pOffsetInBytes, pStride);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

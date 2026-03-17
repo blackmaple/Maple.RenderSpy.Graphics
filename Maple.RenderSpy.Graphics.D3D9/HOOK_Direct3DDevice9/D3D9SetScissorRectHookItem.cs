@@ -3,7 +3,7 @@ using Maple.RenderSpy.Graphics.D3D;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.Foundation;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetScissorRect_75.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9SetScissorRectHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetScissorRectHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT>, COM_HRESULT>
                 _proc = &Hook_SetScissorRect;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_SetScissorRect(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pRect)
+        private static COM_HRESULT Hook_SetScissorRect(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT> pRect)
         {
             if (D3D9SetScissorRectHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pRect, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pRect);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pRect);
             }

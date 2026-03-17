@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9UpdateTextureHookItem : HookItem<Ptr_Func_UpdateTexture_31, Ptr_Func_UpdateTexture_31>, IHookItemFactory<D3D9UpdateTextureHookItem>
+    internal class D3D9UpdateTextureHookItem : HookItem<D3D9UpdateTextureHookItem, Ptr_Func_UpdateTexture_31, Ptr_Func_UpdateTexture_31>, IHookItemFactory<D3D9UpdateTextureHookItem>
     {
         public const string MethodName = Ptr_Func_UpdateTexture_31.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, uint, uint, uint, D3D9UpdateTextureHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, uint, uint, uint, int>? SyncCallback { get; set; }
 
         public static D3D9UpdateTextureHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pSourceTexture, pDestinationTexture, SourceLevel, SourceBox, DestPoint, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pSourceTexture, pDestinationTexture, SourceLevel, SourceBox, DestPoint);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pSourceTexture, pDestinationTexture, SourceLevel, SourceBox, DestPoint);
             }

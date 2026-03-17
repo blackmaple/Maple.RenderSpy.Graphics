@@ -10,12 +10,11 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_DrawIndexedPrimitiveUP_84(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, D3DPRIMITIVETYPE, uint, uint, uint, nint, D3DFORMAT, nint, uint, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, D3DPRIMITIVETYPE, uint, uint, uint, nint, D3DFORMAT, nint, uint, int>)ptr;
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, uint, uint, uint, nint, D3DFORMAT, nint, uint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, uint, uint, uint, nint, D3DFORMAT, nint, uint, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, global::Windows.Win32.Graphics.Direct3D9.D3DPRIMITIVETYPE, uint, uint, uint, nint, global::Windows.Win32.Graphics.Direct3D9.D3DFORMAT, nint, uint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, global::Windows.Win32.Graphics.Direct3D9.D3DPRIMITIVETYPE, uint, uint, uint, nint, global::Windows.Win32.Graphics.Direct3D9.D3DFORMAT, nint, uint, COM_HRESULT>)ptr;
 
         public const string Name = "DrawIndexedPrimitiveUP";
 
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, D3DPRIMITIVETYPE PrimitiveType, uint MinVertexIndex, uint NumVertices, uint PrimitiveCount, nint pIndexData, D3DFORMAT IndexDataFormat, nint pVertexStreamZeroData, uint VertexStreamZeroStride) => _proc(pThis, PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, global::Windows.Win32.Graphics.Direct3D9.D3DPRIMITIVETYPE PrimitiveType, uint MinVertexIndex, uint NumVertices, uint PrimitiveCount, nint pIndexData, global::Windows.Win32.Graphics.Direct3D9.D3DFORMAT IndexDataFormat, nint pVertexStreamZeroData, uint VertexStreamZeroStride) => _proc(pThis, PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

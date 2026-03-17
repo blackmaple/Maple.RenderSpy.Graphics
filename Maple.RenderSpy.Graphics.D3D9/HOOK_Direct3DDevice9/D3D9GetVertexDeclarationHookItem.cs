@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetVertexDeclarationHookItem : HookItem<Ptr_Func_GetVertexDeclaration_88, Ptr_Func_GetVertexDeclaration_88>, IHookItemFactory<D3D9GetVertexDeclarationHookItem>
+    internal class D3D9GetVertexDeclarationHookItem : HookItem<D3D9GetVertexDeclarationHookItem, Ptr_Func_GetVertexDeclaration_88, Ptr_Func_GetVertexDeclaration_88>, IHookItemFactory<D3D9GetVertexDeclarationHookItem>
     {
         public const string MethodName = Ptr_Func_GetVertexDeclaration_88.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9GetVertexDeclarationHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetVertexDeclarationHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, ppDecl, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, ppDecl);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, ppDecl);
             }

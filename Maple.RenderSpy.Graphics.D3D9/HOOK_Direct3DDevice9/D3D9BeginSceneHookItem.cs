@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_BeginScene_41.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3D9BeginSceneHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9BeginSceneHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this);
                 }
                 return hookItem.OriginalMethod.Invoke(@this);
             }

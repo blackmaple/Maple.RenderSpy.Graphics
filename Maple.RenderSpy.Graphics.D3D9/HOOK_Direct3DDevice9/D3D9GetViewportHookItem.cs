@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetViewportHookItem : HookItem<Ptr_Func_GetViewport_48, Ptr_Func_GetViewport_48>, IHookItemFactory<D3D9GetViewportHookItem>
+    internal class D3D9GetViewportHookItem : HookItem<D3D9GetViewportHookItem, Ptr_Func_GetViewport_48, Ptr_Func_GetViewport_48>, IHookItemFactory<D3D9GetViewportHookItem>
     {
         public const string MethodName = Ptr_Func_GetViewport_48.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9GetViewportHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DVIEWPORT9>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetViewportHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DVIEWPORT9>, COM_HRESULT>
                 _proc = &Hook_GetViewport;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_GetViewport(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pViewport)
+        private static COM_HRESULT Hook_GetViewport(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DVIEWPORT9> pViewport)
         {
             if (D3D9GetViewportHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pViewport, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pViewport);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pViewport);
             }

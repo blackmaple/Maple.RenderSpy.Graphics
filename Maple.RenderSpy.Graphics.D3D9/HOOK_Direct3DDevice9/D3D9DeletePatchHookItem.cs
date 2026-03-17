@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9DeletePatchHookItem : HookItem<Ptr_Func_DeletePatch_117, Ptr_Func_DeletePatch_117>, IHookItemFactory<D3D9DeletePatchHookItem>
+    internal class D3D9DeletePatchHookItem : HookItem<D3D9DeletePatchHookItem, Ptr_Func_DeletePatch_117, Ptr_Func_DeletePatch_117>, IHookItemFactory<D3D9DeletePatchHookItem>
     {
         public const string MethodName = Ptr_Func_DeletePatch_117.Name;
 

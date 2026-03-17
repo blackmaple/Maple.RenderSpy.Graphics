@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetSamplerStateHookItem : HookItem<Ptr_Func_GetSamplerState_68, Ptr_Func_GetSamplerState_68>, IHookItemFactory<D3D9GetSamplerStateHookItem>
+    internal class D3D9GetSamplerStateHookItem : HookItem<D3D9GetSamplerStateHookItem, Ptr_Func_GetSamplerState_68, Ptr_Func_GetSamplerState_68>, IHookItemFactory<D3D9GetSamplerStateHookItem>
     {
         public const string MethodName = Ptr_Func_GetSamplerState_68.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DSAMPLERSTATETYPE, nint, D3D9GetSamplerStateHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DSAMPLERSTATETYPE, Maple.UnmanagedExtensions.UnsafeRef<int>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetSamplerStateHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DSAMPLERSTATETYPE, nint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DSAMPLERSTATETYPE, Maple.UnmanagedExtensions.UnsafeRef<int>, COM_HRESULT>
                 _proc = &Hook_GetSamplerState;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_GetSamplerState(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Sampler, D3DSAMPLERSTATETYPE Type, nint pValue)
+        private static COM_HRESULT Hook_GetSamplerState(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Sampler, D3DSAMPLERSTATETYPE Type, Maple.UnmanagedExtensions.UnsafeRef<int> pValue)
         {
             if (D3D9GetSamplerStateHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Sampler, Type, pValue, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Sampler, Type, pValue);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, Sampler, Type, pValue);
             }

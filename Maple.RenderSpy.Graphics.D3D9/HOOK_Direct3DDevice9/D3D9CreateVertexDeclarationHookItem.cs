@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateVertexDeclarationHookItem : HookItem<Ptr_Func_CreateVertexDeclaration_86, Ptr_Func_CreateVertexDeclaration_86>, IHookItemFactory<D3D9CreateVertexDeclarationHookItem>
+    internal class D3D9CreateVertexDeclarationHookItem : HookItem<D3D9CreateVertexDeclarationHookItem, Ptr_Func_CreateVertexDeclaration_86, Ptr_Func_CreateVertexDeclaration_86>, IHookItemFactory<D3D9CreateVertexDeclarationHookItem>
     {
         public const string MethodName = Ptr_Func_CreateVertexDeclaration_86.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint*, D3D9CreateVertexDeclarationHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint,Maple.UnmanagedExtensions.UnsafeRef<nint>, D3D9CreateVertexDeclarationHookItem, int>? SyncCallback { get; set; }
 
         public static D3D9CreateVertexDeclarationHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint,Maple.UnmanagedExtensions.UnsafeRef<nint>, int>
                 _proc = &Hook_CreateVertexDeclaration;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_CreateVertexDeclaration(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pVertexElements, nint* ppDecl)
+        private static int Hook_CreateVertexDeclaration(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pVertexElements,Maple.UnmanagedExtensions.UnsafeRef<nint> ppDecl)
         {
             if (D3D9CreateVertexDeclarationHookItem.TryGet(out var hookItem))
             {

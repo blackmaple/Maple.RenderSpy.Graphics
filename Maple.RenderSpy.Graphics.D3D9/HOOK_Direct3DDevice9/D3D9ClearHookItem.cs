@@ -1,6 +1,7 @@
 ﻿using Maple.Hook.Abstractions;
 using Maple.RenderSpy.Graphics.D3D;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
+using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Direct3D9;
@@ -11,7 +12,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_Clear_43.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, uint, uint, float, uint, D3D9ClearHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DRECT>, uint, uint, float, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9ClearHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +28,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, uint, uint, float, uint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DRECT>, uint, uint, float, uint, COM_HRESULT>
                 _proc = &Hook_Clear;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_Clear(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Count, nint pRects, uint Flags, uint Color, float Z, uint Stencil)
+        private static COM_HRESULT Hook_Clear(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Count, UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DRECT> pRects, uint Flags, uint Color, float Z, uint Stencil)
         {
             if (D3D9ClearHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Count, pRects, Flags, Color, Z, Stencil, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Count, pRects, Flags, Color, Z, Stencil);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, Count, pRects, Flags, Color, Z, Stencil);
             }

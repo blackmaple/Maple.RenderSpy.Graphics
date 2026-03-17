@@ -12,12 +12,11 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_Present_17(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, RECT*, RECT*, nint, RGNDATA*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, RECT*, RECT*, nint, RGNDATA*, int>)ptr;
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, nint, nint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, nint, nint, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT>, nint, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Gdi.RGNDATA>, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT>, nint, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Gdi.RGNDATA>, COM_HRESULT>)ptr;
 
         public const string Name = "Present";
 
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, nint pSourceRect, nint pDestRect, nint hDestWindowOverride, nint pDirtyRegion) => _proc(pThis, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT> pSourceRect, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.RECT> pDestRect, nint hDestWindowOverride, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Gdi.RGNDATA> pDirtyRegion) => _proc(pThis, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

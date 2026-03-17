@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetLightHookItem : HookItem<Ptr_Func_SetLight_51, Ptr_Func_SetLight_51>, IHookItemFactory<D3D9SetLightHookItem>
+    internal class D3D9SetLightHookItem : HookItem<D3D9SetLightHookItem, Ptr_Func_SetLight_51, Ptr_Func_SetLight_51>, IHookItemFactory<D3D9SetLightHookItem>
     {
         public const string MethodName = Ptr_Func_SetLight_51.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DLIGHT9*, D3D9SetLightHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DLIGHT9>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetLightHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DLIGHT9*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DLIGHT9>, COM_HRESULT>
                 _proc = &Hook_SetLight;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetLight(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Index, D3DLIGHT9* pLight)
+        private static COM_HRESULT Hook_SetLight(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Index, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DLIGHT9> pLight)
         {
             if (D3D9SetLightHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Index, pLight, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Index, pLight);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, Index, pLight);
             }

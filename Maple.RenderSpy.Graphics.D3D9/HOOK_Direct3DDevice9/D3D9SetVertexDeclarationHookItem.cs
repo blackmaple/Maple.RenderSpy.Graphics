@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetVertexDeclarationHookItem : HookItem<Ptr_Func_SetVertexDeclaration_87, Ptr_Func_SetVertexDeclaration_87>, IHookItemFactory<D3D9SetVertexDeclarationHookItem>
+    internal class D3D9SetVertexDeclarationHookItem : HookItem<D3D9SetVertexDeclarationHookItem, Ptr_Func_SetVertexDeclaration_87, Ptr_Func_SetVertexDeclaration_87>, IHookItemFactory<D3D9SetVertexDeclarationHookItem>
     {
         public const string MethodName = Ptr_Func_SetVertexDeclaration_87.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9SetVertexDeclarationHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetVertexDeclarationHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,19 +26,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>
                 _proc = &Hook_SetVertexDeclaration;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetVertexDeclaration(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pDecl)
+        private static COM_HRESULT Hook_SetVertexDeclaration(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pDecl)
         {
             if (D3D9SetVertexDeclarationHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pDecl, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pDecl);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pDecl);
             }

@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Gdi;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9ColorFillHookItem : HookItem<Ptr_Func_ColorFill_35, Ptr_Func_ColorFill_35>, IHookItemFactory<D3D9ColorFillHookItem>
+    internal class D3D9ColorFillHookItem : HookItem<D3D9ColorFillHookItem,Ptr_Func_ColorFill_35, Ptr_Func_ColorFill_35>, IHookItemFactory<D3D9ColorFillHookItem>
     {
         public const string MethodName = Ptr_Func_ColorFill_35.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, RECT*, uint, D3D9ColorFillHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, uint, D3D9ColorFillHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9ColorFillHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,13 +27,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, RECT*, uint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, uint, COM_HRESULT>
                 _proc = &Hook_ColorFill;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_ColorFill(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pSurface, RECT* pRect, uint color)
+        private static COM_HRESULT Hook_ColorFill(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pSurface, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT> pRect, uint color)
         {
             if (D3D9ColorFillHookItem.TryGet(out var hookItem))
             {

@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetRenderState_57.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DRENDERSTATETYPE, uint, D3D9SetRenderStateHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DRENDERSTATETYPE, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetRenderStateHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -39,7 +39,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, State, Value, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, State, Value);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, State, Value);
             }

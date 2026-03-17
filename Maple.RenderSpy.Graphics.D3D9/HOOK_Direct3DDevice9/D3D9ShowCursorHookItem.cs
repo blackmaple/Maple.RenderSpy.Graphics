@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9ShowCursorHookItem : HookItem<Ptr_Func_ShowCursor_12, Ptr_Func_ShowCursor_12>, IHookItemFactory<D3D9ShowCursorHookItem>
+    internal class D3D9ShowCursorHookItem : HookItem<D3D9ShowCursorHookItem, Ptr_Func_ShowCursor_12, Ptr_Func_ShowCursor_12>, IHookItemFactory<D3D9ShowCursorHookItem>
     {
         public const string MethodName = Ptr_Func_ShowCursor_12.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, D3D9ShowCursorHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int>? SyncCallback { get; set; }
 
         public static D3D9ShowCursorHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, bShow, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, bShow);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, bShow);
             }

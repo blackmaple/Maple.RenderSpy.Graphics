@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetDepthStencilSurfaceHookItem : HookItem<Ptr_Func_GetDepthStencilSurface_40, Ptr_Func_GetDepthStencilSurface_40>, IHookItemFactory<D3D9GetDepthStencilSurfaceHookItem>
+    internal class D3D9GetDepthStencilSurfaceHookItem : HookItem<D3D9GetDepthStencilSurfaceHookItem, Ptr_Func_GetDepthStencilSurface_40, Ptr_Func_GetDepthStencilSurface_40>, IHookItemFactory<D3D9GetDepthStencilSurfaceHookItem>
     {
         public const string MethodName = Ptr_Func_GetDepthStencilSurface_40.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9GetDepthStencilSurfaceHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetDepthStencilSurfaceHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, ppZStencilSurface, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, ppZStencilSurface);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, ppZStencilSurface);
             }

@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetDeviceCapsHookItem : HookItem<Ptr_Func_GetDeviceCaps_7, Ptr_Func_GetDeviceCaps_7>, IHookItemFactory<D3D9GetDeviceCapsHookItem>
+    internal class D3D9GetDeviceCapsHookItem : HookItem<D3D9GetDeviceCapsHookItem, Ptr_Func_GetDeviceCaps_7, Ptr_Func_GetDeviceCaps_7>, IHookItemFactory<D3D9GetDeviceCapsHookItem>
     {
         public const string MethodName = Ptr_Func_GetDeviceCaps_7.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9GetDeviceCapsHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetDeviceCapsHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -39,7 +39,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pCaps, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pCaps);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pCaps);
             }

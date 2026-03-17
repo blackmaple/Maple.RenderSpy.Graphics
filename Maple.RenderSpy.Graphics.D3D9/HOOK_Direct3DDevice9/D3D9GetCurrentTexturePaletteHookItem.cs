@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetCurrentTexturePaletteHookItem : HookItem<Ptr_Func_GetCurrentTexturePalette_74, Ptr_Func_GetCurrentTexturePalette_74>, IHookItemFactory<D3D9GetCurrentTexturePaletteHookItem>
+    internal class D3D9GetCurrentTexturePaletteHookItem : HookItem<D3D9GetCurrentTexturePaletteHookItem, Ptr_Func_GetCurrentTexturePalette_74, Ptr_Func_GetCurrentTexturePalette_74>, IHookItemFactory<D3D9GetCurrentTexturePaletteHookItem>
     {
         public const string MethodName = Ptr_Func_GetCurrentTexturePalette_74.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9GetCurrentTexturePaletteHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetCurrentTexturePaletteHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pPaletteNumber, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pPaletteNumber);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pPaletteNumber);
             }

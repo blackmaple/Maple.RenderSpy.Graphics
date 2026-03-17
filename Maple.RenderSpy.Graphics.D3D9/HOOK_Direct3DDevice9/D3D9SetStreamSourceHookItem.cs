@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetStreamSource_100.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, uint, uint, D3D9SetStreamSourceHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, uint, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetStreamSourceHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, StreamNumber, pStreamData, OffsetInBytes, Stride, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, StreamNumber, pStreamData, OffsetInBytes, Stride);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, StreamNumber, pStreamData, OffsetInBytes, Stride);
             }

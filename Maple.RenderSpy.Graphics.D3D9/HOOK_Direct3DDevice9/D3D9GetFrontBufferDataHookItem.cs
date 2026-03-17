@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetFrontBufferDataHookItem : HookItem<Ptr_Func_GetFrontBufferData_33, Ptr_Func_GetFrontBufferData_33>, IHookItemFactory<D3D9GetFrontBufferDataHookItem>
+    internal class D3D9GetFrontBufferDataHookItem : HookItem<D3D9GetFrontBufferDataHookItem, Ptr_Func_GetFrontBufferData_33, Ptr_Func_GetFrontBufferData_33>, IHookItemFactory<D3D9GetFrontBufferDataHookItem>
     {
         public const string MethodName = Ptr_Func_GetFrontBufferData_33.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, D3D9GetFrontBufferDataHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, int>? SyncCallback { get; set; }
 
         public static D3D9GetFrontBufferDataHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, iSwapChain, pDestSurface, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, iSwapChain, pDestSurface);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, iSwapChain, pDestSurface);
             }

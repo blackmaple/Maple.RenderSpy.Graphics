@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetTextureHookItem : HookItem<Ptr_Func_GetTexture_64, Ptr_Func_GetTexture_64>, IHookItemFactory<D3D9GetTextureHookItem>
+    internal class D3D9GetTextureHookItem : HookItem<D3D9GetTextureHookItem, Ptr_Func_GetTexture_64, Ptr_Func_GetTexture_64>, IHookItemFactory<D3D9GetTextureHookItem>
     {
         public const string MethodName = Ptr_Func_GetTexture_64.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, D3D9GetTextureHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeOut<nint>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetTextureHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,19 +26,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeOut<nint>, COM_HRESULT>
                 _proc = &Hook_GetTexture;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_GetTexture(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Stage, nint ppTexture)
+        private static COM_HRESULT Hook_GetTexture(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Stage, Maple.UnmanagedExtensions.UnsafeOut<nint> ppTexture)
         {
             if (D3D9GetTextureHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Stage, ppTexture, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Stage, ppTexture);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, Stage, ppTexture);
             }

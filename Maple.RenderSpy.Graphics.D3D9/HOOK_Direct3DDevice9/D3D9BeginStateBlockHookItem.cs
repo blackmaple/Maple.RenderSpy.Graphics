@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9BeginStateBlockHookItem : HookItem<Ptr_Func_BeginStateBlock_60, Ptr_Func_BeginStateBlock_60>, IHookItemFactory<D3D9BeginStateBlockHookItem>
+    internal class D3D9BeginStateBlockHookItem : HookItem<D3D9BeginStateBlockHookItem, Ptr_Func_BeginStateBlock_60, Ptr_Func_BeginStateBlock_60>, IHookItemFactory<D3D9BeginStateBlockHookItem>
     {
         public const string MethodName = Ptr_Func_BeginStateBlock_60.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3D9BeginStateBlockHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3D9BeginStateBlockHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9BeginStateBlockHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, COM_HRESULT>
                 _proc = &Hook_BeginStateBlock;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_BeginStateBlock(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this)
+        private static COM_HRESULT Hook_BeginStateBlock(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this)
         {
             if (D3D9BeginStateBlockHookItem.TryGet(out var hookItem))
             {

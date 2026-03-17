@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetGammaRampHookItem : HookItem<Ptr_Func_GetGammaRamp_22, Ptr_Func_GetGammaRamp_22>, IHookItemFactory<D3D9GetGammaRampHookItem>
+    internal class D3D9GetGammaRampHookItem : HookItem<D3D9GetGammaRampHookItem, Ptr_Func_GetGammaRamp_22, Ptr_Func_GetGammaRamp_22>, IHookItemFactory<D3D9GetGammaRampHookItem>
     {
         public const string MethodName = Ptr_Func_GetGammaRamp_22.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, D3D9GetGammaRampHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, int>? SyncCallback { get; set; }
 
         public static D3D9GetGammaRampHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, iSwapChain, pRamp, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, iSwapChain, pRamp);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, iSwapChain, pRamp);
             }

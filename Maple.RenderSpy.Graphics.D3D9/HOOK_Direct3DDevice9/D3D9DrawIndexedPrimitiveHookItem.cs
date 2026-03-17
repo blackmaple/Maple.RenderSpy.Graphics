@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_DrawIndexedPrimitive_82.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, int, uint, uint, uint, D3D9DrawIndexedPrimitiveHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, int, uint, uint, uint, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9DrawIndexedPrimitiveHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, int, uint, uint, uint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, int, uint, uint, uint, uint, COM_HRESULT>
                 _proc = &Hook_DrawIndexedPrimitive;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_DrawIndexedPrimitive(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DPRIMITIVETYPE Type, int BaseVertexIndex, uint MinVertexIndex, uint NumVertices, uint startIndex, uint primCount)
+        private static COM_HRESULT Hook_DrawIndexedPrimitive(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DPRIMITIVETYPE Type, int BaseVertexIndex, uint MinVertexIndex, uint NumVertices, uint startIndex, uint primCount)
         {
             if (D3D9DrawIndexedPrimitiveHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, Type, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
             }

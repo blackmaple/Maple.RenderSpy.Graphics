@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9DrawRectPatchHookItem : HookItem<Ptr_Func_DrawRectPatch_115, Ptr_Func_DrawRectPatch_115>, IHookItemFactory<D3D9DrawRectPatchHookItem>
+    internal class D3D9DrawRectPatchHookItem : HookItem<D3D9DrawRectPatchHookItem, Ptr_Func_DrawRectPatch_115, Ptr_Func_DrawRectPatch_115>, IHookItemFactory<D3D9DrawRectPatchHookItem>
     {
         public const string MethodName = Ptr_Func_DrawRectPatch_115.Name;
 

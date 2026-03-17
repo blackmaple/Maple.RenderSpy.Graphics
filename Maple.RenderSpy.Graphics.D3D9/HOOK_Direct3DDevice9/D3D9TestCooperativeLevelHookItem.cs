@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9TestCooperativeLevelHookItem : HookItem<Ptr_Func_TestCooperativeLevel_3, Ptr_Func_TestCooperativeLevel_3>, IHookItemFactory<D3D9TestCooperativeLevelHookItem>
+    internal class D3D9TestCooperativeLevelHookItem : HookItem<D3D9TestCooperativeLevelHookItem, Ptr_Func_TestCooperativeLevel_3, Ptr_Func_TestCooperativeLevel_3>, IHookItemFactory<D3D9TestCooperativeLevelHookItem>
     {
         public const string MethodName = Ptr_Func_TestCooperativeLevel_3.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3D9TestCooperativeLevelHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9TestCooperativeLevelHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this);
                 }
                 return hookItem.OriginalMethod.Invoke(@this);
             }

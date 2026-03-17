@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateOffscreenPlainSurfaceHookItem : HookItem<Ptr_Func_CreateOffscreenPlainSurface_36, Ptr_Func_CreateOffscreenPlainSurface_36>, IHookItemFactory<D3D9CreateOffscreenPlainSurfaceHookItem>
+    internal class D3D9CreateOffscreenPlainSurfaceHookItem : HookItem<D3D9CreateOffscreenPlainSurfaceHookItem, Ptr_Func_CreateOffscreenPlainSurface_36, Ptr_Func_CreateOffscreenPlainSurface_36>, IHookItemFactory<D3D9CreateOffscreenPlainSurfaceHookItem>
     {
         public const string MethodName = Ptr_Func_CreateOffscreenPlainSurface_36.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, nint*, D3D9CreateOffscreenPlainSurfaceHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateOffscreenPlainSurfaceHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9CreateOffscreenPlainSurfaceHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,21 +27,21 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, nint*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, COM_HRESULT>
                 _proc = &Hook_CreateOffscreenPlainSurface;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_CreateOffscreenPlainSurface(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Width, uint Height, D3DFORMAT Format, D3DPOOL Pool, nint* ppSurface)
+        private static COM_HRESULT Hook_CreateOffscreenPlainSurface(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Width, uint Height, D3DFORMAT Format, D3DPOOL Pool, Maple.UnmanagedExtensions.UnsafeOut<nint> ppSurface, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE> pSharedHandle)
         {
             if (D3D9CreateOffscreenPlainSurfaceHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Width, Height, Format, Pool, ppSurface, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Width, Height, Format, Pool, ppSurface, pSharedHandle, hookItem);
                 }
-                return hookItem.OriginalMethod.Invoke(@this, Width, Height, Format, Pool, ppSurface);
+                return hookItem.OriginalMethod.Invoke(@this, Width, Height, Format, Pool, ppSurface, pSharedHandle);
             }
             return 0;
         }

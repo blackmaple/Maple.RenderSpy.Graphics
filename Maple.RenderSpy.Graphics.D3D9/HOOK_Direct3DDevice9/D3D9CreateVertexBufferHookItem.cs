@@ -8,11 +8,11 @@ using Windows.Win32.Foundation;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateVertexBufferHookItem : HookItem<Ptr_Func_CreateVertexBuffer_26, Ptr_Func_CreateVertexBuffer_26>, IHookItemFactory<D3D9CreateVertexBufferHookItem>
+    internal class D3D9CreateVertexBufferHookItem : HookItem<D3D9CreateVertexBufferHookItem, Ptr_Func_CreateVertexBuffer_26, Ptr_Func_CreateVertexBuffer_26>, IHookItemFactory<D3D9CreateVertexBufferHookItem>
     {
         public const string MethodName = Ptr_Func_CreateVertexBuffer_26.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, D3DPOOL, nint*, HANDLE*, D3D9CreateVertexBufferHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateVertexBufferHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9CreateVertexBufferHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -28,13 +28,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, D3DPOOL, nint*, HANDLE*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, COM_HRESULT>
                 _proc = &Hook_CreateVertexBuffer;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_CreateVertexBuffer(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Length, uint Usage, uint FVF, D3DPOOL Pool, nint* ppVertexBuffer, HANDLE* pSharedHandle)
+        private static COM_HRESULT Hook_CreateVertexBuffer(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Length, uint Usage, uint FVF, D3DPOOL Pool, Maple.UnmanagedExtensions.UnsafeOut<nint> ppVertexBuffer, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE> pSharedHandle)
         {
             if (D3D9CreateVertexBufferHookItem.TryGet(out var hookItem))
             {

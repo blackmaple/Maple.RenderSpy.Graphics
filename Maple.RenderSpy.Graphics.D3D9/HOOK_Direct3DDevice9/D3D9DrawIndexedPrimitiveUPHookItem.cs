@@ -7,7 +7,7 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9DrawIndexedPrimitiveUPHookItem : HookItem<Ptr_Func_DrawIndexedPrimitiveUP_84, Ptr_Func_DrawIndexedPrimitiveUP_84>, IHookItemFactory<D3D9DrawIndexedPrimitiveUPHookItem>
+    internal class D3D9DrawIndexedPrimitiveUPHookItem : HookItem<D3D9DrawIndexedPrimitiveUPHookItem, Ptr_Func_DrawIndexedPrimitiveUP_84, Ptr_Func_DrawIndexedPrimitiveUP_84>, IHookItemFactory<D3D9DrawIndexedPrimitiveUPHookItem>
     {
         public const string MethodName = Ptr_Func_DrawIndexedPrimitiveUP_84.Name;
 

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetSoftwareVertexProcessingHookItem : HookItem<Ptr_Func_SetSoftwareVertexProcessing_77, Ptr_Func_SetSoftwareVertexProcessing_77>, IHookItemFactory<D3D9SetSoftwareVertexProcessingHookItem>
+    internal class D3D9SetSoftwareVertexProcessingHookItem : HookItem<D3D9SetSoftwareVertexProcessingHookItem, Ptr_Func_SetSoftwareVertexProcessing_77, Ptr_Func_SetSoftwareVertexProcessing_77>, IHookItemFactory<D3D9SetSoftwareVertexProcessingHookItem>
     {
         public const string MethodName = Ptr_Func_SetSoftwareVertexProcessing_77.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, D3D9SetSoftwareVertexProcessingHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetSoftwareVertexProcessingHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,19 +26,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, COM_HRESULT>
                 _proc = &Hook_SetSoftwareVertexProcessing;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetSoftwareVertexProcessing(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, int bSoftware)
+        private static COM_HRESULT Hook_SetSoftwareVertexProcessing(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, int bSoftware)
         {
             if (D3D9SetSoftwareVertexProcessingHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, bSoftware, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, bSoftware);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, bSoftware);
             }

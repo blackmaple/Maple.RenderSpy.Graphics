@@ -1,4 +1,5 @@
 using Maple.RenderSpy.Graphics.D3D;
+using Maple.UnmanagedExtensions;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Gdi;
 
@@ -10,12 +11,11 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_SetPaletteEntries_71(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        // 原函数指针: private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, PALETTEENTRY*, int> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, uint, PALETTEENTRY*, int>)ptr;
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, UnsafeRef<global::Windows.Win32.Graphics.Gdi.PALETTEENTRY>, COM_HRESULT> _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, UnsafeRef<global::Windows.Win32.Graphics.Gdi.PALETTEENTRY>, COM_HRESULT>)ptr;
 
         public const string Name = "SetPaletteEntries";
 
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, uint PaletteNumber, nint pEntries) => _proc(pThis, PaletteNumber, pEntries);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, uint PaletteNumber, UnsafeRef<global::Windows.Win32.Graphics.Gdi.PALETTEENTRY> pEntries) => _proc(pThis, PaletteNumber, pEntries);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

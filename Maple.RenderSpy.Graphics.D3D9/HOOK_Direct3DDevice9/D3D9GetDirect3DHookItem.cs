@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetDirect3DHookItem : HookItem<Ptr_Func_GetDirect3D_6, Ptr_Func_GetDirect3D_6>, IHookItemFactory<D3D9GetDirect3DHookItem>
+    internal class D3D9GetDirect3DHookItem : HookItem<D3D9GetDirect3DHookItem, Ptr_Func_GetDirect3D_6, Ptr_Func_GetDirect3D_6>, IHookItemFactory<D3D9GetDirect3DHookItem>
     {
         public const string MethodName = Ptr_Func_GetDirect3D_6.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, D3D9GetDirect3DHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetDirect3DHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, ppDirect3D, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, ppDirect3D);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, ppDirect3D);
             }

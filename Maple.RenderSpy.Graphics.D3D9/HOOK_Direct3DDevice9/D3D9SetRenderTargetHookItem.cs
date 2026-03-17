@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetRenderTargetHookItem : HookItem<Ptr_Func_SetRenderTarget_37, Ptr_Func_SetRenderTarget_37>, IHookItemFactory<D3D9SetRenderTargetHookItem>
+    internal class D3D9SetRenderTargetHookItem : HookItem<D3D9SetRenderTargetHookItem, Ptr_Func_SetRenderTarget_37, Ptr_Func_SetRenderTarget_37>, IHookItemFactory<D3D9SetRenderTargetHookItem>
     {
         public const string MethodName = Ptr_Func_SetRenderTarget_37.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, D3D9SetRenderTargetHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetRenderTargetHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -39,7 +39,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, RenderTargetIndex, pRenderTarget, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, RenderTargetIndex, pRenderTarget);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, RenderTargetIndex, pRenderTarget);
             }

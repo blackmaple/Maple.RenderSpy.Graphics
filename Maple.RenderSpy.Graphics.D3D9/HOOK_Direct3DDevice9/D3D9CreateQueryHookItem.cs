@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateQueryHookItem : HookItem<Ptr_Func_CreateQuery_118, Ptr_Func_CreateQuery_118>, IHookItemFactory<D3D9CreateQueryHookItem>
+    internal class D3D9CreateQueryHookItem : HookItem<D3D9CreateQueryHookItem, Ptr_Func_CreateQuery_118, Ptr_Func_CreateQuery_118>, IHookItemFactory<D3D9CreateQueryHookItem>
     {
         public const string MethodName = Ptr_Func_CreateQuery_118.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DQUERYTYPE, nint*, D3D9CreateQueryHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DQUERYTYPE,Maple.UnmanagedExtensions.UnsafeRef<nint>, D3D9CreateQueryHookItem, int>? SyncCallback { get; set; }
 
         public static D3D9CreateQueryHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,13 +27,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DQUERYTYPE, nint*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DQUERYTYPE,Maple.UnmanagedExtensions.UnsafeRef<nint>, int>
                 _proc = &Hook_CreateQuery;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_CreateQuery(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DQUERYTYPE Type, nint* ppQuery)
+        private static int Hook_CreateQuery(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DQUERYTYPE Type,Maple.UnmanagedExtensions.UnsafeRef<nint> ppQuery)
         {
             if (D3D9CreateQueryHookItem.TryGet(out var hookItem))
             {

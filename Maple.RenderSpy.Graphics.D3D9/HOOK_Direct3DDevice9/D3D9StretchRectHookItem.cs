@@ -8,11 +8,11 @@ using Windows.Win32.Graphics.Gdi;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9StretchRectHookItem : HookItem<Ptr_Func_StretchRect_34, Ptr_Func_StretchRect_34>, IHookItemFactory<D3D9StretchRectHookItem>
+    internal class D3D9StretchRectHookItem : HookItem<D3D9StretchRectHookItem, Ptr_Func_StretchRect_34, Ptr_Func_StretchRect_34>, IHookItemFactory<D3D9StretchRectHookItem>
     {
         public const string MethodName = Ptr_Func_StretchRect_34.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, RECT*, nint, RECT*, D3DTEXTUREFILTERTYPE, D3D9StretchRectHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, D3DTEXTUREFILTERTYPE, int>? SyncCallback { get; set; }
 
         public static D3D9StretchRectHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -28,19 +28,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, RECT*, nint, RECT*, D3DTEXTUREFILTERTYPE, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, D3DTEXTUREFILTERTYPE, int>
                 _proc = &Hook_StretchRect;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_StretchRect(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pSourceSurface, RECT* pSourceRect, nint pDestSurface, RECT* pDestRect, D3DTEXTUREFILTERTYPE Filter)
+        private static int Hook_StretchRect(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pSourceSurface, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT> pSourceRect, nint pDestSurface, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT> pDestRect, D3DTEXTUREFILTERTYPE Filter)
         {
             if (D3D9StretchRectHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter);
             }

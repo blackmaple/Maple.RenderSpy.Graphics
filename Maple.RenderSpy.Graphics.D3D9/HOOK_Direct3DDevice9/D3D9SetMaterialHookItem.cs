@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetMaterial_49.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DMATERIAL9*, D3D9SetMaterialHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DMATERIAL9>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetMaterialHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DMATERIAL9*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DMATERIAL9>, COM_HRESULT>
                 _proc = &Hook_SetMaterial;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetMaterial(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DMATERIAL9* pMaterial)
+        private static COM_HRESULT Hook_SetMaterial(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DMATERIAL9> pMaterial)
         {
             if (D3D9SetMaterialHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pMaterial, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pMaterial);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pMaterial);
             }

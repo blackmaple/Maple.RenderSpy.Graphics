@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetStreamSourceFreqHookItem : HookItem<Ptr_Func_SetStreamSourceFreq_102, Ptr_Func_SetStreamSourceFreq_102>, IHookItemFactory<D3D9SetStreamSourceFreqHookItem>
+    internal class D3D9SetStreamSourceFreqHookItem : HookItem<D3D9SetStreamSourceFreqHookItem, Ptr_Func_SetStreamSourceFreq_102, Ptr_Func_SetStreamSourceFreq_102>, IHookItemFactory<D3D9SetStreamSourceFreqHookItem>
     {
         public const string MethodName = Ptr_Func_SetStreamSourceFreq_102.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3D9SetStreamSourceFreqHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetStreamSourceFreqHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -38,7 +38,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, StreamNumber, Divider, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, StreamNumber, Divider);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, StreamNumber, Divider);
             }

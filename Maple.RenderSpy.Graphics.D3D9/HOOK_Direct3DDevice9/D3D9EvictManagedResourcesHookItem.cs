@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9EvictManagedResourcesHookItem : HookItem<Ptr_Func_EvictManagedResources_5, Ptr_Func_EvictManagedResources_5>, IHookItemFactory<D3D9EvictManagedResourcesHookItem>
+    internal class D3D9EvictManagedResourcesHookItem : HookItem<D3D9EvictManagedResourcesHookItem, Ptr_Func_EvictManagedResources_5, Ptr_Func_EvictManagedResources_5>, IHookItemFactory<D3D9EvictManagedResourcesHookItem>
     {
         public const string MethodName = Ptr_Func_EvictManagedResources_5.Name;
 

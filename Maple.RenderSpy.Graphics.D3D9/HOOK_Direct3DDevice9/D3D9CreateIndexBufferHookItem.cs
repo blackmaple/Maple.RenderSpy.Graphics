@@ -8,11 +8,11 @@ using Windows.Win32.Foundation;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateIndexBufferHookItem : HookItem<Ptr_Func_CreateIndexBuffer_27, Ptr_Func_CreateIndexBuffer_27>, IHookItemFactory<D3D9CreateIndexBufferHookItem>
+    internal class D3D9CreateIndexBufferHookItem : HookItem<D3D9CreateIndexBufferHookItem, Ptr_Func_CreateIndexBuffer_27, Ptr_Func_CreateIndexBuffer_27>, IHookItemFactory<D3D9CreateIndexBufferHookItem>
     {
         public const string MethodName = Ptr_Func_CreateIndexBuffer_27.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, nint*, HANDLE*, D3D9CreateIndexBufferHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateIndexBufferHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9CreateIndexBufferHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -28,13 +28,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, nint*, HANDLE*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, COM_HRESULT>
                 _proc = &Hook_CreateIndexBuffer;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_CreateIndexBuffer(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Length, uint Usage, D3DFORMAT Format, D3DPOOL Pool, nint* ppIndexBuffer, HANDLE* pSharedHandle)
+        private static COM_HRESULT Hook_CreateIndexBuffer(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Length, uint Usage, D3DFORMAT Format, D3DPOOL Pool, Maple.UnmanagedExtensions.UnsafeOut<nint> ppIndexBuffer, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE> pSharedHandle)
         {
             if (D3D9CreateIndexBufferHookItem.TryGet(out var hookItem))
             {

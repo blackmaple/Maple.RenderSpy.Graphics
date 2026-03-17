@@ -7,11 +7,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetClipStatusHookItem : HookItem<Ptr_Func_SetClipStatus_62, Ptr_Func_SetClipStatus_62>, IHookItemFactory<D3D9SetClipStatusHookItem>
+    internal class D3D9SetClipStatusHookItem : HookItem<D3D9SetClipStatusHookItem, Ptr_Func_SetClipStatus_62, Ptr_Func_SetClipStatus_62>, IHookItemFactory<D3D9SetClipStatusHookItem>
     {
         public const string MethodName = Ptr_Func_SetClipStatus_62.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DCLIPSTATUS9*, D3D9SetClipStatusHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DCLIPSTATUS9>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetClipStatusHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DCLIPSTATUS9*, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DCLIPSTATUS9>, COM_HRESULT>
                 _proc = &Hook_SetClipStatus;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetClipStatus(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DCLIPSTATUS9* pClipStatus)
+        private static COM_HRESULT Hook_SetClipStatus(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DCLIPSTATUS9> pClipStatus)
         {
             if (D3D9SetClipStatusHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pClipStatus, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, pClipStatus);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pClipStatus);
             }
