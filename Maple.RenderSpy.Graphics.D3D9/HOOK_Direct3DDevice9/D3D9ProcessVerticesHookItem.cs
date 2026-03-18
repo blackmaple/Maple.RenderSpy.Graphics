@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_ProcessVertices_85.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, nint, nint, uint, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, nint, nint, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9ProcessVerticesHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, nint, nint, uint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint, nint, nint, uint, COM_HRESULT>
                 _proc = &Hook_ProcessVertices;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_ProcessVertices(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint SrcStartIndex, uint DestIndex, uint VertexCount, nint pDestBuffer, nint pVertexDeclaration, uint Flags)
+        private static COM_HRESULT Hook_ProcessVertices(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint SrcStartIndex, uint DestIndex, uint VertexCount, nint pDestBuffer, nint pVertexDeclaration, uint Flags)
         {
             if (D3D9ProcessVerticesHookItem.TryGet(out var hookItem))
             {

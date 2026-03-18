@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_CreateVertexDeclaration_86.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint,Maple.UnmanagedExtensions.UnsafeRef<nint>, D3D9CreateVertexDeclarationHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DVERTEXELEMENT9>, Maple.UnmanagedExtensions.UnsafeOut<nint>, D3D9CreateVertexDeclarationHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9CreateVertexDeclarationHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint,Maple.UnmanagedExtensions.UnsafeRef<nint>, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DVERTEXELEMENT9>, Maple.UnmanagedExtensions.UnsafeOut<nint>, COM_HRESULT>
                 _proc = &Hook_CreateVertexDeclaration;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_CreateVertexDeclaration(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pVertexElements,Maple.UnmanagedExtensions.UnsafeRef<nint> ppDecl)
+        private static COM_HRESULT Hook_CreateVertexDeclaration(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DVERTEXELEMENT9> pVertexElements,Maple.UnmanagedExtensions.UnsafeOut<nint> ppDecl)
         {
             if (D3D9CreateVertexDeclarationHookItem.TryGet(out var hookItem))
             {

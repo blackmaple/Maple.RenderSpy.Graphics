@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_DrawPrimitiveUP_83.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, uint, nint, uint, D3D9DrawPrimitiveUPHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, uint, nint, uint, D3D9DrawPrimitiveUPHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9DrawPrimitiveUPHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,13 +27,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, uint, nint, uint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, D3DPRIMITIVETYPE, uint, nint, uint, COM_HRESULT>
                 _proc = &Hook_DrawPrimitiveUP;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_DrawPrimitiveUP(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DPRIMITIVETYPE PrimitiveType, uint PrimitiveCount, nint pVertexStreamZeroData, uint VertexStreamZeroStride)
+        private static COM_HRESULT Hook_DrawPrimitiveUP(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, D3DPRIMITIVETYPE PrimitiveType, uint PrimitiveCount, nint pVertexStreamZeroData, uint VertexStreamZeroStride)
         {
             if (D3D9DrawPrimitiveUPHookItem.TryGet(out var hookItem))
             {
