@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetFVF_89.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetFVFHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, COM_HRESULT>
                 _proc = &Hook_SetFVF;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetFVF(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint FVF)
+        private static COM_HRESULT Hook_SetFVF(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint FVF)
         {
             if (D3D9SetFVFHookItem.TryGet(out var hookItem))
             {

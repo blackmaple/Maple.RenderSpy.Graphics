@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_DrawRectPatch_115.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, nint, uint, nint, D3D9DrawRectPatchHookItem, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeRef<float>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DRECTPATCH_INFO>, D3D9DrawRectPatchHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9DrawRectPatchHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,21 +26,21 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, nint, nint, uint, nint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, Maple.UnmanagedExtensions.UnsafeRef<float>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DRECTPATCH_INFO>, COM_HRESULT>
                 _proc = &Hook_DrawRectPatch;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_DrawRectPatch(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Handle, nint pNumSegs, nint pRectPatchInfo, uint Flags, nint pTriangleFanIndices)
+        private static COM_HRESULT Hook_DrawRectPatch(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Handle, Maple.UnmanagedExtensions.UnsafeRef<float> pNumSegs, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DRECTPATCH_INFO> pRectPatchInfo)
         {
             if (D3D9DrawRectPatchHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, Handle, pNumSegs, pRectPatchInfo, Flags, pTriangleFanIndices, hookItem);
+                    return hookItem.SyncCallback.Invoke(@this, Handle, pNumSegs, pRectPatchInfo, hookItem);
                 }
-                return hookItem.OriginalMethod.Invoke(@this, Handle, pNumSegs, pRectPatchInfo, Flags, pTriangleFanIndices);
+                return hookItem.OriginalMethod.Invoke(@this, Handle, pNumSegs, pRectPatchInfo);
             }
             return 0;
         }

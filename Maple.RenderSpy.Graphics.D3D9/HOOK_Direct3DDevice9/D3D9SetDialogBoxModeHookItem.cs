@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetDialogBoxMode_20.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetDialogBoxModeHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, COM_HRESULT>
                 _proc = &Hook_SetDialogBoxMode;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_SetDialogBoxMode(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, int bEnableDialogs)
+        private static COM_HRESULT Hook_SetDialogBoxMode(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, int bEnableDialogs)
         {
             if (D3D9SetDialogBoxModeHookItem.TryGet(out var hookItem))
             {

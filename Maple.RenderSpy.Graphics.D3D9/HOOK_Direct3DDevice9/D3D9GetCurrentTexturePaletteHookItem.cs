@@ -1,6 +1,7 @@
 ﻿using Maple.Hook.Abstractions;
 using Maple.RenderSpy.Graphics.D3D;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
+using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -10,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_GetCurrentTexturePalette_74.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<int>, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetCurrentTexturePaletteHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +27,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<int>, COM_HRESULT>
                 _proc = &Hook_GetCurrentTexturePalette;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_GetCurrentTexturePalette(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pPaletteNumber)
+        private static COM_HRESULT Hook_GetCurrentTexturePalette(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, UnsafeRef<int> pPaletteNumber)
         {
             if (D3D9GetCurrentTexturePaletteHookItem.TryGet(out var hookItem))
             {

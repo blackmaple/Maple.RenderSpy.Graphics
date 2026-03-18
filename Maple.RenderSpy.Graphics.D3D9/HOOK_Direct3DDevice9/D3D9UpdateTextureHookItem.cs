@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_UpdateTexture_31.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, uint, uint, uint, int>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, D3D9UpdateTextureHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9UpdateTextureHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,21 +26,21 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, uint, uint, uint, int>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, nint, COM_HRESULT>
                 _proc = &Hook_UpdateTexture;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static int Hook_UpdateTexture(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pSourceTexture, nint pDestinationTexture, uint SourceLevel, uint SourceBox, uint DestPoint)
+        private static COM_HRESULT Hook_UpdateTexture(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, nint pSourceTexture, nint pDestinationTexture)
         {
             if (D3D9UpdateTextureHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pSourceTexture, pDestinationTexture, SourceLevel, SourceBox, DestPoint);
+                    return hookItem.SyncCallback.Invoke(@this, pSourceTexture, pDestinationTexture, hookItem);
                 }
-                return hookItem.OriginalMethod.Invoke(@this, pSourceTexture, pDestinationTexture, SourceLevel, SourceBox, DestPoint);
+                return hookItem.OriginalMethod.Invoke(@this, pSourceTexture, pDestinationTexture);
             }
             return 0;
         }
