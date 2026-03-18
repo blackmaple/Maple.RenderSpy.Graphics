@@ -20,18 +20,6 @@ namespace Maple.RenderSpy.Graphics
     }
 
 
-    public interface IRenderSpyGraphicsHookFactory
-    {
-        T Create<T>() where T : IRenderSpyGraphicsHookItem;
-
-    }
-
-
-    public interface IRenderSpyGraphicsHookItem
-    {
-        bool Enable();
-        bool Remove();
-    }
 
 
   

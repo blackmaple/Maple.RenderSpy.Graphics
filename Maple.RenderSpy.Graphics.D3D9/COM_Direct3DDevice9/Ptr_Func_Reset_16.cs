@@ -9,14 +9,15 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     /// 封装 IDirect3DDevice9::Reset 函数指针 (VTable 索引 16)
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_Reset_16(nint ptr): Maple.Hook.Abstractions.IHookMethod
+    public readonly unsafe struct Ptr_Func_Reset_16(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT> _proc = 
-            (delegate* unmanaged[Stdcall]< COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT>)ptr;
+        
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT> _proc = 
+            (delegate* unmanaged[Stdcall]< COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>)ptr;
 
         public const string Name = "Reset";
 
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, UnsafeRef<D3DPRESENT_PARAMETERS> pPresentationParameters) => _proc(pThis, pPresentationParameters);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, nint pPresentationParameters) => _proc(pThis, pPresentationParameters);
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

@@ -13,7 +13,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
 
 
-    internal class D3D9EndSceneHookItem : HookItem<D3D9EndSceneHookItem, Ptr_Func_EndScene_42, Ptr_Func_EndScene_42>, IHookItemFactory<D3D9EndSceneHookItem>
+    public class D3D9EndSceneHookItem : HookItem<D3D9EndSceneHookItem, Ptr_Func_EndScene_42, Ptr_Func_EndScene_42>, IHookItemFactory<D3D9EndSceneHookItem>
     {
         public const string MethodName = Ptr_Func_EndScene_42.Name;
 

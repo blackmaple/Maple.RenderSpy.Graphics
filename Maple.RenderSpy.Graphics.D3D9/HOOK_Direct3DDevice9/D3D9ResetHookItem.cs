@@ -8,11 +8,11 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9ResetHookItem : HookItem<D3D9ResetHookItem, Ptr_Func_Reset_16, Ptr_Func_Reset_16>, IHookItemFactory<D3D9ResetHookItem>
+    public class D3D9ResetHookItem : HookItem<D3D9ResetHookItem, Ptr_Func_Reset_16, Ptr_Func_Reset_16>, IHookItemFactory<D3D9ResetHookItem>
     {
         public const string MethodName = Ptr_Func_Reset_16.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9ResetHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
