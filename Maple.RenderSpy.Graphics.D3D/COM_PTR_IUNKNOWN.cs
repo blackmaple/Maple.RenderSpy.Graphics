@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Maple.UnmanagedExtensions;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 namespace Maple.RenderSpy.Graphics.D3D
 {
@@ -15,7 +16,7 @@ namespace Maple.RenderSpy.Graphics.D3D
 
         public readonly ref COM_IUNKNOWN_VTABLE VTable => ref IUNKNOWN.VTable;
 
-        public readonly override string ToString()
+        public readonly override string? ToString()
         {
             return PTR_IUNKNOWN.ToString();
         }
@@ -32,7 +33,7 @@ namespace Maple.RenderSpy.Graphics.D3D
         {
         }
 
-        public static implicit operator COM_PTR_IUNKNOWN(COM_PTR_IUNKNOWN<T> value) => new(value.PTR_IUNKNOWN.Ptr);
+        public static implicit operator COM_PTR_IUNKNOWN(COM_PTR_IUNKNOWN<T> value) => new (value.PTR_IUNKNOWN.Pointer);
 
         public readonly ref COM_IUNKNOWN<T> IUNKNOWN => ref PTR_IUNKNOWN.Raw;
 
@@ -40,7 +41,7 @@ namespace Maple.RenderSpy.Graphics.D3D
         public readonly COM_IUNKNOWN_VTABLE IUnknown_VTable => VTable.IUnknown_VTable;
         public readonly T Interface_VTable => VTable.Interface_VTable;
 
-        public readonly override string ToString()
+        public readonly override string? ToString()
         {
             return PTR_IUNKNOWN.ToString();
         }

@@ -12,6 +12,7 @@
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
+  <Project Path="Maple.RenderSpy.Graphics.D3DEX/Maple.RenderSpy.Graphics.D3DEX.csproj" Id="7cf7925a-9df8-4f4e-8c22-41ef15907412" />
   <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />

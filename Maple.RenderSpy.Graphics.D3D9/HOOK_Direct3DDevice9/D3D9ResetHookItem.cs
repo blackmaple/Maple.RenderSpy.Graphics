@@ -12,7 +12,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_Reset_16.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, nint, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafePtr, D3D9ResetHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9ResetHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -41,7 +41,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pPresentationParameters);
+                    return hookItem.SyncCallback.Invoke(@this, pPresentationParameters, hookItem);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pPresentationParameters);
             }

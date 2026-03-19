@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Maple.UnmanagedExtensions;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 namespace Maple.RenderSpy.Graphics.D3D
 {
