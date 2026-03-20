@@ -12,12 +12,12 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     public readonly unsafe struct Ptr_Func_Reset_16(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
         
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT> _proc = 
-            (delegate* unmanaged[Stdcall]< COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT> _proc = 
+            (delegate* unmanaged[Stdcall]< COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, UnsafeRef<D3DPRESENT_PARAMETERS>, COM_HRESULT>)ptr;
 
         public const string Name = "Reset";
 
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> pThis, UnsafePtr pPresentationParameters) => _proc(pThis, pPresentationParameters.GetUnsafeRef<D3DPRESENT_PARAMETERS>());
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> pThis, UnsafePtr pPresentationParameters) => _proc(pThis, pPresentationParameters.GetUnsafeRef<D3DPRESENT_PARAMETERS>());
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

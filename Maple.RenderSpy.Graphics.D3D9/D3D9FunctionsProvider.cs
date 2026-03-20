@@ -1,10 +1,11 @@
 using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.D3D.TempWindow;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
-using Maple.RenderSpy.Graphics.D3D9.TempWindow;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9
@@ -14,14 +15,15 @@ namespace Maple.RenderSpy.Graphics.D3D9
     {
         public Dictionary<string, nint> Functions { get; } = [];
 
-        public static IRenderSpyGraphicsFunctionsProvider Create(D3D9TempWindowFactory tempWindowFactory)
+        public static IRenderSpyGraphicsFunctionsProvider Create(D3DTempWindowFactory tempWindowFactory)
         {
             using var ptr_com = Direct3DCreate9(PInvoke.D3D_SDK_VERSION);
             using var frm = tempWindowFactory.Create();
+            HWND hWnd = new(frm.Handle);
             var createStatus = ptr_com.Interface_VTable.CreateDevice_16.Invoke(ptr_com,
                         PInvoke.D3DADAPTER_DEFAULT,
                     D3DDEVTYPE.D3DDEVTYPE_NULLREF,
-                    frm,
+                    hWnd,
                     PInvoke.D3DCREATE_SOFTWARE_VERTEXPROCESSING | PInvoke.D3DCREATE_DISABLE_DRIVER_MANAGEMENT,
                     new D3DPRESENT_PARAMETERS()
                     {
@@ -31,7 +33,7 @@ namespace Maple.RenderSpy.Graphics.D3D9
                         BackBufferCount = 0,
                         MultiSampleType = D3DMULTISAMPLE_TYPE.D3DMULTISAMPLE_NONE,
                         SwapEffect = D3DSWAPEFFECT.D3DSWAPEFFECT_DISCARD,
-                        hDeviceWindow = frm,
+                        hDeviceWindow = hWnd,
                         Windowed = true,
                         EnableAutoDepthStencil = false,
                         AutoDepthStencilFormat = D3DFORMAT.D3DFMT_UNKNOWN,
@@ -182,7 +184,7 @@ namespace Maple.RenderSpy.Graphics.D3D9
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
         [LibraryImport(LibraryName, EntryPoint = EntryPoint)]
-        internal static partial COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3D9> Direct3DCreate9(uint SDKVersion);
+        internal static partial COM_PTR_IUNKNOWN<Direct3D9Imp> Direct3DCreate9(uint SDKVersion);
 
     }
 }

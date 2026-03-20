@@ -12,7 +12,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_CreateCubeTexture_25.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, uint, uint,   D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateCubeTextureHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, uint, uint,   D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateCubeTextureHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9CreateCubeTextureHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -29,7 +29,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
         private static unsafe nint GetHookMethodPointer()
         {
             delegate* unmanaged[Stdcall]<
-                COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, 
+                COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, 
                 uint, uint, uint,  
                 D3DFORMAT, D3DPOOL, 
                 Maple.UnmanagedExtensions.UnsafeOut<nint>,
@@ -41,7 +41,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
         private static COM_HRESULT Hook_CreateCubeTexture(
-            COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, 
+            COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, 
             uint EdgeLength, uint Levels, uint Usage, 
             D3DFORMAT Format, D3DPOOL Pool, 
             Maple.UnmanagedExtensions.UnsafeOut<nint> ppCubeTexture, 

@@ -8,11 +8,11 @@
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
+  <Project Path="Maple.RenderSpy.Graphics.D3D10/Maple.RenderSpy.Graphics.D3D10.csproj" Id="9084527e-8724-4a75-a0b6-55a424b4ed9a" />
   <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
-  <Project Path="Maple.RenderSpy.Graphics.D3DEX/Maple.RenderSpy.Graphics.D3DEX.csproj" Id="7cf7925a-9df8-4f4e-8c22-41ef15907412" />
   <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />

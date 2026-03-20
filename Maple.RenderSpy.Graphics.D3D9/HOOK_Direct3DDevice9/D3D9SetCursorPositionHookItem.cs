@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetCursorPosition_11.Name;
 
-        public Action<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int, uint>? SyncCallback { get; set; }
+        public Action<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, int, int, uint>? SyncCallback { get; set; }
 
         public static D3D9SetCursorPositionHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, int, int, uint, void>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, int, int, uint, void>
                 _proc = &Hook_SetCursorPosition;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static void Hook_SetCursorPosition(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, int X, int Y, uint Flags)
+        private static void Hook_SetCursorPosition(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, int X, int Y, uint Flags)
         {
             if (D3D9SetCursorPositionHookItem.TryGet(out var hookItem))
             {

@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_GetAvailableTextureMem_4.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint>? SyncCallback { get; set; }
 
         public static D3D9GetAvailableTextureMemHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint>
                 _proc = &Hook_GetAvailableTextureMem;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static uint Hook_GetAvailableTextureMem(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this)
+        private static uint Hook_GetAvailableTextureMem(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this)
         {
             if (D3D9GetAvailableTextureMemHookItem.TryGet(out var hookItem))
             {

@@ -6,13 +6,13 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Maple.RenderSpy.Graphics.D3D9.TempWindow
+namespace Maple.RenderSpy.Graphics.D3D.TempWindow
 {
-    internal unsafe sealed class D3D9TempWindowFactory : IDisposable
+    public unsafe sealed class D3DTempWindowFactory : IDisposable
     {
         nint _ClassNamePointer;
         WNDCLASSEXW _WNDCLASSEX;
-        public D3D9TempWindowFactory()
+        public D3DTempWindowFactory()
         {
             var className = Guid.NewGuid().ToString("N");
             _ClassNamePointer = Marshal.StringToHGlobalUni(className);
@@ -41,7 +41,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.TempWindow
             return PInvoke.DefWindowProc(hWnd, uMsg, wParam, lParam);
         }
 
-        public D3D9TempWindow Create()
+        public D3DTempWindow Create()
         {
             var hwnd = PInvoke.CreateWindowEx(
                 WINDOW_EX_STYLE.WS_EX_LEFT,
@@ -52,7 +52,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.TempWindow
                   HMENU.Null,
                   _WNDCLASSEX.hInstance,
                   default);
-            return new D3D9TempWindow(hwnd);
+            return new D3DTempWindow(hwnd);
         }
 
         public void Dispose()

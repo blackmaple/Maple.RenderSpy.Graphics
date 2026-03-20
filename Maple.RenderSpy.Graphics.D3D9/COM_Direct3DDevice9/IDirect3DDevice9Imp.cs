@@ -6,7 +6,7 @@ using System.Text;
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct COM_INTERFACE_Direct3DDevice9
+    public unsafe struct IDirect3DDevice9Imp
     {
         internal Ptr_Func_TestCooperativeLevel_3 TestCooperativeLevel_3;
         internal Ptr_Func_GetAvailableTextureMem_4 GetAvailableTextureMem_4;

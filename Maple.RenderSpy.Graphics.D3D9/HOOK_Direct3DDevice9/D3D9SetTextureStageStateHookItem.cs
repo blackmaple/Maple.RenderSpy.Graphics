@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetTextureStageState_67.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DTEXTURESTAGESTATETYPE, uint, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, D3DTEXTURESTAGESTATETYPE, uint, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetTextureStageStateHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -27,13 +27,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, uint, D3DTEXTURESTAGESTATETYPE, uint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, D3DTEXTURESTAGESTATETYPE, uint, COM_HRESULT>
                 _proc = &Hook_SetTextureStageState;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_SetTextureStageState(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, uint Stage, D3DTEXTURESTAGESTATETYPE Type, uint Value)
+        private static COM_HRESULT Hook_SetTextureStageState(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, uint Stage, D3DTEXTURESTAGESTATETYPE Type, uint Value)
         {
             if (D3D9SetTextureStageStateHookItem.TryGet(out var hookItem))
             {

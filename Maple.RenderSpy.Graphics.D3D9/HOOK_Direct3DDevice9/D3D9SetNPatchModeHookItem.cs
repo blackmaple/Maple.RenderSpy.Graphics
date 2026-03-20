@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_SetNPatchMode_79.Name;
 
-        public Func<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, float, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, float, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9SetNPatchModeHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {
@@ -26,13 +26,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9>, float, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, float, COM_HRESULT>
                 _proc = &Hook_SetNPatchMode;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_SetNPatchMode(COM_PTR_IUNKNOWN<COM_INTERFACE_Direct3DDevice9> @this, float nSegments)
+        private static COM_HRESULT Hook_SetNPatchMode(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, float nSegments)
         {
             if (D3D9SetNPatchModeHookItem.TryGet(out var hookItem))
             {
