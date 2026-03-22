@@ -18,7 +18,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
 {
     public partial class D3D10FunctionsProvider : IRenderSpyGraphicsFunctionsProvider
     {
-        public Dictionary<string, nint> Functions => [];
+        public Dictionary<string, nint> Functions { get; } = [];
 
 
         public static IRenderSpyGraphicsFunctionsProvider Create(D3DTempWindowFactory windowFactory)

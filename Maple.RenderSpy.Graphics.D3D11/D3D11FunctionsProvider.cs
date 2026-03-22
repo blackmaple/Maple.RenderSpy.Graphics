@@ -2,6 +2,7 @@ using Maple.RenderSpy.Graphics;
 using Maple.RenderSpy.Graphics.D3D;
 using Maple.RenderSpy.Graphics.D3D.TempWindow;
 using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11DeviceContext;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGIAdapter;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGIDevice;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory;
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Direct3D;
 using Windows.Win32.Graphics.Direct3D11;
 using Windows.Win32.Graphics.Dxgi;
 using Windows.Win32.Graphics.Dxgi.Common;
@@ -18,11 +20,13 @@ namespace Maple.RenderSpy.Graphics.D3D11
 {
     public partial class D3D11FunctionsProvider : IRenderSpyGraphicsFunctionsProvider
     {
-        public Dictionary<string, nint> Functions => [];
+        public Dictionary<string, nint> Functions { get; }= [];
 
 
         public static IRenderSpyGraphicsFunctionsProvider Create(D3DTempWindowFactory windowFactory)
         {
+          
+
             using var pDevice = CreateID3D11DeviceImp();
             using var pDXGIDevice = CreateIDXGIDeviceImp(pDevice);
             using var pAdapter = CreateIDXGIAdapterImp(pDXGIDevice);
@@ -53,13 +57,22 @@ namespace Maple.RenderSpy.Graphics.D3D11
 
         }
 
-        private static COM_PTR_IUNKNOWN<ID3D11DeviceImp> CreateID3D11DeviceImp()
+        private static COM_PTR_IUNKNOWN<ID3D11DeviceImp>  CreateID3D11DeviceImp()
         {
+
             var hResult = D3D11CreateDevice(
                 default,
                 D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
-                Windows.Win32.Foundation.HMODULE.Null
-                , default, PInvoke.D3D11_SDK_VERSION, UnsafeOut<COM_PTR_IUNKNOWN<ID3D11DeviceImp>>.FromOut(out var ppDevice));
+                Windows.Win32.Foundation.HMODULE.Null,
+                default,
+                default, 0U,
+                PInvoke.D3D11_SDK_VERSION,
+
+                UnsafeOut<COM_PTR_IUNKNOWN<ID3D11DeviceImp>>.FromOut(out var ppDevice),
+                new UnsafePtr<D3D_FEATURE_LEVEL>(nint.Zero),
+                new UnsafePtr<COM_PTR_IUNKNOWN<ID3D11DeviceContextImp>>(nint.Zero)
+
+                );
 
             if (hResult.Failed)
             {
@@ -78,6 +91,7 @@ namespace Maple.RenderSpy.Graphics.D3D11
         }
         private static COM_PTR_IUNKNOWN<IDXGIAdapterImp> CreateIDXGIAdapterImp(COM_PTR_IUNKNOWN<IDXGIDeviceImp> pDXGIDevice)
         {
+          
             var hResult = pDXGIDevice.Interface_VTable.GetAdapter_7.Invoke(pDXGIDevice, out var pAdapter);
             if (hResult.Failed)
             {
@@ -125,12 +139,35 @@ namespace Maple.RenderSpy.Graphics.D3D11
             return ppSwapChain;
         }
 
+
+        //internal static unsafe winmdroot.Foundation.HRESULT D3D11CreateDevice(
+        //    [Optional] winmdroot.Graphics.Dxgi.IDXGIAdapter pAdapter, 
+        //    winmdroot.Graphics.Direct3D.D3D_DRIVER_TYPE DriverType, 
+        //    [Optional] winmdroot.Foundation.HMODULE Software, 
+        //    winmdroot.Graphics.Direct3D11.D3D11_CREATE_DEVICE_FLAG Flags, 
+        //    [Optional] ReadOnlySpan<winmdroot.Graphics.Direct3D.D3D_FEATURE_LEVEL> pFeatureLevels, 
+        //    uint SDKVersion, 
+        //    out winmdroot.Graphics.Direct3D11.ID3D11Device ppDevice, 
+        //    out winmdroot.Graphics.Direct3D.D3D_FEATURE_LEVEL pFeatureLevel, 
+        //    out winmdroot.Graphics.Direct3D11.ID3D11DeviceContext ppImmediateContext)
+
         const string LibraryName = "d3d11.dll";
         const string EntryPoint = "D3D11CreateDevice";
+
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
         [LibraryImport(LibraryName, EntryPoint = EntryPoint)]
-        internal static partial Windows.Win32.Foundation.HRESULT D3D11CreateDevice(nint pAdapter, D3D_DRIVER_TYPE DriverType, Windows.Win32.Foundation.HMODULE Software, uint Flags, uint SDKVersion, UnsafeOut<COM_PTR_IUNKNOWN<ID3D11DeviceImp>> ppDevice);
+        private static unsafe partial HRESULT D3D11CreateDevice(
+            nint pAdapter,
+            D3D_DRIVER_TYPE DriverType,
+            HMODULE Software,
+            D3D11_CREATE_DEVICE_FLAG Flags,
+            UnsafeIn<D3D_FEATURE_LEVEL> pFeatureLevels,
+            uint FeatureLevels,
+            uint SDKVersion,
+            UnsafeOut<COM_PTR_IUNKNOWN<ID3D11DeviceImp>> ppDevice,
+            UnsafeOut<D3D_FEATURE_LEVEL> pFeatureLevel,
+            UnsafeOut<COM_PTR_IUNKNOWN<ID3D11DeviceContextImp>> ppImmediateContext);
 
     }
 

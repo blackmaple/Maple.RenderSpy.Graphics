@@ -17,6 +17,8 @@ namespace Maple.RenderSpy.Graphics
             Functions.Remove(functionName, out _);
             return Functions.TryAdd(functionName, functionPtr);
         }
+
+        //static IRenderSpyGraphicsFunctionsProvider Create() { get;
     }
 
 
