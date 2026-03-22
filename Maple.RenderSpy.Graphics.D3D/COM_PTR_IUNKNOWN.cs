@@ -46,6 +46,9 @@ namespace Maple.RenderSpy.Graphics.D3D
             return PTR_IUNKNOWN.ToString();
         }
 
+        public readonly COM_HRESULT QueryInterface<TSub>(in Guid riid, out COM_PTR_IUNKNOWN<TSub> ppvObject)
+            where TSub : unmanaged
+            => this.VTable.IUnknown_VTable.QueryInterface_0.Invoke(this, in riid, out ppvObject);
         public readonly void Dispose()
         {
             this.IUnknown_VTable.Release_2.Invoke(this);

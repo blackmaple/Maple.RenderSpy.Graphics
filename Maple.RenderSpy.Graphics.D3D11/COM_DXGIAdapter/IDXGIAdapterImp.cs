@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIAdapter
+{
+
+    [StructLayout(LayoutKind.Sequential)]
+    public readonly struct IDXGIAdapterImp
+    {
+        internal readonly Ptr_Func_SetPrivateData_3 SetPrivateData_3;
+        internal readonly Ptr_Func_SetPrivateDataInterface_4 SetPrivateDataInterface_4;
+        internal readonly Ptr_Func_GetPrivateData_5 GetPrivateData_5;
+        internal readonly Ptr_Func_GetParent_6 GetParent_6;
+        internal readonly Ptr_Func_EnumOutputs_7 EnumOutputs_7;
+        internal readonly Ptr_Func_GetDesc_8 GetDesc_8;
+        internal readonly Ptr_Func_CheckInterfaceSupport_9 CheckInterfaceSupport_9;
+    }
+
+    /*
+         public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;
+    public delegate* unmanaged[MemberFunction]<void*, uint> AddRef_1;
+    public delegate* unmanaged[MemberFunction]<void*, uint> Release_2;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::System.Guid*, uint, void*, int> SetPrivateData_3;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::System.Guid*, void*, int> SetPrivateDataInterface_4;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::System.Guid*, uint*, void*, int> GetPrivateData_5;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::System.Guid*, void**, int> GetParent_6;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, uint, void**, int> EnumOutputs_7;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::Windows.Win32.Graphics.Dxgi.DXGI_ADAPTER_DESC*, int> GetDesc_8;
+    public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::System.Guid*, long*, int> CheckInterfaceSupport_9;
+
+     */
+}

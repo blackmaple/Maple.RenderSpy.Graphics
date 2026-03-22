@@ -1,16 +1,7 @@
-﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
-using Maple.RenderSpy.Graphics.D3D.TempWindow;
-using Maple.RenderSpy.Graphics.D3D9;
-using Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9;
+﻿using Maple.RenderSpy.Graphics.D3D.TempWindow;
 using Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9;
-using Maple.UnmanagedExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Runtime.InteropServices.Marshalling;
-using Windows.Win32;
-using Windows.Win32.Graphics.Direct3D;
-using Windows.Win32.Graphics.Direct3D9;
 
 
 namespace Maple.RenderSpy.Graphics.D3D9

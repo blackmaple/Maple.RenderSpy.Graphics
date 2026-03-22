@@ -4,7 +4,7 @@ using Windows.Win32.Graphics.Direct3D9;
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal unsafe struct Direct3D9Imp
+    internal unsafe struct IDirect3D9Imp
     {
         public Ptr_Func_RegisterSoftwareDevice_3 RegisterSoftwareDevice_3;
         public Ptr_Func_GetAdapterCount_4 GetAdapterCount_4;

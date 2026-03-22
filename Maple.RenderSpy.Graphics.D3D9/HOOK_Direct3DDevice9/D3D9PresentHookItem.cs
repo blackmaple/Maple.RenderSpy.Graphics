@@ -13,7 +13,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_Present_17.Name;
 
-        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, UnsafePtr, UnsafePtr, UnsafePtr, UnsafePtr, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, UnsafePtr, UnsafePtr, nint, UnsafePtr, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9PresentHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
         {

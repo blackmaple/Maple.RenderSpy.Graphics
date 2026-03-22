@@ -9,10 +9,13 @@
     <Platform Solution="*|x86" Project="x86" />
   </Project>
   <Project Path="Maple.RenderSpy.Graphics.D3D10/Maple.RenderSpy.Graphics.D3D10.csproj" Id="9084527e-8724-4a75-a0b6-55a424b4ed9a" />
+  <Project Path="Maple.RenderSpy.Graphics.D3D11/Maple.RenderSpy.Graphics.D3D11.csproj" Id="046ed683-e405-4bc7-9adb-87c3d2ab9460" />
   <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
+  <Project Path="Maple.RenderSpy.Graphics.OPENGL/Maple.RenderSpy.Graphics.OPENGL.csproj" Id="e4af967e-bdfd-462a-8173-eef17c6b1742" />
+  <Project Path="Maple.RenderSpy.Graphics.VULKAN/Maple.RenderSpy.Graphics.VULKAN.csproj" Id="ec1782ef-708f-4f33-bd75-7cda8596b087" />
   <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
