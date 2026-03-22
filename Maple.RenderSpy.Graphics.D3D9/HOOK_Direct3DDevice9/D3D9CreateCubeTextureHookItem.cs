@@ -1,20 +1,20 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Direct3D9;
 using Windows.Win32.Foundation;
+using Maple.RenderSpy.Graphics.COM;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateCubeTextureHookItem : HookItem<D3D9CreateCubeTextureHookItem,Ptr_Func_CreateCubeTexture_25, Ptr_Func_CreateCubeTexture_25>, IHookItemFactory<D3D9CreateCubeTextureHookItem>
+    internal class D3D9CreateCubeTextureHookItem : HookItem<D3D9CreateCubeTextureHookItem,Ptr_Func_CreateCubeTexture_25, Ptr_Func_CreateCubeTexture_25>, IGraphicsHookItem<D3D9CreateCubeTextureHookItem>
     {
         public const string MethodName = Ptr_Func_CreateCubeTexture_25.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, uint, uint,   D3DFORMAT, D3DPOOL, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateCubeTextureHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9CreateCubeTextureHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9CreateCubeTextureHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

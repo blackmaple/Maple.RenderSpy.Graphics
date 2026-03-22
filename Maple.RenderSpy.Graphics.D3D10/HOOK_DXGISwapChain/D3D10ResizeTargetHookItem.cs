@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -9,13 +9,13 @@ using Windows.Win32.Graphics.Dxgi.Common;
 
 namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
 {
-    internal class D3D10ResizeTargetHookItem : HookItem<D3D10ResizeTargetHookItem, Ptr_Func_ResizeTarget_14, Ptr_Func_ResizeTarget_14>, IHookItemFactory<D3D10ResizeTargetHookItem>
+    internal class D3D10ResizeTargetHookItem : HookItem<D3D10ResizeTargetHookItem, Ptr_Func_ResizeTarget_14, Ptr_Func_ResizeTarget_14>, IGraphicsHookItem<D3D10ResizeTargetHookItem>
     {
         public const string MethodName = Ptr_Func_ResizeTarget_14.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafePtr, D3D10ResizeTargetHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D10ResizeTargetHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D10ResizeTargetHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

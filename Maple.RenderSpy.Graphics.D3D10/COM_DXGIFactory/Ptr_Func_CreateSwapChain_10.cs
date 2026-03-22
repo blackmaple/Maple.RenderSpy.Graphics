@@ -1,4 +1,4 @@
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_D3D10Device;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;

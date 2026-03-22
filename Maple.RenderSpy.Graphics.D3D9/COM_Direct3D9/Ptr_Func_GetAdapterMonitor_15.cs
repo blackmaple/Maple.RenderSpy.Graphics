@@ -1,4 +1,4 @@
-﻿using Maple.RenderSpy.Graphics.D3D;
+﻿using Maple.RenderSpy.Graphics.COM;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9

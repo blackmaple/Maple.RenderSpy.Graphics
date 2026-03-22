@@ -1,15 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-namespace Maple.RenderSpy.Graphics.D3D
+namespace Maple.RenderSpy.Graphics.COM
 {
-
     [StructLayout(LayoutKind.Sequential)]
-    public readonly unsafe struct Ptr_Func_AddRef(nint ptr) 
+    public readonly unsafe struct Ptr_Func_Release(nint ptr)
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, COM_HRESULT> _proc
+        public readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, COM_HRESULT> _proc
             = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN, COM_HRESULT>)ptr;
 
- 
         public readonly COM_HRESULT Invoke(COM_PTR_IUNKNOWN @this)
         {
             return _proc(@this);
@@ -22,4 +20,5 @@ namespace Maple.RenderSpy.Graphics.D3D
             return Pointer.ToString("X8");
         }
     }
+
 }

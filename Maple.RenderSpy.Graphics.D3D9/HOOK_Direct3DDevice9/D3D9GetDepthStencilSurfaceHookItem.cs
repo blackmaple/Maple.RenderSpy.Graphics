@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetDepthStencilSurfaceHookItem : HookItem<D3D9GetDepthStencilSurfaceHookItem, Ptr_Func_GetDepthStencilSurface_40, Ptr_Func_GetDepthStencilSurface_40>, IHookItemFactory<D3D9GetDepthStencilSurfaceHookItem>
+    internal class D3D9GetDepthStencilSurfaceHookItem : HookItem<D3D9GetDepthStencilSurfaceHookItem, Ptr_Func_GetDepthStencilSurface_40, Ptr_Func_GetDepthStencilSurface_40>, IGraphicsHookItem<D3D9GetDepthStencilSurfaceHookItem>
     {
         public const string MethodName = Ptr_Func_GetDepthStencilSurface_40.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, UnsafeOut<nint>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9GetDepthStencilSurfaceHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9GetDepthStencilSurfaceHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

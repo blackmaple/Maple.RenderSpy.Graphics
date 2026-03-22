@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 namespace Maple.RenderSpy.Graphics
 {
 
-    public interface IRenderSpyGraphicsFunctionsProvider
+    public abstract class GraphicsFunctionsProvider
     {
-        Dictionary<string, nint> Functions { get; }
+        protected Dictionary<string, nint> Functions { get; } = [];
         public bool TryGetGraphicsFunctions(string functionName, out nint functionPtr)
         {
             return Functions.TryGetValue(functionName, out functionPtr);
@@ -18,7 +18,8 @@ namespace Maple.RenderSpy.Graphics
             return Functions.TryAdd(functionName, functionPtr);
         }
 
-        //static IRenderSpyGraphicsFunctionsProvider Create() { get;
+       // public abstract static IGraphicsFunctionsProvider Create(TempWindow.D3DTempWindowFactory windowFactory) => default;
+    
     }
 
 

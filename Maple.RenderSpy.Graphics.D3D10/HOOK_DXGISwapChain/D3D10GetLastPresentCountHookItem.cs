@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
 {
-    internal class D3D10GetLastPresentCountHookItem : HookItem<D3D10GetLastPresentCountHookItem, Ptr_Func_GetLastPresentCount_17, Ptr_Func_GetLastPresentCount_17>, IHookItemFactory<D3D10GetLastPresentCountHookItem>
+    internal class D3D10GetLastPresentCountHookItem : HookItem<D3D10GetLastPresentCountHookItem, Ptr_Func_GetLastPresentCount_17, Ptr_Func_GetLastPresentCount_17>, IGraphicsHookItem<D3D10GetLastPresentCountHookItem>
     {
         public const string MethodName = Ptr_Func_GetLastPresentCount_17.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeOut<uint>, D3D10GetLastPresentCountHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D10GetLastPresentCountHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D10GetLastPresentCountHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

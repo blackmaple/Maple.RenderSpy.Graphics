@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
-namespace Maple.RenderSpy.Graphics.D3D
+namespace Maple.RenderSpy.Graphics.COM
 {
 
     [StructLayout(LayoutKind.Sequential)]

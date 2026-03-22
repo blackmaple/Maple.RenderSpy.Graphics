@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,13 +7,13 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetViewportHookItem : HookItem<D3D9SetViewportHookItem, Ptr_Func_SetViewport_47, Ptr_Func_SetViewport_47>, IHookItemFactory<D3D9SetViewportHookItem>
+    internal class D3D9SetViewportHookItem : HookItem<D3D9SetViewportHookItem, Ptr_Func_SetViewport_47, Ptr_Func_SetViewport_47>, IGraphicsHookItem<D3D9SetViewportHookItem>
     {
         public const string MethodName = Ptr_Func_SetViewport_47.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DVIEWPORT9>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9SetViewportHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9SetViewportHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

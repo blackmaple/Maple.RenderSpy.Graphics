@@ -1,18 +1,18 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9ShowCursorHookItem : HookItem<D3D9ShowCursorHookItem, Ptr_Func_ShowCursor_12, Ptr_Func_ShowCursor_12>, IHookItemFactory<D3D9ShowCursorHookItem>
+    internal class D3D9ShowCursorHookItem : HookItem<D3D9ShowCursorHookItem, Ptr_Func_ShowCursor_12, Ptr_Func_ShowCursor_12>, IGraphicsHookItem<D3D9ShowCursorHookItem>
     {
         public const string MethodName = Ptr_Func_ShowCursor_12.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, int, int>? SyncCallback { get; set; }
 
-        public static D3D9ShowCursorHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9ShowCursorHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

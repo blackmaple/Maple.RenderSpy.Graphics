@@ -1,13 +1,14 @@
 using Maple.RenderSpy.Graphics;
-using Maple.RenderSpy.Graphics.D3D;
-using Maple.RenderSpy.Graphics.D3D.TempWindow;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device;
 using Maple.RenderSpy.Graphics.D3D11.COM_D3D11DeviceContext;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGIAdapter;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGIDevice;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory;
 using Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain;
+using Maple.RenderSpy.Graphics.TempWindow;
 using Maple.UnmanagedExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
@@ -18,14 +19,14 @@ using Windows.Win32.Graphics.Dxgi;
 using Windows.Win32.Graphics.Dxgi.Common;
 namespace Maple.RenderSpy.Graphics.D3D11
 {
-    public partial class D3D11FunctionsProvider : IRenderSpyGraphicsFunctionsProvider
+    internal partial class D3D11FunctionsProvider : GraphicsFunctionsProvider, IGraphicsFunctions<D3D11FunctionsProvider>
     {
-        public Dictionary<string, nint> Functions { get; }= [];
+        //     public Dictionary<string, nint> Functions { get; }= [];
 
 
-        public static IRenderSpyGraphicsFunctionsProvider Create(D3DTempWindowFactory windowFactory)
+        public static D3D11FunctionsProvider Create(IServiceProvider provider)
         {
-          
+            D3DTempWindowFactory windowFactory = provider.GetRequiredService<D3DTempWindowFactory>();
 
             using var pDevice = CreateID3D11DeviceImp();
             using var pDXGIDevice = CreateIDXGIDeviceImp(pDevice);
@@ -33,7 +34,7 @@ namespace Maple.RenderSpy.Graphics.D3D11
             using var pFactory = CreateIDXGIFactoryImp(pAdapter);
             using var pSwapChain = CreateIDXGISwapChainImp(pFactory, pDevice, windowFactory);
 
-            IRenderSpyGraphicsFunctionsProvider functions = new D3D11FunctionsProvider();
+            var functions = new D3D11FunctionsProvider();
             functions.TryAddGraphicsFunctions(COM_DXGISwapChain.Ptr_Func_SetPrivateData_3.Name, pSwapChain.Interface_VTable.SetPrivateData_3.PtrMethod);
             functions.TryAddGraphicsFunctions(COM_DXGISwapChain.Ptr_Func_SetPrivateDataInterface_4.Name, pSwapChain.Interface_VTable.SetPrivateDataInterface_4.PtrMethod);
             functions.TryAddGraphicsFunctions(COM_DXGISwapChain.Ptr_Func_GetPrivateData_5.Name, pSwapChain.Interface_VTable.GetPrivateData_5.PtrMethod);
@@ -57,7 +58,7 @@ namespace Maple.RenderSpy.Graphics.D3D11
 
         }
 
-        private static COM_PTR_IUNKNOWN<ID3D11DeviceImp>  CreateID3D11DeviceImp()
+        private static COM_PTR_IUNKNOWN<ID3D11DeviceImp> CreateID3D11DeviceImp()
         {
 
             var hResult = D3D11CreateDevice(
@@ -91,7 +92,7 @@ namespace Maple.RenderSpy.Graphics.D3D11
         }
         private static COM_PTR_IUNKNOWN<IDXGIAdapterImp> CreateIDXGIAdapterImp(COM_PTR_IUNKNOWN<IDXGIDeviceImp> pDXGIDevice)
         {
-          
+
             var hResult = pDXGIDevice.Interface_VTable.GetAdapter_7.Invoke(pDXGIDevice, out var pAdapter);
             if (hResult.Failed)
             {

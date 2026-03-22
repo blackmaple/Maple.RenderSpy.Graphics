@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -8,13 +8,13 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateAdditionalSwapChainHookItem : HookItem<D3D9CreateAdditionalSwapChainHookItem,Ptr_Func_CreateAdditionalSwapChain_13, Ptr_Func_CreateAdditionalSwapChain_13>, IHookItemFactory<D3D9CreateAdditionalSwapChainHookItem>
+    internal class D3D9CreateAdditionalSwapChainHookItem : HookItem<D3D9CreateAdditionalSwapChainHookItem,Ptr_Func_CreateAdditionalSwapChain_13, Ptr_Func_CreateAdditionalSwapChain_13>, IGraphicsHookItem<D3D9CreateAdditionalSwapChainHookItem>
     {
         public const string MethodName = Ptr_Func_CreateAdditionalSwapChain_13.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DPRESENT_PARAMETERS>, Maple.UnmanagedExtensions.UnsafeOut<nint>, D3D9CreateAdditionalSwapChainHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9CreateAdditionalSwapChainHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9CreateAdditionalSwapChainHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

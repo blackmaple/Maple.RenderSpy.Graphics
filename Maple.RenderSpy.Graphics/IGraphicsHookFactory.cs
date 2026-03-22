@@ -1,0 +1,22 @@
+﻿using Maple.Hook.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Maple.RenderSpy.Graphics
+{
+    internal class DefaultGraphicsHookFactory(IServiceProvider serviceProvider,IHookFactory hookFactory) : IGraphicsHookFactory
+    {
+        IHookFactory HookFactory { get; } = hookFactory;
+        IServiceProvider Provider { get; } = serviceProvider;
+        public T Create<T>(EnumGraphicsType graphicsType) where T : HookItem, IGraphicsHookItem<T>
+        {
+            var functionsProvider = Provider.GetRequiredKeyedService<GraphicsFunctionsProvider>(graphicsType);
+            return T.Create(this.HookFactory, functionsProvider);
+
+        }
+    }
+    public interface IGraphicsHookFactory
+    {
+        T Create<T>(EnumGraphicsType graphicsType) where T : HookItem, IGraphicsHookItem<T>;
+          
+    }
+}

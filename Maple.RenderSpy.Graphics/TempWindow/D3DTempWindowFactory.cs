@@ -6,7 +6,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Maple.RenderSpy.Graphics.D3D.TempWindow
+namespace Maple.RenderSpy.Graphics.TempWindow
 {
     public unsafe sealed class D3DTempWindowFactory : IDisposable
     {

@@ -1,18 +1,18 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9CreateVertexDeclarationHookItem : HookItem<D3D9CreateVertexDeclarationHookItem, Ptr_Func_CreateVertexDeclaration_86, Ptr_Func_CreateVertexDeclaration_86>, IHookItemFactory<D3D9CreateVertexDeclarationHookItem>
+    internal class D3D9CreateVertexDeclarationHookItem : HookItem<D3D9CreateVertexDeclarationHookItem, Ptr_Func_CreateVertexDeclaration_86, Ptr_Func_CreateVertexDeclaration_86>, IGraphicsHookItem<D3D9CreateVertexDeclarationHookItem>
     {
         public const string MethodName = Ptr_Func_CreateVertexDeclaration_86.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DVERTEXELEMENT9>, Maple.UnmanagedExtensions.UnsafeOut<nint>, D3D9CreateVertexDeclarationHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9CreateVertexDeclarationHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9CreateVertexDeclarationHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

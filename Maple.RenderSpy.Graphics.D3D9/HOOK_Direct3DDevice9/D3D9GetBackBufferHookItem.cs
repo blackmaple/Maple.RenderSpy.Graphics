@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -8,13 +8,13 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetBackBufferHookItem : HookItem<D3D9GetBackBufferHookItem, Ptr_Func_GetBackBuffer_18, Ptr_Func_GetBackBuffer_18>, IHookItemFactory<D3D9GetBackBufferHookItem>
+    internal class D3D9GetBackBufferHookItem : HookItem<D3D9GetBackBufferHookItem, Ptr_Func_GetBackBuffer_18, Ptr_Func_GetBackBuffer_18>, IGraphicsHookItem<D3D9GetBackBufferHookItem>
     {
         public const string MethodName = Ptr_Func_GetBackBuffer_18.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, uint, D3DBACKBUFFER_TYPE, UnsafeOut<nint>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9GetBackBufferHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9GetBackBufferHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

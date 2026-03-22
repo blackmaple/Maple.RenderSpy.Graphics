@@ -3,26 +3,34 @@ using Windows.Win32;
 
 namespace Maple.RenderSpy.Graphics.OPENGL
 {
-    public class OpenGLFunctionsProvider : IRenderSpyGraphicsFunctionsProvider
+    internal class OPENGLFunctionsProvider : GraphicsFunctionsProvider, IGraphicsFunctions<OPENGLFunctionsProvider>
     {
-        public Dictionary<string, nint> Functions => throw new NotImplementedException();
+       // public Dictionary<string, nint> Functions { get; } = [];
+
+
+        public static OPENGLFunctionsProvider Create(IServiceProvider _)
+        {
+            var proc = GetAddress();
+            var functionsProvider = new OPENGLFunctionsProvider();
+            functionsProvider.TryAddGraphicsFunctions(Ptr_Func_wglSwapBuffers.Name, proc);
+            return functionsProvider;
+        }
 
         const string LibraryName = "opengl32.dll";
         const string EntryPoint = "wglSwapBuffers";
-
-        public static IRenderSpyGraphicsFunctionsProvider Create()
+        private static nint GetAddress()
         {
-          var proc =   PInvoke.wglGetProcAddress("wglSwapBuffers");
-            if (proc == IntPtr.Zero) 
+            var proc = PInvoke.wglGetProcAddress(EntryPoint);
+            if (proc != IntPtr.Zero)
             {
-                if (NativeLibrary.TryLoad(LibraryName, out var dll))
-                {
-                    NativeLibrary.TryGetExport(dll, "wglSwapBuffers", out var address);
-                }
+                return proc;
             }
-             
+            if (NativeLibrary.TryLoad(LibraryName, out var handle) && NativeLibrary.TryGetExport(handle, EntryPoint, out var address))
+            {
+                return address;
+            }
+            return RenderSpyGraphicsException.Throw<nint>($"{nameof(GetAddress)} ERROR");
         }
-
 
 
 

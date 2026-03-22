@@ -5,19 +5,13 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<OutputType>Exe</OutputType>
 		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
-		<Platforms>AnyCPU;x64;x86</Platforms>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <AdditionalFiles Include="NativeMethods.txt">
-	    <Generator>MSBuild:Compile</Generator>
-	  </AdditionalFiles>
-	</ItemGroup>
+ 
 
 
 	<ItemGroup>
@@ -29,7 +23,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D\Maple.RenderSpy.Graphics.D3D.csproj" />
 		<ProjectReference Include="..\Maple.RenderSpy.Graphics\Maple.RenderSpy.Graphics.csproj" />
 	</ItemGroup>
 	<ItemGroup>

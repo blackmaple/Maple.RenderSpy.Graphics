@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,13 +7,13 @@ using Windows.Win32.Graphics.Dxgi;
 
 namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
 {
-    public class D3D10PresentHookItem : HookItem<D3D10PresentHookItem, Ptr_Func_Present_8, Ptr_Func_Present_8>, IHookItemFactory<D3D10PresentHookItem>
+    public class D3D10PresentHookItem : HookItem<D3D10PresentHookItem, Ptr_Func_Present_8, Ptr_Func_Present_8>, IGraphicsHookItem<D3D10PresentHookItem>
     {
         public const string MethodName = Ptr_Func_Present_8.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, D3D10PresentHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D10PresentHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D10PresentHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

@@ -6,7 +6,7 @@ using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-namespace Maple.RenderSpy.Graphics.D3D.TempWindow
+namespace Maple.RenderSpy.Graphics.TempWindow
 {
     public unsafe struct D3DTempWindow : IDisposable
     {

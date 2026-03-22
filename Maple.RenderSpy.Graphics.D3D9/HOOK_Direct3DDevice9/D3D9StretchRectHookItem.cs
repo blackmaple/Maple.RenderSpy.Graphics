@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -8,13 +8,13 @@ using Windows.Win32.Graphics.Gdi;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9StretchRectHookItem : HookItem<D3D9StretchRectHookItem, Ptr_Func_StretchRect_34, Ptr_Func_StretchRect_34>, IHookItemFactory<D3D9StretchRectHookItem>
+    internal class D3D9StretchRectHookItem : HookItem<D3D9StretchRectHookItem, Ptr_Func_StretchRect_34, Ptr_Func_StretchRect_34>, IGraphicsHookItem<D3D9StretchRectHookItem>
     {
         public const string MethodName = Ptr_Func_StretchRect_34.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, D3DTEXTUREFILTERTYPE, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9StretchRectHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9StretchRectHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

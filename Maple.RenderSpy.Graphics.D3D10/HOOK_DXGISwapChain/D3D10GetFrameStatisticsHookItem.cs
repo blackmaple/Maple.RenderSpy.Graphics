@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -8,13 +8,13 @@ using Windows.Win32.Graphics.Dxgi;
 
 namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
 {
-    internal class D3D10GetFrameStatisticsHookItem : HookItem<D3D10GetFrameStatisticsHookItem, Ptr_Func_GetFrameStatistics_16, Ptr_Func_GetFrameStatistics_16>, IHookItemFactory<D3D10GetFrameStatisticsHookItem>
+    internal class D3D10GetFrameStatisticsHookItem : HookItem<D3D10GetFrameStatisticsHookItem, Ptr_Func_GetFrameStatistics_16, Ptr_Func_GetFrameStatistics_16>, IGraphicsHookItem<D3D10GetFrameStatisticsHookItem>
     {
         public const string MethodName = Ptr_Func_GetFrameStatistics_16.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafePtr, D3D10GetFrameStatisticsHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D10GetFrameStatisticsHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D10GetFrameStatisticsHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

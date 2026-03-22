@@ -1,18 +1,18 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetIndicesHookItem : HookItem<D3D9SetIndicesHookItem, Ptr_Func_SetIndices_104, Ptr_Func_SetIndices_104>, IHookItemFactory<D3D9SetIndicesHookItem>
+    internal class D3D9SetIndicesHookItem : HookItem<D3D9SetIndicesHookItem, Ptr_Func_SetIndices_104, Ptr_Func_SetIndices_104>, IGraphicsHookItem<D3D9SetIndicesHookItem>
     {
         public const string MethodName = Ptr_Func_SetIndices_104.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9SetIndicesHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9SetIndicesHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

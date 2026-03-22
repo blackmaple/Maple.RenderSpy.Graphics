@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,13 +7,13 @@ using Windows.Win32.Foundation;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetPixelShaderConstantBHookItem : HookItem<D3D9GetPixelShaderConstantBHookItem, Ptr_Func_GetPixelShaderConstantB_114, Ptr_Func_GetPixelShaderConstantB_114>, IHookItemFactory<D3D9GetPixelShaderConstantBHookItem>
+    internal class D3D9GetPixelShaderConstantBHookItem : HookItem<D3D9GetPixelShaderConstantBHookItem, Ptr_Func_GetPixelShaderConstantB_114, Ptr_Func_GetPixelShaderConstantB_114>, IGraphicsHookItem<D3D9GetPixelShaderConstantBHookItem>
     {
         public const string MethodName = Ptr_Func_GetPixelShaderConstantB_114.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.BOOL>, uint, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9GetPixelShaderConstantBHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9GetPixelShaderConstantBHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

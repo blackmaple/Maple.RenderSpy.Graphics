@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,13 +7,13 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetSamplerStateHookItem : HookItem<D3D9SetSamplerStateHookItem, Ptr_Func_SetSamplerState_69, Ptr_Func_SetSamplerState_69>, IHookItemFactory<D3D9SetSamplerStateHookItem>
+    internal class D3D9SetSamplerStateHookItem : HookItem<D3D9SetSamplerStateHookItem, Ptr_Func_SetSamplerState_69, Ptr_Func_SetSamplerState_69>, IGraphicsHookItem<D3D9SetSamplerStateHookItem>
     {
         public const string MethodName = Ptr_Func_SetSamplerState_69.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, D3DSAMPLERSTATETYPE, uint, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9SetSamplerStateHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9SetSamplerStateHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

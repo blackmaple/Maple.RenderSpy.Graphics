@@ -1,7 +1,7 @@
-using Maple.RenderSpy.Graphics.D3D;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Direct3D9;
 using Windows.Win32.Foundation;
+using Maple.RenderSpy.Graphics.COM;
 
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {

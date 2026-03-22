@@ -1,4 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
+using Maple.RenderSpy.Graphics.TempWindow;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -9,24 +10,19 @@ namespace Maple.RenderSpy.Graphics
 {
     public static class RenderSpyGraphicsExtensions
     {
-        extension(IServiceProvider @this)
-        {
-            public T CreateHookItem<T>()
-                where T : HookItem, IHookItemFactory<T>
-
-            {
-                var hookFactory = @this.GetRequiredService<IHookFactory>();
-                var functionsProvider = @this.GetRequiredKeyedService<IRenderSpyGraphicsFunctionsProvider>(EnumGraphicsType.D3D9);
-                return T.Create(hookFactory, functionsProvider);
-            }
-        }
-
         extension(IServiceCollection @this)
         {
-            public IServiceCollection TryAddSingletonHookItem<T>()
-                 where T : HookItem, IHookItemFactory<T>
+            public IServiceCollection AddGraphicsHookFactory()
             {
-                @this.TryAddSingleton(CreateHookItem<T>);
+                @this.TryAddSingleton<D3DTempWindowFactory>();
+                @this.TryAddSingleton<IGraphicsHookFactory, DefaultGraphicsHookFactory>();
+                return @this;
+            }
+
+            public IServiceCollection AddGraphicsFunctionsProvider<T>(EnumGraphicsType graphicsType)
+                where T : GraphicsFunctionsProvider, IGraphicsFunctions<T>
+            {
+                @this.AddKeyedSingleton<GraphicsFunctionsProvider>(graphicsType, (p, key) => T.Create(p));
                 return @this;
             }
 

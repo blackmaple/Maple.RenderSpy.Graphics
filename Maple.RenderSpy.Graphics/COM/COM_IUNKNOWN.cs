@@ -1,7 +1,7 @@
 ﻿using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-namespace Maple.RenderSpy.Graphics.D3D
+namespace Maple.RenderSpy.Graphics.COM
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe readonly struct COM_IUNKNOWN

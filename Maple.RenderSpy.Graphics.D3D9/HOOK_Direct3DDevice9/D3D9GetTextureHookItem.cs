@@ -1,18 +1,18 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9GetTextureHookItem : HookItem<D3D9GetTextureHookItem, Ptr_Func_GetTexture_64, Ptr_Func_GetTexture_64>, IHookItemFactory<D3D9GetTextureHookItem>
+    internal class D3D9GetTextureHookItem : HookItem<D3D9GetTextureHookItem, Ptr_Func_GetTexture_64, Ptr_Func_GetTexture_64>, IGraphicsHookItem<D3D9GetTextureHookItem>
     {
         public const string MethodName = Ptr_Func_GetTexture_64.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, Maple.UnmanagedExtensions.UnsafeOut<nint>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9GetTextureHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9GetTextureHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

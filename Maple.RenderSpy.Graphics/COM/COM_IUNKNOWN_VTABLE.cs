@@ -1,6 +1,6 @@
 ﻿using Maple.UnmanagedExtensions;
 using System.Runtime.InteropServices;
-namespace Maple.RenderSpy.Graphics.D3D
+namespace Maple.RenderSpy.Graphics.COM
 {
     [StructLayout(LayoutKind.Sequential)]
     public readonly unsafe struct COM_IUNKNOWN_VTABLE

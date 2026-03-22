@@ -10,12 +10,6 @@
 		<CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
 
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <AdditionalFiles Include="NativeMethods.txt">
-	    <Generator>MSBuild:Compile</Generator>
-	  </AdditionalFiles>
-	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Maple.Hook.Abstractions" Version="0.26.317.1-rc" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />

@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
 {
-    internal class D3D10GetDeviceHookItem : HookItem<D3D10GetDeviceHookItem, Ptr_Func_GetDevice_7, Ptr_Func_GetDevice_7>, IHookItemFactory<D3D10GetDeviceHookItem>
+    internal class D3D10GetDeviceHookItem : HookItem<D3D10GetDeviceHookItem, Ptr_Func_GetDevice_7, Ptr_Func_GetDevice_7>, IGraphicsHookItem<D3D10GetDeviceHookItem>
     {
         public const string MethodName = Ptr_Func_GetDevice_7.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeIn<global::System.Guid>, UnsafeOut<nint>, D3D10GetDeviceHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D10GetDeviceHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D10GetDeviceHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

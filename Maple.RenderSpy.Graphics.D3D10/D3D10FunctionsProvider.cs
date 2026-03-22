@@ -1,12 +1,13 @@
 ﻿using Maple.RenderSpy.Graphics;
-using Maple.RenderSpy.Graphics.D3D;
-using Maple.RenderSpy.Graphics.D3D.TempWindow;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_D3D10Device;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIAdapter;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIDevice;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIFactory;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
+using Maple.RenderSpy.Graphics.TempWindow;
 using Maple.UnmanagedExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
@@ -16,20 +17,22 @@ using Windows.Win32.Graphics.Dxgi;
 using Windows.Win32.Graphics.Dxgi.Common;
 namespace Maple.RenderSpy.Graphics.D3D10
 {
-    public partial class D3D10FunctionsProvider : IRenderSpyGraphicsFunctionsProvider
+    public partial class D3D10FunctionsProvider : GraphicsFunctionsProvider, IGraphicsFunctions<D3D10FunctionsProvider>
     {
-        public Dictionary<string, nint> Functions { get; } = [];
+       // public Dictionary<string, nint> Functions { get; } = [];
 
 
-        public static IRenderSpyGraphicsFunctionsProvider Create(D3DTempWindowFactory windowFactory)
+        public static D3D10FunctionsProvider Create(IServiceProvider provider)
         {
+            D3DTempWindowFactory windowFactory = provider.GetRequiredService<D3DTempWindowFactory>();
+
             using var pDevice = CreateID3D10DeviceImp();
             using var pDXGIDevice = CreateIDXGIDeviceImp(pDevice);
             using var pAdapter = CreateIDXGIAdapterImp(pDXGIDevice);
             using var pFactory = CreateIDXGIFactoryImp(pAdapter);
             using var pSwapChain = CreateIDXGISwapChainImp(pFactory, pDevice, windowFactory);
 
-            IRenderSpyGraphicsFunctionsProvider functions = new D3D10FunctionsProvider();
+            var functions = new D3D10FunctionsProvider();
             functions.TryAddGraphicsFunctions(COM_DXGISwapChain.Ptr_Func_SetPrivateData_3.Name, pSwapChain.Interface_VTable.SetPrivateData_3.PtrMethod);
             functions.TryAddGraphicsFunctions(COM_DXGISwapChain.Ptr_Func_SetPrivateDataInterface_4.Name, pSwapChain.Interface_VTable.SetPrivateDataInterface_4.PtrMethod);
             functions.TryAddGraphicsFunctions(COM_DXGISwapChain.Ptr_Func_GetPrivateData_5.Name, pSwapChain.Interface_VTable.GetPrivateData_5.PtrMethod);

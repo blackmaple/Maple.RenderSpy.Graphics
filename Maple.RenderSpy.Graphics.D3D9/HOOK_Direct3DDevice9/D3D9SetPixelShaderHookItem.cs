@@ -1,18 +1,18 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9SetPixelShaderHookItem : HookItem<D3D9SetPixelShaderHookItem, Ptr_Func_SetPixelShader_107, Ptr_Func_SetPixelShader_107>, IHookItemFactory<D3D9SetPixelShaderHookItem>
+    internal class D3D9SetPixelShaderHookItem : HookItem<D3D9SetPixelShaderHookItem, Ptr_Func_SetPixelShader_107, Ptr_Func_SetPixelShader_107>, IGraphicsHookItem<D3D9SetPixelShaderHookItem>
     {
         public const string MethodName = Ptr_Func_SetPixelShader_107.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9SetPixelShaderHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9SetPixelShaderHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

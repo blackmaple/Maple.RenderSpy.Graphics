@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 
 namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
 {
-    internal class D3D10SetFullscreenStateHookItem : HookItem<D3D10SetFullscreenStateHookItem, Ptr_Func_SetFullscreenState_10, Ptr_Func_SetFullscreenState_10>, IHookItemFactory<D3D10SetFullscreenStateHookItem>
+    internal class D3D10SetFullscreenStateHookItem : HookItem<D3D10SetFullscreenStateHookItem, Ptr_Func_SetFullscreenState_10, Ptr_Func_SetFullscreenState_10>, IGraphicsHookItem<D3D10SetFullscreenStateHookItem>
     {
         public const string MethodName = Ptr_Func_SetFullscreenState_10.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, int, UnsafePtr, D3D10SetFullscreenStateHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D10SetFullscreenStateHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D10SetFullscreenStateHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

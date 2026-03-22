@@ -1,21 +1,21 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Direct3D9;
 using Windows.Win32.Graphics.Direct3D;
 using Maple.UnmanagedExtensions;
+using Maple.RenderSpy.Graphics.COM;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
-    internal class D3D9MultiplyTransformHookItem : HookItem<D3D9MultiplyTransformHookItem, Ptr_Func_MultiplyTransform_46, Ptr_Func_MultiplyTransform_46>, IHookItemFactory<D3D9MultiplyTransformHookItem>
+    internal class D3D9MultiplyTransformHookItem : HookItem<D3D9MultiplyTransformHookItem, Ptr_Func_MultiplyTransform_46, Ptr_Func_MultiplyTransform_46>, IGraphicsHookItem<D3D9MultiplyTransformHookItem>
     {
         public const string MethodName = Ptr_Func_MultiplyTransform_46.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, D3DTRANSFORMSTATETYPE, UnsafeRef<global::Windows.Win32.Graphics.Direct3D.D3DMATRIX>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9MultiplyTransformHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9MultiplyTransformHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

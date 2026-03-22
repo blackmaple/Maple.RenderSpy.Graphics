@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+	  <TargetFramework>net10.0-windows</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Maple.Hook.Imp.Dobby.Dynamic" Version="0.26.317.1-rc" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D10\Maple.RenderSpy.Graphics.D3D10.csproj" />
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D11\Maple.RenderSpy.Graphics.D3D11.csproj" />
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D9\Maple.RenderSpy.Graphics.D3D9.csproj" />
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics.OPENGL\Maple.RenderSpy.Graphics.OPENGL.csproj" />
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics.VULKAN\Maple.RenderSpy.Graphics.VULKAN.csproj" />
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics\Maple.RenderSpy.Graphics.csproj" />
+  </ItemGroup>
+
+</Project>

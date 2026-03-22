@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.D3D;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,13 +13,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
 
 
-    public class D3D9EndSceneHookItem : HookItem<D3D9EndSceneHookItem, Ptr_Func_EndScene_42, Ptr_Func_EndScene_42>, IHookItemFactory<D3D9EndSceneHookItem>
+    public class D3D9EndSceneHookItem : HookItem<D3D9EndSceneHookItem, Ptr_Func_EndScene_42, Ptr_Func_EndScene_42>, IGraphicsHookItem<D3D9EndSceneHookItem>
     {
         public const string MethodName = Ptr_Func_EndScene_42.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, D3D9EndSceneHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9EndSceneHookItem Create(IHookFactory hookFactory, IRenderSpyGraphicsFunctionsProvider functionsProvider)
+        public static D3D9EndSceneHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

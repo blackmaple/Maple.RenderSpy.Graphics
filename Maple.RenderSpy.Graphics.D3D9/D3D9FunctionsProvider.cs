@@ -1,7 +1,8 @@
-using Maple.RenderSpy.Graphics.D3D;
-using Maple.RenderSpy.Graphics.D3D.TempWindow;
+using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
+using Maple.RenderSpy.Graphics.TempWindow;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
@@ -10,16 +11,16 @@ using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9
 {
-    internal partial class D3D9FunctionsProvider()
-        : IRenderSpyGraphicsFunctionsProvider
+    internal partial class D3D9FunctionsProvider : GraphicsFunctionsProvider, IGraphicsFunctions<D3D9FunctionsProvider>
     {
-        public Dictionary<string, nint> Functions { get; } = [];
 
-        public static IRenderSpyGraphicsFunctionsProvider Create(D3DTempWindowFactory tempWindowFactory)
+        public static D3D9FunctionsProvider Create(IServiceProvider provider)
         {
+            D3DTempWindowFactory tempWindowFactory = provider.GetRequiredService<D3DTempWindowFactory>();
+
             using var pDirect3D9 = CreateIDirect3D9Imp();
             using var pDirect3DDevice9 = CreateIDirect3DDevice9Imp(pDirect3D9, tempWindowFactory);
-            IRenderSpyGraphicsFunctionsProvider functionsProvider = new D3D9FunctionsProvider();
+            var functionsProvider = new D3D9FunctionsProvider();
             functionsProvider.TryAddGraphicsFunctions(Ptr_Func_TestCooperativeLevel_3.Name, pDirect3DDevice9.Interface_VTable.TestCooperativeLevel_3.PtrMethod);
             functionsProvider.TryAddGraphicsFunctions(Ptr_Func_GetAvailableTextureMem_4.Name, pDirect3DDevice9.Interface_VTable.GetAvailableTextureMem_4.PtrMethod);
             functionsProvider.TryAddGraphicsFunctions(Ptr_Func_EvictManagedResources_5.Name, pDirect3DDevice9.Interface_VTable.EvictManagedResources_5.PtrMethod);
