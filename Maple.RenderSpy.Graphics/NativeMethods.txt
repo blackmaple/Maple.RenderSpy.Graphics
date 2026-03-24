@@ -4,3 +4,4 @@ CreateWindowEx
 DestroyWindow
 DefWindowProc
 GetModuleHandle
+HRESULT

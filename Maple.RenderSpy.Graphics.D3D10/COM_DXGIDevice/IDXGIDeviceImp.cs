@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.D3D10.COM_DXGIAdapter;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -24,6 +26,18 @@ namespace Maple.RenderSpy.Graphics.D3D10.COM_DXGIDevice
 
 
     }
+
+    public static class IDXGIDeviceImpExtension
+    {
+        extension(COM_PTR_IUNKNOWN<IDXGIDeviceImp> @this)
+        {
+            public COM_HRESULT GetAdapter(out COM_PTR_IUNKNOWN<IDXGIAdapterImp> pAdapter)
+            {
+                return @this.Interface_VTable.GetAdapter_7.Invoke(@this, out pAdapter);
+            }
+        }
+    }
+
     /*
          public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;
     public delegate* unmanaged[MemberFunction]<void*, uint> AddRef_1;

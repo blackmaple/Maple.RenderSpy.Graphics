@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Windows.Win32.Graphics.Direct3D10;
 
 namespace Maple.RenderSpy.Graphics.D3D10.COM_D3D10Device
 {
     public readonly struct ID3D10DeviceImp
     {
+        public static Guid GUID { get; } = new("9B7E4C0F-342C-4106-A19F-4F2704F689F0");
+        
     }
     /*
         public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;

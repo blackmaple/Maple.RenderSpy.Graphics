@@ -19,7 +19,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
 {
     public partial class D3D10FunctionsProvider : GraphicsFunctionsProvider, IGraphicsFunctions<D3D10FunctionsProvider>
     {
-       // public Dictionary<string, nint> Functions { get; } = [];
+        // public Dictionary<string, nint> Functions { get; } = [];
 
 
         public static D3D10FunctionsProvider Create(IServiceProvider provider)
@@ -71,7 +71,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
         }
         private static COM_PTR_IUNKNOWN<IDXGIDeviceImp> CreateIDXGIDeviceImp(COM_PTR_IUNKNOWN<ID3D10DeviceImp> pDevice)
         {
-            var hResult = pDevice.QueryInterface<IDXGIDeviceImp>(IDXGIDeviceImp.GUID, out var pDXGIDevice);
+            var hResult = pDevice.QueryInterface<ID3D10DeviceImp, IDXGIDeviceImp>(IDXGIDeviceImp.GUID, out var pDXGIDevice);
             if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIDeviceImp>>($"{nameof(CreateIDXGIDeviceImp)}:{hResult.Value:X8}");
@@ -80,8 +80,8 @@ namespace Maple.RenderSpy.Graphics.D3D10
         }
         private static COM_PTR_IUNKNOWN<IDXGIAdapterImp> CreateIDXGIAdapterImp(COM_PTR_IUNKNOWN<IDXGIDeviceImp> pDXGIDevice)
         {
-            var hResult = pDXGIDevice.Interface_VTable.GetAdapter_7.Invoke(pDXGIDevice, out var pAdapter);
-            if (hResult.Failed)
+            var hResult = pDXGIDevice.GetAdapter(out var pAdapter);
+            if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>($"{nameof(CreateIDXGIAdapterImp)}:{hResult.Value:X8}");
             }
@@ -89,9 +89,8 @@ namespace Maple.RenderSpy.Graphics.D3D10
         }
         private static COM_PTR_IUNKNOWN<IDXGIFactoryImp> CreateIDXGIFactoryImp(COM_PTR_IUNKNOWN<IDXGIAdapterImp> pAdapter)
         {
-
-            var hResult = pAdapter.Interface_VTable.GetParent_6.Invoke(pAdapter, in IDXGIFactoryImp.GUID, out var ppParent);
-            if (hResult.Failed)
+            var hResult = pAdapter.GetParent<IDXGIFactoryImp>(in IDXGIFactoryImp.GUID, out var ppParent);
+            if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>($"{nameof(CreateIDXGIFactoryImp)}:{hResult.Value:X8}");
             }
@@ -119,8 +118,8 @@ namespace Maple.RenderSpy.Graphics.D3D10
                 Windowed = true,
                 SwapEffect = DXGI_SWAP_EFFECT.DXGI_SWAP_EFFECT_DISCARD
             };
-            var hResult = pFactory.Interface_VTable.CreateSwapChain_10.Invoke(pFactory, pDevice, in swapChainDesc, out var ppSwapChain);
-            if (hResult.Failed)
+            var hResult = pFactory.CreateSwapChain(pDevice, in swapChainDesc, out var ppSwapChain);
+            if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>($"{nameof(CreateIDXGISwapChainImp)}:{hResult.Value:X8}");
             }

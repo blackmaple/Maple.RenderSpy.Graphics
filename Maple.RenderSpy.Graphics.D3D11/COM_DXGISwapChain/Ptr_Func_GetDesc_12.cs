@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain
     /// public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::Windows.Win32.Graphics.Dxgi.DXGI_SWAP_CHAIN_DESC*, int> GetDesc_12;
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_GetDesc_12(nint ptr): Maple.Hook.Abstractions.IHookMethod
+    internal readonly unsafe struct Ptr_Func_GetDesc_12(nint ptr) : Maple.Hook.Abstractions.IHookMethod
     {
         private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeOut<DXGI_SWAP_CHAIN_DESC>, COM_HRESULT> _proc =
             (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeOut<DXGI_SWAP_CHAIN_DESC>, COM_HRESULT>)ptr;
@@ -24,7 +24,8 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain
         /// <param name="pThis">IDXGISwapChain 接口指针</param>
         /// <param name="pDesc">接收交换链描述的结构体指针</param>
         /// <returns>HRESULT</returns>
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, UnsafeOut<DXGI_SWAP_CHAIN_DESC> pDesc) => _proc(pThis, pDesc);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, out DXGI_SWAP_CHAIN_DESC pDesc) => 
+            _proc(pThis, UnsafeOut<DXGI_SWAP_CHAIN_DESC>.FromOut(out pDesc));
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

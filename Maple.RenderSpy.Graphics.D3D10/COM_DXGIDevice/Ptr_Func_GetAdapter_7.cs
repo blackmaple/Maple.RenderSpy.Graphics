@@ -14,8 +14,8 @@ namespace Maple.RenderSpy.Graphics.D3D10.COM_DXGIDevice
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_GetAdapter_7(nint ptr): Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIDeviceImp>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>, HRESULT> _proc = 
-            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIDeviceImp>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>, HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIDeviceImp>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>, COM_HRESULT> _proc = 
+            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIDeviceImp>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>, COM_HRESULT>)ptr;
 
         public const string Name = "GetAdapter";
 
@@ -25,7 +25,7 @@ namespace Maple.RenderSpy.Graphics.D3D10.COM_DXGIDevice
         /// <param name="pThis">IDXGIDevice 接口指针</param>
         /// <param name="ppAdapter">接收 IDXGIAdapter 接口指针的指针</param>
         /// <returns>HRESULT</returns>
-        public HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGIDeviceImp> pThis, out COM_PTR_IUNKNOWN<IDXGIAdapterImp> ppAdapter) => 
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGIDeviceImp> pThis, out COM_PTR_IUNKNOWN<IDXGIAdapterImp> ppAdapter) => 
             _proc(pThis, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>.FromOut(out ppAdapter));
 
         public nint PtrMethod => new(_proc);

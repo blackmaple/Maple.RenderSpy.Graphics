@@ -1,7 +1,12 @@
+using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device;
+using Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory;
+using Maple.UnmanagedExtensions;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.Graphics.Dxgi;
 
 namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain
 {
@@ -24,6 +29,35 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain
         internal readonly Ptr_Func_GetFrameStatistics_16 GetFrameStatistics_16;
         internal readonly Ptr_Func_GetLastPresentCount_17 GetLastPresentCount_17;
     }
+
+    public static class IDXGISwapChainImpExtension
+    {
+        extension(COM_PTR_IUNKNOWN<IDXGISwapChainImp> @this)
+        {
+            public COM_HRESULT GetDevice<T>(
+            in Guid guid,
+            out COM_PTR_IUNKNOWN<T> pDevice)
+                where T : unmanaged
+            {
+                var h = @this.Interface_VTable.GetDevice_7.Invoke(@this, in guid, out var ppObject);
+                pDevice = ppObject.Get<T>();
+                return h;
+            }
+
+            public COM_HRESULT GetDevice(out COM_PTR_IUNKNOWN<ID3D11DeviceImp> pDevice)
+                => @this.GetDevice<ID3D11DeviceImp>(ID3D11DeviceImp.GUID, out pDevice);
+
+            internal COM_HRESULT GetDesc(out DXGI_SWAP_CHAIN_DESC pDesc)
+                => @this.Interface_VTable.GetDesc_12.Invoke(@this, out pDesc);
+
+            public nint GetOutputWindow()
+            {
+                return @this.GetDesc(out var pDesc) ? pDesc.OutputWindow : nint.Zero;
+            }
+
+        }
+    }
+
 
     /*
          public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;

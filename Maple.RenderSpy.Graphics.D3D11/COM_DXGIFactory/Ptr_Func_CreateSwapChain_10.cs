@@ -16,9 +16,9 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_CreateSwapChain_10(nint ptr) : Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIFactoryImp>, COM_PTR_IUNKNOWN<ID3D11DeviceImp>, UnsafeIn<DXGI_SWAP_CHAIN_DESC>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>, HRESULT>
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIFactoryImp>, COM_PTR_IUNKNOWN<ID3D11DeviceImp>, UnsafeIn<DXGI_SWAP_CHAIN_DESC>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>, COM_HRESULT>
             _proc
-            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIFactoryImp>, COM_PTR_IUNKNOWN<ID3D11DeviceImp>, UnsafeIn<DXGI_SWAP_CHAIN_DESC>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>, HRESULT>)ptr;
+            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIFactoryImp>, COM_PTR_IUNKNOWN<ID3D11DeviceImp>, UnsafeIn<DXGI_SWAP_CHAIN_DESC>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>, COM_HRESULT>)ptr;
 
         public const string Name = "CreateSwapChain";
 
@@ -30,7 +30,7 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory
         /// <param name="pDesc">交换链描述</param>
         /// <param name="ppSwapChain">接收 IDXGISwapChain 接口指针的指针</param>
         /// <returns>HRESULT</returns>
-        public HRESULT Invoke(
+        public COM_HRESULT Invoke(
             COM_PTR_IUNKNOWN<IDXGIFactoryImp> pThis,
              COM_PTR_IUNKNOWN<ID3D11DeviceImp> pDevice,
             in DXGI_SWAP_CHAIN_DESC pDesc,

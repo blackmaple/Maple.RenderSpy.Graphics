@@ -83,7 +83,7 @@ namespace Maple.RenderSpy.Graphics.D3D11
         }
         private static COM_PTR_IUNKNOWN<IDXGIDeviceImp> CreateIDXGIDeviceImp(COM_PTR_IUNKNOWN<ID3D11DeviceImp> pDevice)
         {
-            var hResult = pDevice.QueryInterface<IDXGIDeviceImp>(IDXGIDeviceImp.GUID, out var pDXGIDevice);
+            var hResult = pDevice.QueryInterface<ID3D11DeviceImp, IDXGIDeviceImp>(IDXGIDeviceImp.GUID, out var pDXGIDevice);
             if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIDeviceImp>>($"{nameof(CreateIDXGIDeviceImp)}:{hResult.Value:X8}");
@@ -92,9 +92,8 @@ namespace Maple.RenderSpy.Graphics.D3D11
         }
         private static COM_PTR_IUNKNOWN<IDXGIAdapterImp> CreateIDXGIAdapterImp(COM_PTR_IUNKNOWN<IDXGIDeviceImp> pDXGIDevice)
         {
-
-            var hResult = pDXGIDevice.Interface_VTable.GetAdapter_7.Invoke(pDXGIDevice, out var pAdapter);
-            if (hResult.Failed)
+            var hResult = pDXGIDevice.GetAdapter(out var pAdapter);
+            if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>($"{nameof(CreateIDXGIAdapterImp)}:{hResult.Value:X8}");
             }
@@ -103,8 +102,8 @@ namespace Maple.RenderSpy.Graphics.D3D11
         private static COM_PTR_IUNKNOWN<IDXGIFactoryImp> CreateIDXGIFactoryImp(COM_PTR_IUNKNOWN<IDXGIAdapterImp> pAdapter)
         {
 
-            var hResult = pAdapter.Interface_VTable.GetParent_6.Invoke(pAdapter, in IDXGIFactoryImp.GUID, out var ppParent);
-            if (hResult.Failed)
+            var hResult = pAdapter.GetParent<IDXGIFactoryImp>(in IDXGIFactoryImp.GUID, out var ppParent);
+            if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>($"{nameof(CreateIDXGIFactoryImp)}:{hResult.Value:X8}");
             }
@@ -132,8 +131,8 @@ namespace Maple.RenderSpy.Graphics.D3D11
                 Windowed = true,
                 SwapEffect = DXGI_SWAP_EFFECT.DXGI_SWAP_EFFECT_DISCARD
             };
-            var hResult = pFactory.Interface_VTable.CreateSwapChain_10.Invoke(pFactory, pDevice, in swapChainDesc, out var ppSwapChain);
-            if (hResult.Failed)
+            var hResult = pFactory.CreateSwapChain(pDevice, in swapChainDesc, out var ppSwapChain);
+            if (!hResult)
             {
                 return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>($"{nameof(CreateIDXGISwapChainImp)}:{hResult.Value:X8}");
             }

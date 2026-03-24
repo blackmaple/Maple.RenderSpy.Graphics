@@ -1,0 +1,34 @@
+using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device;
+using Maple.UnmanagedExtensions;
+using System.Runtime.InteropServices;
+using Windows.Win32.Foundation;
+
+namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
+{
+    /// <summary>
+    /// 封装 ID3D11Device::GetExceptionMode 函数指针 (VTable 索引 42)
+    /// 获取异常模式
+    /// public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, uint> GetExceptionMode_42;
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal readonly unsafe struct Ptr_Func_GetExceptionMode_42(nint ptr) : Maple.Hook.Abstractions.IHookMethod
+    {
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<ID3D11DeviceImp>, uint>
+            _proc
+            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<ID3D11DeviceImp>, uint>)ptr;
+
+        public const string Name = "GetExceptionMode";
+
+        /// <summary>
+        /// 获取异常模式
+        /// </summary>
+        /// <param name="pThis">ID3D11Device 接口指针</param>
+        /// <returns>异常标志</returns>
+        public uint Invoke(
+            COM_PTR_IUNKNOWN<ID3D11DeviceImp> pThis) => _proc(pThis);
+
+        public nint PtrMethod => new(_proc);
+        public override string ToString() => PtrMethod.ToString("X8");
+    }
+}

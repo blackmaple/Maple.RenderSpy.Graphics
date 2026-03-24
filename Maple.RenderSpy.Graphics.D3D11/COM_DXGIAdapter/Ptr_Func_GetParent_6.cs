@@ -14,8 +14,8 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIAdapter
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_GetParent_6(nint ptr) : Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIAdapterImp>, UnsafeIn<System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>, HRESULT> _proc =
-            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIAdapterImp>, UnsafeIn<System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>, HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIAdapterImp>, UnsafeIn<System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT> _proc =
+            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGIAdapterImp>, UnsafeIn<System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT>)ptr;
 
         public const string Name = "GetParent";
 
@@ -26,8 +26,8 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIAdapter
         /// <param name="riid">父接口的 IID</param>
         /// <param name="ppParent">接收父对象接口指针的指针</param>
         /// <returns>HRESULT</returns>
-        public HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGIAdapterImp> pThis, in global::System.Guid riid, out COM_PTR_IUNKNOWN<IDXGIFactoryImp> ppParent) =>
-            _proc(pThis, UnsafeIn<System.Guid>.FromIn(in riid), UnsafeOut<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>.FromOut(out ppParent));
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGIAdapterImp> pThis, in global::System.Guid riid, out COM_PTR_IUNKNOWN ppParent) =>
+            _proc(pThis, UnsafeIn<System.Guid>.FromIn(in riid), UnsafeOut<COM_PTR_IUNKNOWN>.FromOut(out ppParent));
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

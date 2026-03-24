@@ -1,7 +1,11 @@
+using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device;
+using Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.Graphics.Dxgi;
 
 namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory
 {
@@ -19,7 +23,19 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIFactory
         internal readonly Ptr_Func_CreateSwapChain_10 CreateSwapChain_10;
         internal readonly Ptr_Func_CreateSoftwareAdapter_11 CreateSoftwareAdapter_11;
     }
-
+    public static class IDXGIFactoryImpExtension
+    {
+        extension(COM_PTR_IUNKNOWN<IDXGIFactoryImp> @this)
+        {
+            internal COM_HRESULT CreateSwapChain(
+            COM_PTR_IUNKNOWN<ID3D11DeviceImp> pDevice,
+            in DXGI_SWAP_CHAIN_DESC pDesc,
+            out COM_PTR_IUNKNOWN<IDXGISwapChainImp> ppSwapChain)
+            {
+                return @this.Interface_VTable.CreateSwapChain_10.Invoke(@this, pDevice, in pDesc, out ppSwapChain);
+            }
+        }
+    }
     /*
          public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;
     public delegate* unmanaged[MemberFunction]<void*, uint> AddRef_1;

@@ -10,10 +10,10 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain
     /// public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, global::System.Guid*, void**, int> GetDevice_7;
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_GetDevice_7(nint ptr): Maple.Hook.Abstractions.IHookMethod
+    internal readonly unsafe struct Ptr_Func_GetDevice_7(nint ptr) : Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeIn<global::System.Guid>, UnsafeOut<nint>, COM_HRESULT>
-            _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeIn<global::System.Guid>, UnsafeOut<nint>, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeIn<global::System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT>
+            _proc = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeIn<global::System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT>)ptr;
 
         public const string Name = "GetDevice";
 
@@ -24,7 +24,8 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGISwapChain
         /// <param name="riid">设备接口的 IID</param>
         /// <param name="ppDevice">接收设备接口指针的指针</param>
         /// <returns>HRESULT</returns>
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, UnsafeIn<global::System.Guid> riid, UnsafeOut<nint> ppDevice) => _proc(pThis, riid, ppDevice);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, in Guid riid, out COM_PTR_IUNKNOWN ppDevice) =>
+            _proc(pThis, UnsafeIn<Guid>.FromIn(in riid), UnsafeOut<COM_PTR_IUNKNOWN>.FromOut(out ppDevice));
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

@@ -1,3 +1,4 @@
+using Maple.RenderSpy.Graphics.COM;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -16,6 +17,20 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_DXGIAdapter
         internal readonly Ptr_Func_EnumOutputs_7 EnumOutputs_7;
         internal readonly Ptr_Func_GetDesc_8 GetDesc_8;
         internal readonly Ptr_Func_CheckInterfaceSupport_9 CheckInterfaceSupport_9;
+    }
+
+    public static class IDXGIAdapterImpExtension
+    {
+        extension(COM_PTR_IUNKNOWN<IDXGIAdapterImp> @this)
+        {
+            public COM_HRESULT GetParent<T>(in Guid guid, out COM_PTR_IUNKNOWN<T> pDXGIFactory)
+                where T : unmanaged
+            {
+                var hResult = @this.Interface_VTable.GetParent_6.Invoke(@this, in guid, out var ppParent);
+                pDXGIFactory = ppParent.Get<T>();
+                return new COM_HRESULT(hResult);
+            }
+        }
     }
 
     /*
