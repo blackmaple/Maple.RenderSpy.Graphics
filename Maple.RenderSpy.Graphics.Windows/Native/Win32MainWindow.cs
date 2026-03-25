@@ -6,12 +6,12 @@ using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-namespace Maple.RenderSpy.Graphics.TempWindow
+namespace Maple.RenderSpy.Graphics.Windows.Native
 {
-    public unsafe struct D3DTempWindow : IDisposable
+    public unsafe struct Win32MainWindow : IDisposable
     {
         private HWND _WindowHandle;
-        internal D3DTempWindow(HWND hwnd) => _WindowHandle = hwnd;
+        internal Win32MainWindow(HWND hwnd) => _WindowHandle = hwnd;
 
         public void Dispose()
         {
@@ -28,9 +28,9 @@ namespace Maple.RenderSpy.Graphics.TempWindow
             return (new nint(this._WindowHandle.Value)).ToString("X8");
         }
 
-        public static implicit operator nint(D3DTempWindow x) => new(x._WindowHandle.Value);
-        public static implicit operator void*(D3DTempWindow x) => x._WindowHandle;
-        public static implicit operator bool(D3DTempWindow x) => !x._WindowHandle.IsNull;
+        public static implicit operator nint(Win32MainWindow x) => new(x._WindowHandle.Value);
+        public static implicit operator void*(Win32MainWindow x) => x._WindowHandle;
+        public static implicit operator bool(Win32MainWindow x) => !x._WindowHandle.IsNull;
         public readonly nint Handle => _WindowHandle;
     }
 }

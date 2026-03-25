@@ -29,7 +29,7 @@ namespace Maple.RenderSpy.Graphics.OPENGL
             {
                 return address;
             }
-            return RenderSpyGraphicsException.Throw<nint>($"{nameof(GetAddress)} ERROR");
+            return GraphicsException.Throw<nint>($"{nameof(GetAddress)} ERROR");
         }
 
 

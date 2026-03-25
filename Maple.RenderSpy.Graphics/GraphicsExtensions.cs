@@ -1,20 +1,14 @@
-﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.TempWindow;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Maple.RenderSpy.Graphics
 {
-    public static class RenderSpyGraphicsExtensions
+    public static class GraphicsExtensions
     {
         extension(IServiceCollection @this)
         {
             public IServiceCollection AddGraphicsHookFactory()
             {
-                @this.TryAddSingleton<D3DTempWindowFactory>();
                 @this.TryAddSingleton<IGraphicsHookFactory, DefaultGraphicsHookFactory>();
                 return @this;
             }

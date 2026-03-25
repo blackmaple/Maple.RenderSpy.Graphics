@@ -1,7 +1,7 @@
-using Maple.RenderSpy.Graphics.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3D9;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
-using Maple.RenderSpy.Graphics.TempWindow;
+using Maple.RenderSpy.Graphics.Windows.COM;
+using Maple.RenderSpy.Graphics.Windows.Native;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -16,7 +16,7 @@ namespace Maple.RenderSpy.Graphics.D3D9
 
         public static D3D9FunctionsProvider Create(IServiceProvider provider)
         {
-            D3DTempWindowFactory tempWindowFactory = provider.GetRequiredService<D3DTempWindowFactory>();
+            Win32WindowFactory tempWindowFactory = provider.GetRequiredService<Win32WindowFactory>();
 
             using var pDirect3D9 = CreateIDirect3D9Imp();
             using var pDirect3DDevice9 = CreateIDirect3DDevice9Imp(pDirect3D9, tempWindowFactory);
@@ -147,7 +147,7 @@ namespace Maple.RenderSpy.Graphics.D3D9
             return Direct3DCreate9(PInvoke.D3D_SDK_VERSION);
         }
 
-        private static COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> CreateIDirect3DDevice9Imp(COM_PTR_IUNKNOWN<IDirect3D9Imp> pDirect3D9, D3DTempWindowFactory tempWindowFactory)
+        private static COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> CreateIDirect3DDevice9Imp(COM_PTR_IUNKNOWN<IDirect3D9Imp> pDirect3D9, Win32WindowFactory tempWindowFactory)
         {
             using var frm = tempWindowFactory.Create();
             HWND hWnd = new(frm.Handle);
@@ -175,7 +175,7 @@ namespace Maple.RenderSpy.Graphics.D3D9
                     );
             if (createStatus == false)
             {
-                return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>>($"{nameof(CreateIDirect3DDevice9Imp)}:{createStatus.Value:X8}");
+                return GraphicsException.Throw<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>>($"{nameof(CreateIDirect3DDevice9Imp)}:{createStatus}");
             }
 
             return pDirect3DDevice9;

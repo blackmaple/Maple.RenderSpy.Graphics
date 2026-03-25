@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 using Maple.UnmanagedExtensions;
-using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.Windows.COM;
 
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {

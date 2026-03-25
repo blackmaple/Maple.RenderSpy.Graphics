@@ -1,6 +1,5 @@
-using Maple.RenderSpy.Graphics.COM;
 using System.Runtime.InteropServices;
-
+using Maple.RenderSpy.Graphics.Windows.COM;
 namespace Maple.RenderSpy.Graphics.D3D10.COM_DXGIAdapter
 {
     /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Maple.RenderSpy.Graphics.COM
+﻿namespace Maple.RenderSpy.Graphics.Windows.COM
 {
     public static class ComExtensions
     {

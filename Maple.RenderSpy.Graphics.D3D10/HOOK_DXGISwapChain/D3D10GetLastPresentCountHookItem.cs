@@ -1,5 +1,5 @@
 using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -17,7 +17,7 @@ namespace Maple.RenderSpy.Graphics.D3D10.HOOK_DXGISwapChain
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {
-                return RenderSpyGraphicsException.Throw<D3D10GetLastPresentCountHookItem>($"NOT FOUND {MethodName}");
+                return GraphicsException.Throw<D3D10GetLastPresentCountHookItem>($"NOT FOUND {MethodName}");
             }
             var hookItemImp = hookFactory.Create<D3D10GetLastPresentCountHookItem>(
                 functionPtr,

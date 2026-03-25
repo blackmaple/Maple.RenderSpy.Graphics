@@ -1,18 +1,19 @@
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-namespace Maple.RenderSpy.Graphics.TempWindow
+
+namespace Maple.RenderSpy.Graphics.Windows.Native
 {
-    public unsafe sealed class D3DTempWindowFactory : IDisposable
+    public unsafe sealed class Win32WindowFactory : IDisposable
     {
         nint _ClassNamePointer;
         WNDCLASSEXW _WNDCLASSEX;
-        public D3DTempWindowFactory()
+        public Win32WindowFactory()
         {
             var className = Guid.NewGuid().ToString("N");
             _ClassNamePointer = Marshal.StringToHGlobalUni(className);
@@ -26,7 +27,7 @@ namespace Maple.RenderSpy.Graphics.TempWindow
                 hInstance = PInvoke.GetModuleHandle(default(char*)),
                 hIcon = HICON.Null,
                 hCursor = HCURSOR.Null,
-                hbrBackground = Windows.Win32.Graphics.Gdi.HBRUSH.Null,
+                hbrBackground = HBRUSH.Null,
                 lpszMenuName = default,
                 lpszClassName = new PCWSTR((char*)_ClassNamePointer.ToPointer()),
                 hIconSm = HICON.Null,
@@ -41,7 +42,7 @@ namespace Maple.RenderSpy.Graphics.TempWindow
             return PInvoke.DefWindowProc(hWnd, uMsg, wParam, lParam);
         }
 
-        public D3DTempWindow Create()
+        public Win32MainWindow Create()
         {
             var hwnd = PInvoke.CreateWindowEx(
                 WINDOW_EX_STYLE.WS_EX_LEFT,
@@ -52,7 +53,7 @@ namespace Maple.RenderSpy.Graphics.TempWindow
                   HMENU.Null,
                   _WNDCLASSEX.hInstance,
                   default);
-            return new D3DTempWindow(hwnd);
+            return new Win32MainWindow(hwnd);
         }
 
         public void Dispose()

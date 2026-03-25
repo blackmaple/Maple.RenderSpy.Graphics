@@ -1,4 +1,4 @@
-using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.Windows.COM;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Dxgi;
 

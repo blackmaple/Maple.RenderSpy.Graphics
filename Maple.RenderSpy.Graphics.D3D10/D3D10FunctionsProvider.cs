@@ -1,11 +1,10 @@
-﻿using Maple.RenderSpy.Graphics;
-using Maple.RenderSpy.Graphics.COM;
-using Maple.RenderSpy.Graphics.D3D10.COM_D3D10Device;
+﻿using Maple.RenderSpy.Graphics.D3D10.COM_D3D10Device;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIAdapter;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIDevice;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIFactory;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGISwapChain;
-using Maple.RenderSpy.Graphics.TempWindow;
+using Maple.RenderSpy.Graphics.Windows.COM;
+using Maple.RenderSpy.Graphics.Windows.Native;
 using Maple.UnmanagedExtensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
@@ -24,7 +23,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
 
         public static D3D10FunctionsProvider Create(IServiceProvider provider)
         {
-            D3DTempWindowFactory windowFactory = provider.GetRequiredService<D3DTempWindowFactory>();
+            Win32WindowFactory windowFactory = provider.GetRequiredService<Win32WindowFactory>();
 
             using var pDevice = CreateID3D10DeviceImp();
             using var pDXGIDevice = CreateIDXGIDeviceImp(pDevice);
@@ -59,13 +58,13 @@ namespace Maple.RenderSpy.Graphics.D3D10
         {
             var hResult = D3D10CreateDevice(
                 default,
-                Windows.Win32.Graphics.Direct3D10.D3D10_DRIVER_TYPE.D3D10_DRIVER_TYPE_HARDWARE,
-                Windows.Win32.Foundation.HMODULE.Null
+                D3D10_DRIVER_TYPE.D3D10_DRIVER_TYPE_HARDWARE,
+                 HMODULE.Null
                 , default, PInvoke.D3D10_SDK_VERSION, UnsafeOut<COM_PTR_IUNKNOWN<ID3D10DeviceImp>>.FromOut(out var ppDevice));
 
-            if (hResult.Failed)
+            if (!hResult)
             {
-                return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<ID3D10DeviceImp>>($"{nameof(CreateID3D10DeviceImp)}:{hResult.Value:X8}");
+                return GraphicsException.Throw<COM_PTR_IUNKNOWN<ID3D10DeviceImp>>($"{nameof(CreateID3D10DeviceImp)}:{hResult}");
             }
             return ppDevice;
         }
@@ -74,7 +73,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
             var hResult = pDevice.QueryInterface<ID3D10DeviceImp, IDXGIDeviceImp>(IDXGIDeviceImp.GUID, out var pDXGIDevice);
             if (!hResult)
             {
-                return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIDeviceImp>>($"{nameof(CreateIDXGIDeviceImp)}:{hResult.Value:X8}");
+                return GraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIDeviceImp>>($"{nameof(CreateIDXGIDeviceImp)}:{hResult}");
             }
             return pDXGIDevice;
         }
@@ -83,7 +82,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
             var hResult = pDXGIDevice.GetAdapter(out var pAdapter);
             if (!hResult)
             {
-                return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>($"{nameof(CreateIDXGIAdapterImp)}:{hResult.Value:X8}");
+                return GraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIAdapterImp>>($"{nameof(CreateIDXGIAdapterImp)}:{hResult}");
             }
             return pAdapter;
         }
@@ -92,14 +91,14 @@ namespace Maple.RenderSpy.Graphics.D3D10
             var hResult = pAdapter.GetParent<IDXGIFactoryImp>(in IDXGIFactoryImp.GUID, out var ppParent);
             if (!hResult)
             {
-                return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>($"{nameof(CreateIDXGIFactoryImp)}:{hResult.Value:X8}");
+                return GraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGIFactoryImp>>($"{nameof(CreateIDXGIFactoryImp)}:{hResult}");
             }
             return ppParent;
         }
         private static COM_PTR_IUNKNOWN<IDXGISwapChainImp> CreateIDXGISwapChainImp(
             COM_PTR_IUNKNOWN<IDXGIFactoryImp> pFactory,
             COM_PTR_IUNKNOWN<ID3D10DeviceImp> pDevice,
-            D3DTempWindowFactory windowFactory)
+            Win32WindowFactory windowFactory)
         {
             using var from = windowFactory.Create();
             var swapChainDesc = new DXGI_SWAP_CHAIN_DESC
@@ -121,7 +120,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
             var hResult = pFactory.CreateSwapChain(pDevice, in swapChainDesc, out var ppSwapChain);
             if (!hResult)
             {
-                return RenderSpyGraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>($"{nameof(CreateIDXGISwapChainImp)}:{hResult.Value:X8}");
+                return GraphicsException.Throw<COM_PTR_IUNKNOWN<IDXGISwapChainImp>>($"{nameof(CreateIDXGISwapChainImp)}:{hResult}");
             }
             return ppSwapChain;
         }
@@ -131,7 +130,7 @@ namespace Maple.RenderSpy.Graphics.D3D10
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
         [LibraryImport(LibraryName, EntryPoint = EntryPoint)]
-        internal static partial Windows.Win32.Foundation.HRESULT D3D10CreateDevice(nint pAdapter, D3D10_DRIVER_TYPE DriverType, Windows.Win32.Foundation.HMODULE Software, uint Flags, uint SDKVersion, UnsafeOut<COM_PTR_IUNKNOWN<ID3D10DeviceImp>> ppDevice);
+        internal static partial  COM_HRESULT D3D10CreateDevice(nint pAdapter, D3D10_DRIVER_TYPE DriverType,  HMODULE Software, uint Flags, uint SDKVersion, UnsafeOut<COM_PTR_IUNKNOWN<ID3D10DeviceImp>> ppDevice);
 
     }
 }

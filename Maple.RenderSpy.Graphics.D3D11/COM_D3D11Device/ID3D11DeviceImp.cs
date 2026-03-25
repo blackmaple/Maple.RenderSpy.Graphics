@@ -1,3 +1,5 @@
+using Maple.RenderSpy.Graphics.Windows.COM;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11DeviceContext;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -53,6 +55,15 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
         internal readonly Ptr_Func_GetImmediateContext_40 GetImmediateContext_40;
         internal readonly Ptr_Func_SetExceptionMode_41 SetExceptionMode_41;
         internal readonly Ptr_Func_GetExceptionMode_42 GetExceptionMode_42;
+    }
+
+    public static class ID3D11DeviceImpExtension
+    {
+        extension(COM_PTR_IUNKNOWN<ID3D11DeviceImp> @this)
+        {
+            public void GetImmediateContext(out COM_PTR_IUNKNOWN<ID3D11DeviceContextImp> pContext)
+                => @this.Interface_VTable.GetImmediateContext_40.Invoke(@this, out pContext);
+        }
     }
     /*
         public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;

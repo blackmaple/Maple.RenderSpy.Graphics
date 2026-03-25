@@ -14,7 +14,7 @@ namespace Maple.RenderSpy.Graphics.OPENGL
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {
-                return RenderSpyGraphicsException.Throw<OPENGLwglSwapBuffersHookItem>($"NOT FOUND {MethodName}");
+                return GraphicsException.Throw<OPENGLwglSwapBuffersHookItem>($"NOT FOUND {MethodName}");
             }
             var hookItemImp = hookFactory.Create<OPENGLwglSwapBuffersHookItem>(
                 functionPtr,

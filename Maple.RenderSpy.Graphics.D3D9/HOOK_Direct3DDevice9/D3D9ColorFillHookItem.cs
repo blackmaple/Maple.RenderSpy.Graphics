@@ -1,9 +1,9 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.Foundation;
 
 namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 {
@@ -11,13 +11,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_ColorFill_35.Name;
 
-        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, uint, D3D9ColorFillHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, Maple.UnmanagedExtensions.UnsafeRef< RECT>, uint, D3D9ColorFillHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9ColorFillHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {
-                return RenderSpyGraphicsException.Throw<D3D9ColorFillHookItem>($"NOT FOUND {MethodName}");
+                return GraphicsException.Throw<D3D9ColorFillHookItem>($"NOT FOUND {MethodName}");
             }
             var hookItemImp = hookFactory.Create<D3D9ColorFillHookItem>(
                 functionPtr,
@@ -27,13 +27,13 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT>, uint, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, Maple.UnmanagedExtensions.UnsafeRef< RECT>, uint, COM_HRESULT>
                 _proc = &Hook_ColorFill;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_ColorFill(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, nint pSurface, Maple.UnmanagedExtensions.UnsafeRef<Windows.Win32.Foundation.RECT> pRect, uint color)
+        private static COM_HRESULT Hook_ColorFill(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, nint pSurface, Maple.UnmanagedExtensions.UnsafeRef< RECT> pRect, uint color)
         {
             if (D3D9ColorFillHookItem.TryGet(out var hookItem))
             {

@@ -4,7 +4,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using System.Runtime.CompilerServices;
 using Maple.UnmanagedExtensions;
-using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.Windows.COM;
 
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {

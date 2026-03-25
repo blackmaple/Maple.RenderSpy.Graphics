@@ -1,4 +1,4 @@
-﻿using Maple.RenderSpy.Graphics.COM;
+﻿using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.RenderSpy.Graphics.D3D10.COM_DXGIFactory;
 using System;
 using System.Collections.Generic;

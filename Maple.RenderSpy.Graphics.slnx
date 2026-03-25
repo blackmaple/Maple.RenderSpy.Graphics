@@ -13,6 +13,7 @@
   <Project Path="Maple.RenderSpy.Graphics.OPENGL/Maple.RenderSpy.Graphics.OPENGL.csproj" Id="e4af967e-bdfd-462a-8173-eef17c6b1742" />
   <Project Path="Maple.RenderSpy.Graphics.Test/Maple.RenderSpy.Graphics.Test.csproj" Id="b2110f40-a6a8-4f16-9a97-b618c07c45b2" />
   <Project Path="Maple.RenderSpy.Graphics.VULKAN/Maple.RenderSpy.Graphics.VULKAN.csproj" Id="ec1782ef-708f-4f33-bd75-7cda8596b087" />
+  <Project Path="Maple.RenderSpy.Graphics.Windows/Maple.RenderSpy.Graphics.Windows.csproj" Id="b037c194-cdcb-48e1-be19-9c2e7c2af938" />
   <Project Path="Maple.RenderSpy.Graphics/Maple.RenderSpy.Graphics.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />

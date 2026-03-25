@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-namespace Maple.RenderSpy.Graphics.COM
+namespace Maple.RenderSpy.Graphics.Windows.COM
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe readonly struct COM_IUNKNOWN

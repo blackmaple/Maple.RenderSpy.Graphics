@@ -1,4 +1,4 @@
-﻿using Maple.RenderSpy.Graphics.COM;
+﻿using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using Maple.UnmanagedExtensions;
 using System;

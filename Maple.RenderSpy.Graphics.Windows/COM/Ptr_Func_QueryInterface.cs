@@ -1,7 +1,7 @@
 ﻿using Maple.UnmanagedExtensions;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-namespace Maple.RenderSpy.Graphics.COM
+namespace Maple.RenderSpy.Graphics.Windows.COM
 {
 
     [StructLayout(LayoutKind.Sequential)]

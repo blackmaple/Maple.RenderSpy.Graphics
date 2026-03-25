@@ -17,7 +17,7 @@
 		<Description>dotNet RenderSpy.Graphics.D3D9</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>hook;c#;dotnet;AOT</PackageTags>
-		<Version>0.26.0323.01-rc</Version>
+		<Version>0.26.0324.01-rc</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\LICENSE" Link="LICENSE">
@@ -32,13 +32,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Maple.Hook.Abstractions" Version="0.26.317.1-rc" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.269">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Maple.RenderSpy.Graphics\Maple.RenderSpy.Graphics.csproj" />
+	  <ProjectReference Include="..\Maple.RenderSpy.Graphics.Windows\Maple.RenderSpy.Graphics.Windows.csproj" />
 	</ItemGroup>
 </Project>

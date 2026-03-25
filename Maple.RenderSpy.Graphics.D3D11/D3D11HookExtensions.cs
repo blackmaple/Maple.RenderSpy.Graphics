@@ -1,7 +1,4 @@
-using Maple.RenderSpy.Graphics.D3D11.HOOK_DXGISwapChain;
-using Maple.RenderSpy.Graphics.TempWindow;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Maple.RenderSpy.Graphics.D3D11
 {

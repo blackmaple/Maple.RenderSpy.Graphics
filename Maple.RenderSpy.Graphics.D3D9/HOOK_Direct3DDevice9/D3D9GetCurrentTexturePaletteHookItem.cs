@@ -1,5 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
-using Maple.RenderSpy.Graphics.COM;
+using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -17,7 +17,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {
-                return RenderSpyGraphicsException.Throw<D3D9GetCurrentTexturePaletteHookItem>($"NOT FOUND {MethodName}");
+                return GraphicsException.Throw<D3D9GetCurrentTexturePaletteHookItem>($"NOT FOUND {MethodName}");
             }
             var hookItemImp = hookFactory.Create<D3D9GetCurrentTexturePaletteHookItem>(
                 functionPtr,
