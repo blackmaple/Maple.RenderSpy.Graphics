@@ -1,4 +1,7 @@
-﻿namespace Maple.RenderSpy.Graphics.Windows.COM
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace Maple.RenderSpy.Graphics.Windows.COM
 {
     public static class ComExtensions
     {
@@ -17,6 +20,10 @@
             public COM_HRESULT AddRef()
                 => @this.IUnknown_VTable.AddRef_1.Invoke(@this);
 
+            public unsafe TAs* AsPointer<TAs>() where TAs : unmanaged
+            {
+                return (TAs*)@this.PTR_IUNKNOWN.Pointer;
+            }
         }
 
         extension<T>(COM_PTR_IUNKNOWN<T> @this)
@@ -36,6 +43,11 @@
 
             public COM_HRESULT AddRef()
                 => @this.IUnknown_VTable.AddRef_1.Invoke(@this);
+
+            public unsafe TAs* AsPointer<TAs>() where TAs : unmanaged
+            {
+                return (TAs*)@this.PTR_IUNKNOWN.Pointer;
+            }
         }
 
     }

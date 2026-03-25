@@ -25,6 +25,10 @@ namespace Maple.RenderSpy.Graphics.Windows.COM
 
         public COM_PTR_IUNKNOWN<T> Get<T>() where T : unmanaged
         => new(PTR_IUNKNOWN.Pointer);
+
+        public static implicit operator nint(COM_PTR_IUNKNOWN value) => value.PTR_IUNKNOWN.Pointer;
+        public static implicit operator void*(COM_PTR_IUNKNOWN value) => value.PTR_IUNKNOWN.Pointer.ToPointer();
+
     }
 
 
@@ -39,6 +43,8 @@ namespace Maple.RenderSpy.Graphics.Windows.COM
         }
 
         public static implicit operator COM_PTR_IUNKNOWN(COM_PTR_IUNKNOWN<T> value) => new(value.PTR_IUNKNOWN.Pointer);
+        public static implicit operator nint(COM_PTR_IUNKNOWN<T> value) => value.PTR_IUNKNOWN.Pointer;
+        public static implicit operator void*(COM_PTR_IUNKNOWN<T> value) => value.PTR_IUNKNOWN.Pointer.ToPointer();
 
         public readonly override string? ToString()
         {
@@ -49,5 +55,7 @@ namespace Maple.RenderSpy.Graphics.Windows.COM
         {
             this.Release();
         }
+
+
     }
 }

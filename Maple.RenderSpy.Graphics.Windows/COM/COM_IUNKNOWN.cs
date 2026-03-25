@@ -5,18 +5,18 @@ using System.Runtime.InteropServices;
 namespace Maple.RenderSpy.Graphics.Windows.COM
 {
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe readonly struct COM_IUNKNOWN
+    public unsafe readonly struct COM_IUNKNOWN(nint ptr)
     {
-        public readonly UnsafePtr<COM_IUNKNOWN_VTABLE> VTablePointer;
+        public readonly UnsafePtr<COM_IUNKNOWN_VTABLE> VTablePointer = ptr;
 
         public readonly ref COM_IUNKNOWN_VTABLE VTable => ref VTablePointer.Raw;
     }
 
 
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe readonly struct COM_IUNKNOWN<T> where T : unmanaged
+    public unsafe readonly struct COM_IUNKNOWN<T>(nint ptr) where T : unmanaged
     {
-        public readonly UnsafePtr<COM_IUNKNOWN_VTABLE<T>> Ptr_VTable;
+        public readonly UnsafePtr<COM_IUNKNOWN_VTABLE<T>> Ptr_VTable = ptr;
 
         public ref readonly COM_IUNKNOWN_VTABLE<T> VTable => ref Ptr_VTable.Raw;
         public ref readonly COM_IUNKNOWN_VTABLE IUnknown_VTable => ref VTable.IUnknown_VTable;
@@ -24,7 +24,7 @@ namespace Maple.RenderSpy.Graphics.Windows.COM
 
         public static implicit operator COM_IUNKNOWN(COM_IUNKNOWN<T> value)
         {
-            return Unsafe.As<COM_IUNKNOWN<T>, COM_IUNKNOWN>(ref value);
+            return new(value.Ptr_VTable.Pointer);
         }
     }
 }
