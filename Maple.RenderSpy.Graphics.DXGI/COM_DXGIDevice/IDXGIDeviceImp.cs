@@ -11,9 +11,8 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGIDevice
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct IDXGIDeviceImp
     {
-       // Guid dxgiDeviceGuid = new Guid("54EC77FA-1377-44E6-8C32-88FD5F44C84C");
 
-        public static readonly Guid GUID = new("54ec77fa-1377-44e6-8c32-88fd5f44c84c");
+        public static readonly Guid GUID = new("54EC77FA-1377-44E6-8C32-88FD5F44C84C");
 
         internal readonly Ptr_Func_SetPrivateData_3 SetPrivateData_3;
         internal readonly Ptr_Func_SetPrivateDataInterface_4 SetPrivateDataInterface_4;

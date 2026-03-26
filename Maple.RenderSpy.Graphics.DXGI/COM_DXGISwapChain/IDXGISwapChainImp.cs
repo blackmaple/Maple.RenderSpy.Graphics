@@ -7,6 +7,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct IDXGISwapChainImp
     {
+        public static readonly Guid GUID = new("310D36A0-D2E7-4C0A-AA04-6A9D23B8886A");
         internal readonly Ptr_Func_SetPrivateData_3 SetPrivateData_3;
         internal readonly Ptr_Func_SetPrivateDataInterface_4 SetPrivateDataInterface_4;
         internal readonly Ptr_Func_GetPrivateData_5 GetPrivateData_5;

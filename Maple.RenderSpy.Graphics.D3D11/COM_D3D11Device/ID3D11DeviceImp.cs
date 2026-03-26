@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct ID3D11DeviceImp
     {
-        public static Guid GUID { get; } = new("DB6F6DDB-AC77-4E88-8253-819DF9BBF140");
+        public readonly static Guid GUID = new("DB6F6DDB-AC77-4E88-8253-819DF9BBF140");
         //  ID3D11Device
 
 

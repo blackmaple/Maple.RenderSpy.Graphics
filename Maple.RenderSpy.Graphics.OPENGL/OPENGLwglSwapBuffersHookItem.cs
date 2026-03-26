@@ -1,6 +1,7 @@
 ﻿using Maple.Hook.Abstractions;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Windows.Win32.Graphics.Gdi;
 
 namespace Maple.RenderSpy.Graphics.OPENGL
 {
@@ -8,7 +9,7 @@ namespace Maple.RenderSpy.Graphics.OPENGL
     {
         public const string MethodName = Ptr_Func_wglSwapBuffers.Name;
 
-        public Func<nint, OPENGLwglSwapBuffersHookItem, bool>? SyncCallback { get; set; }
+        public Func<HandleDeviceContext, OPENGLwglSwapBuffersHookItem, bool>? SyncCallback { get; set; }
 
         public static OPENGLwglSwapBuffersHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
@@ -24,14 +25,14 @@ namespace Maple.RenderSpy.Graphics.OPENGL
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<nint, bool>
+            delegate* unmanaged[Stdcall]<HandleDeviceContext, bool>
                 _proc = &Hook_wglSwapBuffers;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static bool Hook_wglSwapBuffers(nint hdc)
+        private static bool Hook_wglSwapBuffers(HandleDeviceContext hdc)
         {
             if (OPENGLwglSwapBuffersHookItem.TryGet(out var hookItem))
             {

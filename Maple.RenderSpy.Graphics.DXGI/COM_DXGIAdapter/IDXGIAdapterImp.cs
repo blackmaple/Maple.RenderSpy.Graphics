@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.Graphics.Dxgi;
 
 namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGIAdapter
 {
@@ -10,6 +11,8 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGIAdapter
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct IDXGIAdapterImp
     {
+        public static readonly Guid GUID = new("2411E7E1-12AC-4CCF-BD14-9798E8534DC0");
+
         internal readonly Ptr_Func_SetPrivateData_3 SetPrivateData_3;
         internal readonly Ptr_Func_SetPrivateDataInterface_4 SetPrivateDataInterface_4;
         internal readonly Ptr_Func_GetPrivateData_5 GetPrivateData_5;

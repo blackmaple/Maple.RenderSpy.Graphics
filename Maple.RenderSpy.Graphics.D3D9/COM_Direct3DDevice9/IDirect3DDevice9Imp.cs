@@ -10,6 +10,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct IDirect3DDevice9Imp
     {
+        public static readonly Guid GUID = new("D0223B96-BF7A-43fd-92BD-A43B0D82B9EB");
         internal Ptr_Func_TestCooperativeLevel_3 TestCooperativeLevel_3;
         internal Ptr_Func_GetAvailableTextureMem_4 GetAvailableTextureMem_4;
         internal Ptr_Func_EvictManagedResources_5 EvictManagedResources_5;

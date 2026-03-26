@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
     {
         public const string MethodName = Ptr_Func_GetCreationParameters_9.Name;
 
-        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DDEVICE_CREATION_PARAMETERS>, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DDEVICE_CREATION_PARAMETERS>, D3D9GetCreationParametersHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static D3D9GetCreationParametersHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
@@ -27,19 +27,19 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DDEVICE_CREATION_PARAMETERS>, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DDEVICE_CREATION_PARAMETERS>, COM_HRESULT>
                 _proc = &Hook_GetCreationParameters;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_GetCreationParameters(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DDEVICE_CREATION_PARAMETERS> pParameters)
+        private static COM_HRESULT Hook_GetCreationParameters(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this, Maple.UnmanagedExtensions.UnsafeOut<global::Windows.Win32.Graphics.Direct3D9.D3DDEVICE_CREATION_PARAMETERS> pParameters)
         {
             if (D3D9GetCreationParametersHookItem.TryGet(out var hookItem))
             {
                 if (hookItem.SyncCallback is not null)
                 {
-                    return hookItem.SyncCallback.Invoke(@this, pParameters);
+                    return hookItem.SyncCallback.Invoke(@this, pParameters, hookItem);
                 }
                 return hookItem.OriginalMethod.Invoke(@this, pParameters);
             }
