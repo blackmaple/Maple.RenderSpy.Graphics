@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Maple.RenderSpy.Graphics.Windows.COM;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.Graphics.Direct3D9;
 
 namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
 {
@@ -126,4 +128,18 @@ namespace Maple.RenderSpy.Graphics.D3D9.COM_Direct3DDevice9
         internal Ptr_Func_CreateQuery_118 CreateQuery_118;
     }
 
+
+    public static class IDirect3DDevice9ImpExtension
+    {
+        extension(COM_PTR_IUNKNOWN<IDirect3DDevice9Imp> @this)
+        {
+            internal COM_HRESULT GetCreationParameters(out D3DDEVICE_CREATION_PARAMETERS pParameters)
+            {
+                return @this.Interface_VTable.GetCreationParameters_9.Invoke(@this,  out   pParameters);
+            }
+
+            public nint GetFocusWindow()
+                => @this.GetCreationParameters(out var pParameters) ? pParameters.hFocusWindow : nint.Zero;
+        }
+    }
 }

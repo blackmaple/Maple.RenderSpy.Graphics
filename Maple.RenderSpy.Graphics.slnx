@@ -10,6 +10,7 @@
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
   </Project>
+  <Project Path="Maple.RenderSpy.Graphics.DXGI/Maple.RenderSpy.Graphics.DXGI.csproj" Id="528aa040-4073-432d-a994-1b283935c8a9" />
   <Project Path="Maple.RenderSpy.Graphics.OPENGL/Maple.RenderSpy.Graphics.OPENGL.csproj" Id="e4af967e-bdfd-462a-8173-eef17c6b1742" />
   <Project Path="Maple.RenderSpy.Graphics.Test/Maple.RenderSpy.Graphics.Test.csproj" Id="b2110f40-a6a8-4f16-9a97-b618c07c45b2" />
   <Project Path="Maple.RenderSpy.Graphics.VULKAN/Maple.RenderSpy.Graphics.VULKAN.csproj" Id="ec1782ef-708f-4f33-bd75-7cda8596b087" />

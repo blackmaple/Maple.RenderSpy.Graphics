@@ -41,6 +41,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Maple.RenderSpy.Graphics.DXGI\Maple.RenderSpy.Graphics.DXGI.csproj" />
+		<ProjectReference Include="..\Maple.RenderSpy.Graphics.Windows\Maple.RenderSpy.Graphics.Windows.csproj" />
 	</ItemGroup>
 </Project>
