@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Maple.Hook.Imp.Dobby.Dynamic" Version="0.26.317.1-rc" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0-preview.2.26159.112" />
   </ItemGroup>
 
   <ItemGroup>
