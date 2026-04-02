@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics
         /// <param name="hookFactory"></param>
         /// <param name="functionsProvider"></param>
         /// <returns></returns>
-        static abstract T Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider);  
+        static abstract T Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider);  
 
     }
 }

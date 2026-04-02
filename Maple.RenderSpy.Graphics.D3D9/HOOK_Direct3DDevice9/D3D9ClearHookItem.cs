@@ -14,7 +14,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, UnsafeRef<global::Windows.Win32.Graphics.Direct3D9.D3DRECT>, uint, uint, float, uint, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9ClearHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static D3D9ClearHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

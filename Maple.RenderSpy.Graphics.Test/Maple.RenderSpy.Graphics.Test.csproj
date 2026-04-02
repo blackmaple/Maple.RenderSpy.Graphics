@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D10\Maple.RenderSpy.Graphics.D3D10.csproj" />
     <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D11\Maple.RenderSpy.Graphics.D3D11.csproj" />
     <ProjectReference Include="..\Maple.RenderSpy.Graphics.D3D9\Maple.RenderSpy.Graphics.D3D9.csproj" />
+    <ProjectReference Include="..\Maple.RenderSpy.Graphics.DXGI\Maple.RenderSpy.Graphics.DXGI.csproj" />
     <ProjectReference Include="..\Maple.RenderSpy.Graphics.OPENGL\Maple.RenderSpy.Graphics.OPENGL.csproj" />
     <ProjectReference Include="..\Maple.RenderSpy.Graphics.VULKAN\Maple.RenderSpy.Graphics.VULKAN.csproj" />
     <ProjectReference Include="..\Maple.RenderSpy.Graphics\Maple.RenderSpy.Graphics.csproj" />

@@ -16,7 +16,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, nint, Maple.UnmanagedExtensions.UnsafeRef<RECT>, nint, Maple.UnmanagedExtensions.UnsafeRef<global::System.Drawing.Point>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9UpdateSurfaceHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static D3D9UpdateSurfaceHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))

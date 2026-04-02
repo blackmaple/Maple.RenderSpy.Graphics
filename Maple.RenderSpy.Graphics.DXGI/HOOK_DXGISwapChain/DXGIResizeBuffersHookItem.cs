@@ -1,4 +1,4 @@
-using Maple.Hook.Abstractions;
+﻿using Maple.Hook.Abstractions;
 using Maple.RenderSpy.Graphics.Windows.COM;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -13,7 +13,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, uint, uint, uint, DXGIResizeBuffersHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static DXGIResizeBuffersHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static DXGIResizeBuffersHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

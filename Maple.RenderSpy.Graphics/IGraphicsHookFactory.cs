@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Maple.RenderSpy.Graphics
 {
-    internal class DefaultGraphicsHookFactory(IServiceProvider serviceProvider,IHookFactory hookFactory) : IGraphicsHookFactory
+    internal class DefaultGraphicsHookFactory(IServiceProvider serviceProvider, ISupperHookFactory hookFactory) : IGraphicsHookFactory
     {
-        IHookFactory HookFactory { get; } = hookFactory;
+        ISupperHookFactory HookFactory { get; } = hookFactory;
         IServiceProvider Provider { get; } = serviceProvider;
         public T Create<T>(EnumGraphicsType graphicsType) where T : HookItem, IGraphicsHookItem<T>
         {
@@ -17,6 +17,6 @@ namespace Maple.RenderSpy.Graphics
     public interface IGraphicsHookFactory
     {
         T Create<T>(EnumGraphicsType graphicsType) where T : HookItem, IGraphicsHookItem<T>;
-          
+
     }
 }

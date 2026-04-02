@@ -11,7 +11,7 @@ namespace Maple.RenderSpy.Graphics.OPENGL
 
         public Func<HandleDeviceContext, OPENGLwglSwapBuffersHookItem, bool>? SyncCallback { get; set; }
 
-        public static OPENGLwglSwapBuffersHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static OPENGLwglSwapBuffersHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

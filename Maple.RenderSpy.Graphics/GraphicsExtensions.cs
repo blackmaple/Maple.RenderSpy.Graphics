@@ -7,8 +7,17 @@ namespace Maple.RenderSpy.Graphics
     {
         extension(IServiceCollection @this)
         {
-            public IServiceCollection AddGraphicsHookFactory()
+            public IServiceCollection AddGraphicsHookFactory(bool jmpChain = false)
             {
+                if (jmpChain)
+                {
+                    @this.TryAddSingleton<ISupperHookFactory, JmpChainSupperHookFactory>();
+                }
+                else
+                {
+                    @this.TryAddSingleton<ISupperHookFactory, DefaultSupperHookFactory>();
+                }
+
                 @this.TryAddSingleton<IGraphicsHookFactory, DefaultGraphicsHookFactory>();
                 return @this;
             }

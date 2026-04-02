@@ -14,7 +14,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, uint, uint, D3DFORMAT, D3DMULTISAMPLE_TYPE, uint, int, Maple.UnmanagedExtensions.UnsafeOut<nint>, Maple.UnmanagedExtensions.UnsafeRef<global::Windows.Win32.Foundation.HANDLE>, D3D9CreateDepthStencilSurfaceHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9CreateDepthStencilSurfaceHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static D3D9CreateDepthStencilSurfaceHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

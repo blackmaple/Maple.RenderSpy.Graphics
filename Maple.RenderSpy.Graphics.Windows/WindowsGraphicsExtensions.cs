@@ -8,10 +8,10 @@ namespace Maple.RenderSpy.Graphics.Windows
     {
         extension(IServiceCollection @this)
         {
-            public IServiceCollection AddWindowsGraphicsHookFactory()
+            public IServiceCollection AddWindowsGraphicsHookFactory(bool jmpChain = false)
             {
                 @this.TryAddSingleton<Win32WindowFactory>();
-                @this.AddGraphicsHookFactory();
+                @this.AddGraphicsHookFactory(jmpChain);
                 return @this;
             }
 

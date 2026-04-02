@@ -1,4 +1,4 @@
-using Maple.Hook.Abstractions;
+﻿using Maple.Hook.Abstractions;
 using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.UnmanagedExtensions;
 using System.Runtime.CompilerServices;
@@ -14,7 +14,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafePtr, DXGIGetDescHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static DXGIGetDescHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static DXGIGetDescHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

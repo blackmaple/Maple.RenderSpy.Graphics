@@ -15,7 +15,7 @@ namespace Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9
 
         public Func<COM_PTR_IUNKNOWN<IDirect3DDevice9Imp>, D3DTRANSFORMSTATETYPE, UnsafeRef<global::Windows.Win32.Graphics.Direct3D.D3DMATRIX>, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static D3D9SetTransformHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static D3D9SetTransformHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {

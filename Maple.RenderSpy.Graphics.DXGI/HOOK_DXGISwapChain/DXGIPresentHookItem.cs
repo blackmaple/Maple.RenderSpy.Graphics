@@ -1,4 +1,4 @@
-using Maple.Hook.Abstractions;
+﻿using Maple.Hook.Abstractions;
 using Maple.RenderSpy.Graphics.Windows.COM;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -13,7 +13,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, DXGIPresentHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
-        public static DXGIPresentHookItem Create(IHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
+        public static DXGIPresentHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))
             {
@@ -27,12 +27,12 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, COM_HRESULT>
+            delegate* unmanaged[Stdcall, SuppressGCTransition]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, COM_HRESULT>
                 _proc = &Hook_Present;
             return new(_proc);
         }
 
-        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall), typeof(CallConvSuppressGCTransition)])]
         private static COM_HRESULT Hook_Present(COM_PTR_IUNKNOWN<IDXGISwapChainImp> @this, uint SyncInterval, uint Flags)
         {
             if (DXGIPresentHookItem.TryGet(out var hookItem))
