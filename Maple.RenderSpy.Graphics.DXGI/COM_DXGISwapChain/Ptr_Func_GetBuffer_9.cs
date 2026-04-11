@@ -1,5 +1,6 @@
 using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.UnmanagedExtensions;
+using System.Data;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Dxgi.Common;
@@ -14,8 +15,8 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_GetBuffer_9(nint ptr) : Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<System.Guid>, UnsafeOut<nint>, COM_HRESULT> _proc =
-            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<System.Guid>, UnsafeOut<nint>, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT> _proc =
+            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT>)ptr;
 
         public const string Name = "GetBuffer";
 
@@ -27,7 +28,16 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
         /// <param name="riid">请求的接口 IID</param>
         /// <param name="ppSurface">接收表面接口指针的指针</param>
         /// <returns>HRESULT</returns>
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, uint Buffer, UnsafeIn<System.Guid> riid, UnsafeOut<nint> ppSurface) => _proc(pThis, Buffer, riid, ppSurface);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, uint Buffer, UnsafeIn<System.Guid> riid, UnsafeOut<COM_PTR_IUNKNOWN> ppSurface) 
+            => _proc(pThis, Buffer, riid, ppSurface);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, uint Buffer, in Guid riid, UnsafeOut<COM_PTR_IUNKNOWN> ppSurface)
+        {
+           return _proc(pThis, Buffer, UnsafeIn<System.Guid>.FromIn( in riid), ppSurface);
+        }
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, uint Buffer, in Guid riid, out COM_PTR_IUNKNOWN pSurface)
+        {
+            return _proc(pThis, Buffer, UnsafeIn<System.Guid>.FromIn(in riid), UnsafeOut<COM_PTR_IUNKNOWN>.FromOut(out pSurface));
+        }
 
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");

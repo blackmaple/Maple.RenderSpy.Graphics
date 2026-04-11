@@ -13,8 +13,8 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_GetDesc_12(nint ptr) : Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeOut<DXGI_SWAP_CHAIN_DESC>, COM_HRESULT> _proc =
-            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafeOut<DXGI_SWAP_CHAIN_DESC>, COM_HRESULT>)ptr;
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafePtr, COM_HRESULT> _proc =
+            (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, UnsafePtr, COM_HRESULT>)ptr;
 
         public const string Name = "GetDesc";
 
@@ -28,6 +28,8 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
             => _proc(pThis, UnsafeOut<DXGI_SWAP_CHAIN_DESC>.FromOut(out pDesc));
 
         public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, UnsafeOut<DXGI_SWAP_CHAIN_DESC> pDesc)
+            => _proc(pThis, pDesc);
+        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, UnsafePtr pDesc)
             => _proc(pThis, pDesc);
 
 

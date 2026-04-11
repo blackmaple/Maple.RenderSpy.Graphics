@@ -7,11 +7,16 @@ using Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain;
 
 namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 {
-    internal class DXGIResizeBuffersHookItem : HookItem<DXGIResizeBuffersHookItem, Ptr_Func_ResizeBuffers_13, Ptr_Func_ResizeBuffers_13>, IGraphicsHookItem<DXGIResizeBuffersHookItem>
+    public class DXGIResizeBuffersHookItem : HookItem<DXGIResizeBuffersHookItem, Ptr_Func_ResizeBuffers_13, Ptr_Func_ResizeBuffers_13>, IGraphicsHookItem<DXGIResizeBuffersHookItem>
     {
         public const string MethodName = Ptr_Func_ResizeBuffers_13.Name;
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, uint, uint, uint, DXGIResizeBuffersHookItem, COM_HRESULT>? SyncCallback { get; set; }
+
+        public COM_HRESULT InvokeOriginal(COM_PTR_IUNKNOWN<IDXGISwapChainImp> @this, uint bufferCount, uint width, uint height, uint newFormat, uint swapChainFlags)
+        {
+            return OriginalMethod.Invoke(@this, bufferCount, width, height, (DXGI_FORMAT)newFormat, swapChainFlags);
+        }
 
         public static DXGIResizeBuffersHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {

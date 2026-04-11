@@ -10,7 +10,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
     /// public delegate* unmanaged[MemberFunction]<global::System.Runtime.InteropServices.ComWrappers.ComInterfaceDispatch*, uint, uint, uint, global::Windows.Win32.Graphics.Dxgi.Common.DXGI_FORMAT, uint, int> ResizeBuffers_13;
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal readonly unsafe struct Ptr_Func_ResizeBuffers_13(nint ptr): Hook.Abstractions.IHookMethod
+    public readonly unsafe struct Ptr_Func_ResizeBuffers_13(nint ptr): Hook.Abstractions.IHookMethod
     {
         private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, uint, DXGI_FORMAT, uint, COM_HRESULT> _proc =
             (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, uint, DXGI_FORMAT, uint, COM_HRESULT>)ptr;
@@ -27,7 +27,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
         /// <param name="NewFormat">新格式</param>
         /// <param name="SwapChainFlags">交换链标志</param>
         /// <returns>HRESULT</returns>
-        public COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, uint BufferCount, uint Width, uint Height, DXGI_FORMAT NewFormat, uint SwapChainFlags) =>
+        internal COM_HRESULT Invoke(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pThis, uint BufferCount, uint Width, uint Height, DXGI_FORMAT NewFormat, uint SwapChainFlags) =>
             _proc(pThis, BufferCount, Width, Height, NewFormat, SwapChainFlags);
 
         public nint PtrMethod => new(_proc);

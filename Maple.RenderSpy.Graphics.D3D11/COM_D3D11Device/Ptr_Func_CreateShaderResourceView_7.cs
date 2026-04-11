@@ -4,6 +4,7 @@ using Maple.UnmanagedExtensions;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Direct3D11;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11ShaderResourceView;
 
 namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
 {
@@ -15,9 +16,9 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
     [StructLayout(LayoutKind.Sequential)]
     internal readonly unsafe struct Ptr_Func_CreateShaderResourceView_7(nint ptr) : Maple.Hook.Abstractions.IHookMethod
     {
-        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<ID3D11DeviceImp>, void*, UnsafeIn<D3D11_SHADER_RESOURCE_VIEW_DESC>, UnsafeOut<UnsafePtr>, HRESULT>
+        private readonly delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<ID3D11DeviceImp>, COM_PTR_IUNKNOWN, UnsafeIn<D3D11_SHADER_RESOURCE_VIEW_DESC>, UnsafeOut<COM_PTR_IUNKNOWN<ID3D11ShaderResourceViewImp>>, COM_HRESULT>
             _proc
-            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<ID3D11DeviceImp>, void*, UnsafeIn<D3D11_SHADER_RESOURCE_VIEW_DESC>, UnsafeOut<UnsafePtr>, HRESULT>)ptr;
+            = (delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<ID3D11DeviceImp>, COM_PTR_IUNKNOWN, UnsafeIn<D3D11_SHADER_RESOURCE_VIEW_DESC>, UnsafeOut<COM_PTR_IUNKNOWN<ID3D11ShaderResourceViewImp>>, COM_HRESULT>)ptr;
 
         public const string Name = "CreateShaderResourceView";
 
@@ -29,16 +30,19 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
         /// <param name="pDesc">视图描述</param>
         /// <param name="ppSRView">接收 ID3D11ShaderResourceView 接口指针的指针</param>
         /// <returns>HRESULT</returns>
-        public HRESULT Invoke(
+        public COM_HRESULT Invoke(
             COM_PTR_IUNKNOWN<ID3D11DeviceImp> pThis,
-            void* pResource,
+            COM_PTR_IUNKNOWN pResource,
+            UnsafeIn<D3D11_SHADER_RESOURCE_VIEW_DESC> pDesc,
+            UnsafeOut<COM_PTR_IUNKNOWN<ID3D11ShaderResourceViewImp>> ppSRView) => _proc(pThis, pResource, pDesc, ppSRView);
+        public COM_HRESULT Invoke(
+            COM_PTR_IUNKNOWN<ID3D11DeviceImp> pThis,
+            COM_PTR_IUNKNOWN pResource,
             in D3D11_SHADER_RESOURCE_VIEW_DESC pDesc,
-            UnsafeOut<UnsafePtr> ppSRView) => _proc(
-                pThis,
-                pResource,
+            out COM_PTR_IUNKNOWN<ID3D11ShaderResourceViewImp> pSRView) => _proc(
+                pThis, pResource,
                 UnsafeIn<D3D11_SHADER_RESOURCE_VIEW_DESC>.FromIn(in pDesc),
-                ppSRView);
-
+                UnsafeOut<COM_PTR_IUNKNOWN<ID3D11ShaderResourceViewImp>>.FromOut(out pSRView));
         public nint PtrMethod => new(_proc);
         public override string ToString() => PtrMethod.ToString("X8");
     }

@@ -13,6 +13,11 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 
         public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, uint, DXGIPresentHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
+        public COM_HRESULT InvokeOriginal(COM_PTR_IUNKNOWN<IDXGISwapChainImp> @this, uint syncInterval, uint flags)
+        {
+            return OriginalMethod.Invoke(@this, syncInterval, flags);
+        }
+
         public static DXGIPresentHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
             if (!functionsProvider.TryGetGraphicsFunctions(MethodName, out var functionPtr))

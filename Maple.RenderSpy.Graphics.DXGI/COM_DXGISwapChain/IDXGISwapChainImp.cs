@@ -1,4 +1,5 @@
 using Maple.RenderSpy.Graphics.Windows.COM;
+using Maple.UnmanagedExtensions;
 using System.Runtime.InteropServices;
 using Windows.Win32.Graphics.Dxgi;
 
@@ -42,12 +43,35 @@ namespace Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain
             //public COM_HRESULT GetDevice(out COM_PTR_IUNKNOWN<ID3D11DeviceImp> pDevice)
             //    => @this.GetDevice<ID3D11DeviceImp>(ID3D11DeviceImp.GUID, out pDevice);
 
-            internal COM_HRESULT GetDesc(out DXGI_SWAP_CHAIN_DESC pDesc)
-                => @this.Interface_VTable.GetDesc_12.Invoke(@this, out pDesc);
+            //internal COM_HRESULT GetDesc(out DXGI_SWAP_CHAIN_DESC pDesc)
+            //    => @this.GetDesc(out pDesc);
 
             public nint GetOutputWindow()
-                => @this.GetDesc(out var pDesc) ? pDesc.OutputWindow : nint.Zero;
+                => @this.GetDesc<DXGI_SWAP_CHAIN_DESC>(out var pDesc) ? pDesc.OutputWindow : nint.Zero;
 
+            public (uint Height, uint Width) GetOutputWindowSize()
+                => @this.GetDesc<DXGI_SWAP_CHAIN_DESC>(out var pDesc) ? (pDesc.BufferDesc.Height, pDesc.BufferDesc.Width) : default;
+
+
+            public COM_HRESULT GetDesc<T>(UnsafeOut<T> pDesc)
+                where T : unmanaged
+                => @this.Interface_VTable.GetDesc_12.Invoke(@this, pDesc);
+
+            public COM_HRESULT GetDesc<T>(out T pDesc)
+               where T : unmanaged
+               => @this.GetDesc(UnsafeOut<T>.FromOut(out pDesc));
+
+            //public COM_HRESULT GetBuffer(in Guid riid, out COM_PTR_IUNKNOWN pSurface)
+            //{
+            //    return @this.Interface_VTable.GetBuffer_9.Invoke(@this, 0, in riid, out pSurface);
+            //}
+            public COM_HRESULT GetBuffer<T>(in Guid riid, out COM_PTR_IUNKNOWN<T> pSurface)
+                where T : unmanaged
+            {
+                var h = @this.Interface_VTable.GetBuffer_9.Invoke(@this, 0, in riid, out var ppObject);
+                pSurface = ppObject.Get<T>();
+                return h;
+            }
         }
     }
 

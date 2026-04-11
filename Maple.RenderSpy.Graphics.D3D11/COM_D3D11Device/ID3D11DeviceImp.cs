@@ -1,9 +1,17 @@
-using Maple.RenderSpy.Graphics.Windows.COM;
 using Maple.RenderSpy.Graphics.D3D11.COM_D3D11DeviceContext;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11RenderTargetView;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Resource;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11ShaderResourceView;
+using Maple.RenderSpy.Graphics.D3D11.COM_D3D11Texture2D;
+using Maple.RenderSpy.Graphics.DXGI.COM_DXGISwapChain;
+using Maple.RenderSpy.Graphics.Windows.COM;
+using Maple.UnmanagedExtensions;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32.Graphics.Direct3D;
 using Windows.Win32.Graphics.Direct3D11;
 
 namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
@@ -63,7 +71,63 @@ namespace Maple.RenderSpy.Graphics.D3D11.COM_D3D11Device
         {
             public void GetImmediateContext(out COM_PTR_IUNKNOWN<ID3D11DeviceContextImp> pContext)
                 => @this.Interface_VTable.GetImmediateContext_40.Invoke(@this, out pContext);
+
+            public COM_HRESULT CreateRenderTargetView(COM_PTR_IUNKNOWN pResource,
+                UnsafeOut<COM_PTR_IUNKNOWN<ID3D11RenderTargetViewImp>> ppRTView)
+            {
+                var pdesc_nullptr = new UnsafeIn<D3D11_RENDER_TARGET_VIEW_DESC>(nint.Zero);
+                return @this.Interface_VTable.CreateRenderTargetView_9.Invoke(@this, pResource, pdesc_nullptr, ppRTView);
+            }
+
+            public COM_HRESULT CreateRenderTargetView(COM_PTR_IUNKNOWN<ID3D11Texture2DImp> pResource,
+                out COM_PTR_IUNKNOWN<ID3D11RenderTargetViewImp> pRTView)
+            {
+                return @this.CreateRenderTargetView(pResource, UnsafeOut<COM_PTR_IUNKNOWN<ID3D11RenderTargetViewImp>>.FromOut(out pRTView));
+            }
+
+            public bool TryCreateBackbufferRTV(COM_PTR_IUNKNOWN<IDXGISwapChainImp> pSwapChain, out COM_PTR_IUNKNOWN<ID3D11RenderTargetViewImp> pRTView)
+            {
+                Unsafe.SkipInit(out pRTView);
+                if (pSwapChain.GetBuffer<ID3D11Texture2DImp>(in ID3D11Texture2DImp.GUID, out var pBackBuffer))
+                {
+                    using (pBackBuffer)
+                    {
+                        return @this.CreateRenderTargetView(pBackBuffer, out pRTView);
+                    }
+                }
+                return false;
+            }
+
+
+            public bool TryCreateShaderResourceView(COM_PTR_IUNKNOWN<ID3D11ResourceImp> pResource, out COM_PTR_IUNKNOWN<ID3D11ShaderResourceViewImp> pSRView)
+            {
+                Unsafe.SkipInit(out pSRView);
+                if (pResource.TryGetID3D11Texture2D(out var pTexture2D))
+                {
+                    using (pTexture2D)
+                    {
+                        pTexture2D.GetDesc(out var pDesc);
+                        var srvDesc = new D3D11_SHADER_RESOURCE_VIEW_DESC()
+                        {
+                            Format = pDesc.Format,
+                            ViewDimension = D3D_SRV_DIMENSION.D3D11_SRV_DIMENSION_TEXTURE2D,
+                            Anonymous = new D3D11_SHADER_RESOURCE_VIEW_DESC._Anonymous_e__Union()
+                            {
+                                Texture2D = new D3D11_TEX2D_SRV()
+                                {
+                                    MostDetailedMip = 0,
+                                    MipLevels = 1,
+                                }
+                            }
+                        };
+                        return @this.Interface_VTable.CreateShaderResourceView_7.Invoke(@this, pResource, srvDesc, out pSRView);
+                    }
+                }
+                return false;
+
+            }
         }
+
     }
     /*
         public delegate* unmanaged[MemberFunction]<void*, global::System.Guid*, void**, int> QueryInterface_0;

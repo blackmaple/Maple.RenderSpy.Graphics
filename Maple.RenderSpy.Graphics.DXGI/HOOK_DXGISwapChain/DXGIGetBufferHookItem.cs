@@ -13,7 +13,7 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
     {
         public const string MethodName = Ptr_Func_GetBuffer_9.Name;
 
-        public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<global::System.Guid>, UnsafePtr, DXGIGetBufferHookItem, COM_HRESULT>? SyncCallback { get; set; }
+        public Func<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<global::System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, DXGIGetBufferHookItem, COM_HRESULT>? SyncCallback { get; set; }
 
         public static DXGIGetBufferHookItem Create(ISupperHookFactory hookFactory, GraphicsFunctionsProvider functionsProvider)
         {
@@ -29,13 +29,13 @@ namespace Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<global::System.Guid>, UnsafeOut<nint>, COM_HRESULT>
+            delegate* unmanaged[Stdcall]<COM_PTR_IUNKNOWN<IDXGISwapChainImp>, uint, UnsafeIn<global::System.Guid>, UnsafeOut<COM_PTR_IUNKNOWN>, COM_HRESULT>
                 _proc = &Hook_GetBuffer;
             return new(_proc);
         }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        private static COM_HRESULT Hook_GetBuffer(COM_PTR_IUNKNOWN<IDXGISwapChainImp> @this, uint Buffer, UnsafeIn<System.Guid> riid, UnsafeOut<nint> ppSurface)
+        private static COM_HRESULT Hook_GetBuffer(COM_PTR_IUNKNOWN<IDXGISwapChainImp> @this, uint Buffer, UnsafeIn<System.Guid> riid, UnsafeOut<COM_PTR_IUNKNOWN> ppSurface)
         {
 
             if (DXGIGetBufferHookItem.TryGet(out var hookItem))
