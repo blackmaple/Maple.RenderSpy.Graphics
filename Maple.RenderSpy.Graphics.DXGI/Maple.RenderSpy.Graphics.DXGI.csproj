@@ -7,7 +7,6 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Maple.RenderSpy.Graphics.DXGI</Title>
@@ -17,7 +16,7 @@
 		<Description>dotNet RenderSpy.Graphics.DXGI</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>hook;c#;dotnet;AOT</PackageTags>
-		<Version>0.26.0411.01-rc</Version>
+		<Version>0.26.0420.01-rc</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\LICENSE" Link="LICENSE">

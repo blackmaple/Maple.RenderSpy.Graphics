@@ -2,7 +2,7 @@ using Maple.RenderSpy.Graphics;
 using Maple.RenderSpy.Graphics.D3D10;
 using Maple.RenderSpy.Graphics.D3D11;
 using Maple.RenderSpy.Graphics.D3D9;
-using Maple.RenderSpy.Graphics.D3D9.HOOK_Direct3DDevice9;
+using Maple.RenderSpy.Graphics.D3D12;
 using Maple.RenderSpy.Graphics.DXGI.HOOK_DXGISwapChain;
 using Maple.RenderSpy.Graphics.OPENGL;
 using Maple.RenderSpy.Graphics.Windows;
@@ -12,15 +12,16 @@ Maple.Hook.Imp.Dobby.Dynamic.DobbyHookDynamicExtensions.AddDobbyHookDynamicFacto
 service.AddD3D10FunctionsProvider();
 service.AddD3D11FunctionsProvider();
 service.AddD3D9FunctionsProvider();
+service.AddD3D12FunctionsProvider();
 service.AddOPENGLFunctionsProvider();
 service.AddWindowsGraphicsHookFactory();
 var build = service.BuildServiceProvider();
 var graphicsHookFactory = build.GetRequiredService<IGraphicsHookFactory>();
-using var hookItem1 = graphicsHookFactory.Create<DXGIPresentHookItem>(EnumGraphicsType.D3D11);
-//using var hookItem2 = graphicsHookFactory.Create<DXGIPresentHookItem>(EnumGraphicsType.D3D10);
-using var hookItem3 = graphicsHookFactory.Create<OPENGLwglSwapBuffersHookItem>(EnumGraphicsType.OPENGL);
+//using var hookItem = graphicsHookFactory.Create<DXGIPresentHookItem>(EnumGraphicsType.D3D11);
+//using var hookItem = graphicsHookFactory.Create<DXGIPresentHookItem>(EnumGraphicsType.D3D10);
+////using var hookItem3 = graphicsHookFactory.Create<OPENGLwglSwapBuffersHookItem>(EnumGraphicsType.OPENGL);
 
-using var hookItem = graphicsHookFactory.Create<D3D9EndSceneHookItem>(EnumGraphicsType.D3D9);
+using var hookItem = graphicsHookFactory.Create<DXGIPresentHookItem>(EnumGraphicsType.D3D12);
 
 hookItem.Enable();
 hookItem.Disable();

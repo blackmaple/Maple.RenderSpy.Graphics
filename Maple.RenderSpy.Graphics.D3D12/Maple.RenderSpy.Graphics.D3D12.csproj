@@ -9,15 +9,23 @@
 		<CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
 
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Maple.RenderSpy.Graphics.D3D9</Title>
+		<Title>Maple.RenderSpy.Graphics.D3D12</Title>
 		<RepositoryUrl>https://github.com/blackmaple/Maple.RenderSpy.Graphics</RepositoryUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-		<Description>dotNet RenderSpy.Graphics.D3D9</Description>
+		<Description>dotNet RenderSpy.Graphics.D3D12</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>hook;c#;dotnet;AOT</PackageTags>
-		<Version>0.26.0417.01-rc</Version>
+		<Version>0.26.0420.03-rc</Version>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="COM_D3D12Texture2D\**" />
+	  <EmbeddedResource Remove="COM_D3D12Texture2D\**" />
+	  <None Remove="COM_D3D12Texture2D\**" />
+	</ItemGroup>
+
+	 
 	<ItemGroup>
 		<None Include="..\LICENSE" Link="LICENSE">
 			<PackagePath>\</PackagePath>
@@ -29,6 +37,8 @@
 		</None>
 	</ItemGroup>
 
+
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.269">
@@ -37,6 +47,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Maple.RenderSpy.Graphics.Windows\Maple.RenderSpy.Graphics.Windows.csproj" />
+		<ProjectReference Include="..\Maple.RenderSpy.Graphics.DXGI\Maple.RenderSpy.Graphics.DXGI.csproj" />
 	</ItemGroup>
 </Project>

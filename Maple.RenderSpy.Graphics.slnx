@@ -6,6 +6,7 @@
   </Configurations>
   <Project Path="Maple.RenderSpy.Graphics.D3D10/Maple.RenderSpy.Graphics.D3D10.csproj" Id="9084527e-8724-4a75-a0b6-55a424b4ed9a" />
   <Project Path="Maple.RenderSpy.Graphics.D3D11/Maple.RenderSpy.Graphics.D3D11.csproj" Id="046ed683-e405-4bc7-9adb-87c3d2ab9460" />
+  <Project Path="Maple.RenderSpy.Graphics.D3D12/Maple.RenderSpy.Graphics.D3D12.csproj" Id="516fa12d-6518-4feb-8018-c70f3e028921" />
   <Project Path="Maple.RenderSpy.Graphics.D3D9/Maple.RenderSpy.Graphics.D3D9.csproj">
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
